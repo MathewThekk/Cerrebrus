@@ -1,0 +1,16 @@
+export const START_LOADING = 'START_LOADING';
+export const GET_TUTORIAL = 'GET_TUTORIAL';
+export const GET_TUTORIALS = 'GET_TUTORIALS';
+export const GET_SUBJECTS = 'GET_SUBJECTS';
+export const GET_SUBSUBJECTS = 'GET_SUBSUBJECTS';
+export const GET_UNITS = 'GET_UNITS';
+export const ADD_TUTORIAL = 'ADD_TUTORIAL';
+export const ADD_UNIT = 'ADD_UNIT';
+export const ADD_SUBSUBJECT = 'ADD_SUBSUBJECT';
+export const ADD_SUBJECT = 'ADD_SUBJECT';
+export const DELETE_TUTORIAL = 'DELETE_TUTORIAL';
+export const DELETE_UNIT = 'DELETE_UNIT';
+export const DELETE_SUBSUBJECT = 'DELETE_SUBSUBJECT';
+export const DELETE_SUBJECT = 'DELETE_SUBJECT';
+
+
