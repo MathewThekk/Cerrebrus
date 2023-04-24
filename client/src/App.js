@@ -13,7 +13,8 @@ import QuizBuilder from './components/tutorialBuilder/QuizBuilder'
 import InteractiveActiveBuilder from './components/tutorialBuilder/InteractiveActivityBuilder'
 import CaseStudyBuilder from './components/tutorialBuilder/CaseStudyBuilder'
 import AddTutorialSelector from './components/tutorialBuilder/AddTutorialSelector';
-import TextBasedTutorial from './components/teachingComponents/TextBasedTutorial';
+import TutorialIntroPage from './components/teachingComponents/TutorialIntroPage'
+import Tiptap from './components/textEditor/TipTap';
 
 const App = () => {
   return (
@@ -25,7 +26,7 @@ const App = () => {
         <Route exact path="/learn/subjectselect" element={<SubjectSelectPage/>} />
         <Route exact path="/learn/:subject/fieldselect" element={<FieldSelectPage/>} />
         <Route exact path="/learn/:subject/:field/unitselect" element={<UnitSelectPage/>} />
-        <Route exact path="/learn/:subject/:field/:unit/chapter" element={<TextBasedTutorial/>} />
+        <Route exact path="/learn/:subject/:field/:unit/chapter" element={<Tiptap/>} />
 
 
         {/* <Route exact path="/learn/science/chemistry/atoms" element={<Atoms/>} />

@@ -14,6 +14,7 @@ const UnitSelectPage = () => {
   const units = useSelector((state) => state.units?.entities?.units);
 
 
+
   useEffect(() => {
     dispatch(getUnits(subject, field)); // <-- pass `field` to `getUnits` action
   }, [field]); // <-- add `field` to the dependency array to re-fetch when it changes
@@ -40,7 +41,7 @@ const UnitSelectPage = () => {
               <Button
                 key={unit._id}
                 as={RouterLink}
-                to={`/learn/${subject}/${field?.name?.toLowerCase()}/${unit.name}/chapter`}
+                to={`/learn/${subject}/${field.toLowerCase()}/${unit.name.toLowerCase()}/chapter`}
                 colorScheme="blue"
                 size="small"
                 fontSize="xl"

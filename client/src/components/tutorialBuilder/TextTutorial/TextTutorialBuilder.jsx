@@ -5,13 +5,13 @@ import { Link as RouterLink } from "react-router-dom";
 import TextBasedTutorialUI from "./TextTutorialUI";
 import { useDispatch } from "react-redux";
 import { addTutorial } from "../../../actions/tutorialActions";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const TextTutorialBuilder = () => {
 
   const dispatch = useDispatch();
-  const location = useLocation();
-  const currentUrl = location.pathname;
+const {subject, field, unit} = useParams();
+
  
 
   const page = 1;
@@ -57,7 +57,7 @@ const TextTutorialBuilder = () => {
 
   const handleAddTutorial = () => {
     console.log(1)
-    dispatch(addTutorial(currentUrl, slide, page ));
+    dispatch(addTutorial(slide, page, unit, field, subject));
   };
 
   return (

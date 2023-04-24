@@ -20,6 +20,9 @@ router.post("/:subject/fieldselect/addfield", addField);
 router.get("/:subject/:field/unitselect", getUnits);
 router.post("/:subject/:field/addunit", addUnit);
 
+router.get("/:subject/:field/:unit/chapter", getUnits);
+router.post("/:subject/:field/addunit", addUnit);
+
 
 
 export default router;

@@ -12,7 +12,7 @@ API.interceptors.request.use((req) => {
 
 export const getTutorial = (id) => API.get(`/learn/${id}`);
 
-export const addTutorial = (currentUrl, slide, page, type) => API.post(currentUrl, {slide, page});
+export const addTutorial = (slide, page, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}/chapter`, {slide, page, unit, field, subject});
 export const deleteTutorial = (currentUrl, page) => API.delete(currentUrl, {page});
 
 export const getSubjects = () => API.get('/learn/subjectselect');
