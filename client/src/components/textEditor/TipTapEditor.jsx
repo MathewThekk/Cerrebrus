@@ -1,8 +1,8 @@
 import "./styles.css";
-import React, { useState } from "react";
-import {useParams, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addTutorialPage } from "../../actions/tutorialActions";
+import { addTutorialPage, updateTutorialPage } from "../../actions/tutorialActions";
 
 import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "./MenuBar";
@@ -13,23 +13,25 @@ import Table from "@tiptap/extension-table";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
-import Document from "@tiptap/extension-document";
-import Heading from "@tiptap/extension-heading";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
 import TextAlign from "@tiptap/extension-text-align";
 
+export const TipTapEditor = ({ tutorial }) => {
+  const dispatch = useDispatch();
 
-
-export const TipTap = (props) => {
-  const dispatch = useDispatch()
   const queryParams = new URLSearchParams(useLocation().search);
-  const chapter = queryParams.get('chapter');
-  const page = queryParams.get('page');
-  const { subject, field, unit } = useParams()
-  const pageType = 'Text'
+  const chapter = queryParams.get("chapter");
+  const page = queryParams.get("page");
+  const { subject, field, unit } = useParams();
+  const pageType = "Text";
+
+  const isNewTutorial = tutorial? false : true;
+  const [editable, setEditable] = useState(false)
+
 
   const [content, setContent] = useState();
+  // const [intialContent, setInitialContent] = useState(tutorial.content ?? "");
+
+  
 
   const exitEditor = () => {
     console.log("Exiting the editor...");
@@ -37,8 +39,13 @@ export const TipTap = (props) => {
   };
 
   const saveContent = () => {
-    console.log("Saving content...");
-    dispatch(addTutorialPage(pageType, content, page, chapter, unit, field, subject))
+    if (isNewTutorial) {
+      console.log("Saving content...");
+      dispatch(addTutorialPage(pageType, content, page, chapter, unit, field, subject));
+    } else if (!isNewTutorial) {
+      console.log("Updating content...");
+      dispatch(addTutorialPage(pageType, content, page, chapter, unit, field, subject))
+    }
   };
 
   const editor = useEditor({
@@ -50,30 +57,54 @@ export const TipTap = (props) => {
       TableCell,
       TableHeader,
       TableRow,
-      Document,
-      Paragraph,
-      Text,
-      Heading,
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
     ],
+    editable: editable,
 
-    content: ``,
+    content: tutorial.content ?? "",
 
     onUpdate: ({ editor }) => {
       const editorJsonContent = editor.getJSON();
-
-      setContent(editorJsonContent);
+      setContent(editorJsonContent)
     },
   });
-
+  useEffect(() => {
+        if (!editor) {
+          return undefined
+        }
+    
+        editor.setEditable(editable)
+      }, [editor, editable])
+ 
+   
   return (
     <div className="textEditor">
-      <MenuBar editor={editor} exitEditor={exitEditor} saveContent={saveContent}/>
+      <div className="header">
+        <h2 className="header__title">
+          Chapter {chapter} - Page {page}
+        </h2>
+        <div className="header__buttons">
+          {/* <button onClick={exitEditor}>Exit</button> */}
+          <button
+            onClick={() => {
+              setEditable(!editable);
+            }}
+          >
+            {editable ? "Exit Edit" : "Edit"}
+          </button>
+          <button onClick={saveContent}>{isNewTutorial ? "Save" : "Update"}</button>
+        </div>
+      </div>
+      {editable || isNewTutorial ? (
+        <div>
+          <MenuBar editor={editor}  />
+        </div>
+      ) : null}
       <EditorContent editor={editor} />
     </div>
   );
 };
 
-export default TipTap;
+export default TipTapEditor;

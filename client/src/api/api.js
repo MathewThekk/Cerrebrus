@@ -29,6 +29,7 @@ export const deleteUnit = (unit, field, subject) => API.delete(`/learn/${subject
 export const getTutorials = (unit,field, subject) => API.get(`/learn/${subject}/${field}/${unit}`);
 export const getTutorialPage = (page, chapter, unit,field, subject) => API.get(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`);
 export const addTutorialPage = (pageType, content, page, chapter, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`, {pageType, content});
+export const TutorialPage = (pageType, content, page, chapter, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`, {pageType, content});
 
 
 
