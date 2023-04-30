@@ -41,7 +41,10 @@ const UnitSelectPage = () => {
               <Button
                 key={unit._id}
                 as={RouterLink}
-                to={`/learn/${subject}/${field.toLowerCase()}/${unit.name.toLowerCase()}/chapter`}
+                to={{ 
+                  pathname: `/learn/${subject}/${field.toLowerCase()}/${unit.name.toLowerCase()}`,
+                  search: `?chapter=1&page=1`
+                }}
                 colorScheme="blue"
                 size="small"
                 fontSize="xl"

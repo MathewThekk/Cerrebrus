@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Box, Button, Center, Container, Heading, HStack, Spacer, Stack } from "@chakra-ui/react";
 import QuizBuilder from "./QuizBuilder";
-import TextTutorialBuilder from "./TextTutorial/TextTutorialBuilder"
 import InteractiveActivityBuilder from "./InteractiveActivityBuilder";
 import CaseStudyBuilder from "./CaseStudyBuilder";
 import { Link, useLocation, useNavigate } from "react-router-dom";

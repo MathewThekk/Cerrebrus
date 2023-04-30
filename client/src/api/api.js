@@ -10,9 +10,8 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const getTutorial = (id) => API.get(`/learn/${id}`);
 
-export const addTutorial = (slide, page, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}/chapter`, {slide, page, unit, field, subject});
+
 export const deleteTutorial = (currentUrl, page) => API.delete(currentUrl, {page});
 
 export const getSubjects = () => API.get('/learn/subjectselect');
@@ -26,6 +25,11 @@ export const deleteField = (field, subject) => API.delete(`/learn/${subject}/del
 export const getUnits = (field, subject) => API.get(`/learn/${subject}/${field}/unitSelect`);
 export const addUnit = (unit, field, subject) => API.post(`/learn/${subject}/${field}/addunit?unit=${unit}`);
 export const deleteUnit = (unit, field, subject) => API.delete(`/learn/${subject}/${field}/deleteunit?unit=${unit}`);
+
+export const getTutorials = (unit,field, subject) => API.get(`/learn/${subject}/${field}/${unit}`);
+export const getTutorialPage = (page, chapter, unit,field, subject) => API.get(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`);
+export const addTutorialPage = (pageType, content, page, chapter, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`, {pageType, content});
+
 
 
 // export const fetchPosts = (page) => API.get(`/posts?page=${page}`);

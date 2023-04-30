@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { normalize, schema } from "normalizr";
 
 // Define the schema for each type of entity
-const tutorialSchema = new schema.Entity("tutorials");
+const tutorialSchema = new schema.Entity("tutorials" ,{}, { idAttribute: "_id" });
 const unitSchema = new schema.Entity("units", { tutorials: [tutorialSchema] }, { idAttribute: "_id" });
 const fieldSchema = new schema.Entity("fields", { units: [unitSchema] }, { idAttribute: "_id" });
 const subjectSchema = new schema.Entity("subjects", { fields: [fieldSchema] }, { idAttribute: "_id" });
@@ -13,20 +13,26 @@ const initialState = { entities: {} };
 
 const tutorialSlice = createSlice({
   name: "tutorials",
-  initialState,
+  initialState: {
+    entities: {
+      tutorials: {},
+    },
+  },
   reducers: {
-    GET_TUTORIAL: (state, action) => {
+    GET_TUTORIALS: (state, action) => {
       // Normalize the response data and add it to the state
       const normalizedData = normalize(action.payload, [tutorialSchema]);
       state.entities = normalizedData.entities;
+      console.log(state.entities)
     },
-    ADD_TUTORIAL: (state, action) => {
-      // Add a new tutorial to the state
+    ADD_TUTORIAL_PAGE: (state, action) => {
+      // Add a new tutorial page to the state
       const normalizedData = normalize(action.payload, tutorialSchema);
       state.entities = {
         ...state.entities,
         ...normalizedData.entities,
       };
+      console.log(state.entities)
     },
     UPDATE_TUTORIAL: (state, action) => {
       // Update an existing tutorial in the state
@@ -160,7 +166,7 @@ const subjectSlice = createSlice({
   },
 });
 
-export const { GET_TUTORIAL, ADD_TUTORIAL, UPDATE_TUTORIAL, DELETE_TUTORIAL } = tutorialSlice.actions;
+export const { GET_TUTORIALS, ADD_TUTORIAL_PAGE, UPDATE_TUTORIAL, DELETE_TUTORIAL } = tutorialSlice.actions;
 export const { GET_UNITS, ADD_UNIT, UPDATE_UNIT, DELETE_UNIT } = unitSlice.actions;
 export const { GET_FIELDS, ADD_FIELD, UPDATE_FIELD, DELETE_FIELD } = fieldSlice.actions;
 export const { GET_SUBJECTS, ADD_SUBJECT, UPDATE_SUBJECT, DELETE_SUBJECT } = subjectSlice.actions;

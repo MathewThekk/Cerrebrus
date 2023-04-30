@@ -1,30 +1,39 @@
-import { START_LOADING, GET_TUTORIAL, ADD_TUTORIAL } from '../constants/actionTypeConstants';
-import * as api from '../api/api.js';
+import { ADD_TUTORIAL_PAGE, GET_TUTORIALS, GET_TUTORIAL_PAGE } from "../reducers/tutorialReducer";
 
-export const getTutorial = (unit) => async (dispatch) => {
+import * as api from "../api/api.js";
+
+export const getTutorials = (unit, field, subject) => async (dispatch) => {
   try {
-    dispatch({ type: START_LOADING });
+    // dispatch({ type: START_LOADING });
 
-    const { data } = await api.getTutorial(unit);
+    const { data } = await api.getTutorials(unit, field, subject);
+    console.log(data);
+
+    dispatch(GET_TUTORIALS(data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getTutorialPage = (page, chapter, unit, field, subject) => async (dispatch) => {
+  try {
+    // dispatch({ type: START_LOADING });
+
+    const { data } = await api.getTutorialPage(page, chapter, unit, field, subject);
 
     // dispatch({ type: GET_TUTORIAL, payload: { post: data } });
   } catch (error) {
     console.log(error);
   }
 };
-export const addTutorial = (slide, page, unit, field, subject ) => async (dispatch) => {
+export const addTutorialPage = (pageType, content, page, chapter, unit, field, subject) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
- 
-    const { data } = await api.addTutorial(slide, page, );
 
-    dispatch({ type: ADD_TUTORIAL, payload: { post: data } });
+    const { data } = await api.addTutorialPage(pageType, content, page, chapter, unit, field, subject);
+    console.log(data);
+
+    dispatch(ADD_TUTORIAL_PAGE(data));
   } catch (error) {
     console.log(error);
   }
 };
-
-
-
-
-

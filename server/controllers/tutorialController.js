@@ -1,31 +1,135 @@
-import Tutorial from '../models/tutorialModel.js'
+import TutorialPage from '../models/tutorialPageModel.js'
+import Unit from "../models/unitModel.js";
+import Subject from "../models/subjectModel.js";
+import Field from "../models/fieldModel.js";
 
 // @desc      Add a tutorial
 // @route     POST /api/subjects/:subjectId/subsubjects/:subsubjectId/units/:unitId/tutorials
 // @access    Private
-const addTutorial = async (req, res) => {
+export const addTutorialPage = async (req, res) => {
   try {
-    console.log(1, req.params)
-    console.log(2, req.body)
-    const { subject, subsubject, unit, type } = req.params;
-    const { slide, page } = req.body;
 
-    const newTutorial = new Tutorial({
-      content: slide.content,
-      slide: JSON.stringify(slide),
-      subject: subject,
-      subsubject: subsubject,
-      unit: unit,
-      user: req.user._id,
+    const { field:fieldName, unit:unitName, subject:subjectName } = req.params;
+    const chapter = req.query.chapter; // Access chapter query parameter
+    const page = req.query.page; // Access page query parameter
+    const { pageType, content } = req.body;
+
+
+    const field = await Field.findOne({
+      name: { $regex: new RegExp(fieldName, "i") },
     });
 
-    const createdTutorial = await newTutorial.save();
+    if (!field) {
+      return res.status(404).json({ message: "Field not found" });
+    }
 
-    res.status(201).json(createdTutorial);
+    // Find the unit that belongs to the field and subject
+    const unit = await Unit.findOne({
+      name: { $regex: new RegExp(unitName, "i") },
+      field: field._id,
+    });
+
+    if (!unit) {
+      return res.status(404).json({ message: "Unit not found" });
+    }
+
+    const newTutorialPage = new TutorialPage({
+      pageType: pageType,
+      content: content,
+      page: page,
+      chapter: chapter,
+      unit: unit._id
+    });
+
+    const createdTutorialPage = await newTutorialPage.save();
+
+    res.status(201).json(createdTutorialPage);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
 };
 
-export default addTutorial;
+export const getTutorials = async (req, res) => {
+  try {
+    const { field:fieldName, unit:unitName, subject:subjectName } = req.params;
+
+
+    // Find the Subject document that matches the subjectName
+    const field = await Field.findOne({
+      name: { $regex: new RegExp(fieldName, "i") },
+    });
+
+    if (!field) {
+      return res.status(404).json({ message: "Field not found" });
+    }
+
+    // Find the unit that belongs to the field and subject
+    const unit = await Unit.findOne({
+      name: { $regex: new RegExp(unitName, "i") },
+      field: field._id,
+    });
+
+    if (!unit) {
+      return res.status(404).json({ message: "Unit not found" });
+    }
+
+
+
+    const unitId = unit._id;
+    const tutorials = await TutorialPage.find({
+      unit: unitId
+    })
+
+
+    console.log(tutorials)
+    res.status(200).send(tutorials);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error while getting all units" });
+  }
+};
+
+export const getTutorialPage = async (req, res) => {
+  try {
+    const { field:fieldName, unit:unitName, subject:subjectName } = req.params;
+    const chapter = req.query.chapter; // Access chapter query parameter
+    const page = req.query.page; // Access page query parameter
+
+
+    // Find the field document
+    const field = await Field.findOne({
+      name: { $regex: new RegExp(fieldName, "i") },
+    });
+
+    if (!field) {
+      return res.status(404).json({ message: "Field not found" });
+    }
+
+    // Find the unit that belongs to the field
+    const unit = await Unit.findOne({
+      name: { $regex: new RegExp(unitName, "i") },
+      field: field._id,
+    });
+
+    if (!unit) {
+      return res.status(404).json({ message: "Unit not found" });
+    }
+
+    const unitId = unit._id;
+    const tutorial = await TutorialPage.findOne({
+      unit: unitId,
+      chapter: chapter,
+      page: page
+    })
+
+
+    console.log(tutorial)
+    res.status(200).send(tutorial);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error while getting all units" });
+  }
+};
+
+
