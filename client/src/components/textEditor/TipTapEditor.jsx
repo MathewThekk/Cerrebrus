@@ -33,7 +33,7 @@ const TipTapEditor = ({ tutorial, editable, setContent, setPageType }) => {
     ],
     editable: editable,
 
-    content: tutorial.content ?? "",
+    content: tutorial?.content? tutorial.content : "Go on..Write something...",
 
     onUpdate: ({ editor }) => {
       const editorJsonContent = editor.getJSON();

@@ -174,3 +174,14 @@ button.is_active {
     gap: 1rem;
     
   }
+  .chapterPage-No_Tutorial_Found{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+  .chapterPage-No_Tutorial_Found button {
+    margin-top: 1rem;
+    margin-left: 5rem;
+  }

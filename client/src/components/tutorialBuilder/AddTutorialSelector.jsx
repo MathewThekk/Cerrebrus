@@ -3,11 +3,15 @@ import { Box, Button, Center, Container, Heading, HStack, Spacer, Stack } from "
 import QuizBuilder from "./QuizBuilder";
 import InteractiveActivityBuilder from "./InteractiveActivityBuilder";
 import CaseStudyBuilder from "./CaseStudyBuilder";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 
 function AddTutorial() {
   const [selectedMode, setSelectedMode] = useState(null);
+  const { subject, field, unit } = useParams();
+  const queryParams = new URLSearchParams(useLocation().search);
+  const chapter = parseInt(queryParams.get("chapter"));
+  const page = parseInt(queryParams.get("page"));
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -26,8 +30,8 @@ function AddTutorial() {
                 Select a tutorial mode:
               </Heading>
               <HStack spacing="4">
-                <Link to= {`${currentUrl}/text`}>
-                  <Button onClick={() => handleModeSelection("text")}>Text Tutorial</Button>
+                <Link to= {`/learn/${subject}/${field}/${unit}/?chapter=${chapter}&page=${page}&pagetype=text`}>
+                  <Button >Text Tutorial</Button>
                 </Link>
                 <Link to={`${currentUrl}/quiz`}>
                   <Button onClick={() => handleModeSelection("quiz")}>Quiz</Button>

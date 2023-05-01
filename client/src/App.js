@@ -27,7 +27,13 @@ const App = () => {
         <Route exact path="/learn/subjectselect" element={<SubjectSelectPage/>} />
         <Route exact path="/learn/:subject/fieldselect" element={<FieldSelectPage/>} />
         <Route exact path="/learn/:subject/:field/unitselect" element={<UnitSelectPage/>} />
-        <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />} />
+        <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />}/>
+        <Route exact path="/learn/:subject/:field/:unit/addtutorial" element={<AddTutorialSelector />}/>
+
+
+
+
+
 
 
         {/* <Route exact path="/learn/science/chemistry/atoms" element={<Atoms/>} />
