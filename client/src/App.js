@@ -15,7 +15,7 @@ import CaseStudyBuilder from './components/tutorialBuilder/CaseStudyBuilder'
 import AddTutorialSelector from './components/tutorialBuilder/AddTutorialSelector';
 
 
-import ChapterStartPage from './components/ChapterStartPage'
+import ChapterPage from './components/ChapterPage'
 
 const App = () => {
   return (
@@ -27,7 +27,7 @@ const App = () => {
         <Route exact path="/learn/subjectselect" element={<SubjectSelectPage/>} />
         <Route exact path="/learn/:subject/fieldselect" element={<FieldSelectPage/>} />
         <Route exact path="/learn/:subject/:field/unitselect" element={<UnitSelectPage/>} />
-        <Route path="/learn/:subject/:field/:unit" element={<ChapterStartPage />} />
+        <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />} />
 
 
         {/* <Route exact path="/learn/science/chemistry/atoms" element={<Atoms/>} />

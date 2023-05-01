@@ -141,11 +141,36 @@ button.is_active {
     flex-grow: 1;
   }
   
-  .header__buttons {
+  .chapterPage-header__buttons {
     display: flex;
-    gap: 10px;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+    gap: 1rem;
   }
   
   button {
     cursor: pointer;
+  }
+
+  .textEditor {
+    height: 80vh;
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  }
+
+  .chapterPage {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 80vw;
+    margin: 0 auto;
+  }
+  .chapterPage-pageNavigation {
+    margin-top: 0.3rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    
   }
