@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";import { useDispatch, useSelector } from "react-redux";import { getTutorials } from "../actions/tutorialActions";import { useParams, useLocation } from "react-router-dom";import { Button } from "@chakra-ui/react"; import TipTapEditor from "./textEditor/TipTapEditor";import { addTutorialPage } from "../actions/tutorialActions";import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useMemo } from "react";import { useDispatch, useSelector } from "react-redux";import { getTutorials } from "../actions/tutorialActions";import { useParams, useLocation } from "react-router-dom";import { Button } from "@chakra-ui/react"; import TipTapEditor from "./textEditor/TipTapEditor";import { addTutorialPage } from "../actions/tutorialActions";import { useNavigate } from "react-router-dom";
 
 const ChapterStartPage = () => {
   const dispatch = useDispatch();
@@ -13,22 +13,20 @@ const ChapterStartPage = () => {
   const [editable, setEditable] = useState(false);
   const navigate = useNavigate();
 
-
-
-const tutorial = (useSelector((state) => Object.values(state.tutorials.entities.tutorials).find((t) => t.chapter === chapter && t.page === page)))
-const tutorialRef = useRef(null);
+  const tutorials = useSelector((state) => state.tutorials.entities.tutorials);
+  
+  const tutorial =  Object.values(tutorials).find((t) => t.chapter === chapter && t.page === currentPage);
+ 
  
 useEffect(() => {
+  console.log(1, tutorial)
   dispatch(getTutorials(unit, field, subject));
+  console.log(2, tutorial)
 }, [dispatch, unit, field, subject, currentPage]);
 
-useEffect(() => {
-  if (tutorial !== tutorialRef.current) {
-    tutorialRef.current = tutorial;
-    // Force component re-render by updating a local state.
-    setContent((prevContent) => prevContent + "");
-  }
-}, [tutorial]);
+
+
+
 
   const saveContent = () => {
     if (!tutorial) {

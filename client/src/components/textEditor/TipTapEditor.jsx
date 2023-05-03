@@ -15,8 +15,10 @@ import TextAlign from "@tiptap/extension-text-align";
 const TipTapEditor = ({ tutorial, editable, setContent, setPageType }) => {
 
   useEffect(() => {
+
     setPageType("Text");
-  }, []);
+
+  });
   
   const editor = useEditor({
     extensions: [
@@ -39,7 +41,7 @@ const TipTapEditor = ({ tutorial, editable, setContent, setPageType }) => {
       const editorJsonContent = editor.getJSON();
       setContent(editorJsonContent);
     },
-  });
+  }, [tutorial]);
   useEffect(() => {
     if (!editor) {
       return undefined;

@@ -24,6 +24,13 @@ const tutorialSlice = createSlice({
       const normalizedData = normalize(action.payload, [tutorialSchema]);
       state.entities = normalizedData.entities;
       console.log(state.entities)
+
+    },
+    GET_TUTORIAL_BY_CHAPTER_AND_PAGE: (state, action) => {
+      // Normalize the response data and add it to the state
+      const normalizedData = normalize(action.payload, [tutorialSchema]);
+      state.entities = normalizedData.entities;
+
     },
     ADD_TUTORIAL_PAGE: (state, action) => {
       // Add a new tutorial page to the state
