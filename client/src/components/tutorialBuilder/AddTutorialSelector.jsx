@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Box, Button, Center, Container, Heading, HStack, Spacer, Stack } from "@chakra-ui/react";
-import QuizBuilder from "./QuizBuilder";
-import InteractiveActivityBuilder from "./InteractiveActivityBuilder";
-import CaseStudyBuilder from "./CaseStudyBuilder";
+
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 
@@ -33,8 +31,8 @@ function AddTutorial() {
                 <Link to= {`/learn/${subject}/${field}/${unit}/?chapter=${chapter}&page=${page}&pagetype=text`}>
                   <Button >Text Tutorial</Button>
                 </Link>
-                <Link to={`${currentUrl}/quiz`}>
-                  <Button onClick={() => handleModeSelection("quiz")}>Quiz</Button>
+                <Link to={`/learn/${subject}/${field}/${unit}/?chapter=${chapter}&page=${page}&pagetype=quiz`}>
+                <Button >Quiz</Button>
                 </Link>
                 <Link to={`${currentUrl}/interactive`}>
                   <Button onClick={() => handleModeSelection("interactive")}>Interactive Activity</Button>

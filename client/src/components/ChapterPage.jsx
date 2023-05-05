@@ -1,4 +1,6 @@
-import { useEffect, useState, useMemo } from "react";import { useDispatch, useSelector } from "react-redux";import { getTutorials } from "../actions/tutorialActions";import { useParams, useLocation } from "react-router-dom";import { Button } from "@chakra-ui/react"; import TipTapEditor from "./textEditor/TipTapEditor";import { addTutorialPage } from "../actions/tutorialActions";import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";import { useDispatch, useSelector } from "react-redux";import { getTutorials } from "../actions/tutorialActions";import { useParams, useLocation } from "react-router-dom";import { Button } from "@chakra-ui/react"; import TipTapEditor from "./teachingComponents/textEditor/TipTapEditor";import { addTutorialPage } from "../actions/tutorialActions";import { useNavigate } from "react-router-dom";
+
+import QuizCreator from "./teachingComponents/quiz/QuizCreator";
 
 const ChapterStartPage = () => {
   const dispatch = useDispatch();
@@ -15,28 +17,21 @@ const ChapterStartPage = () => {
 
   const tutorials = useSelector((state) => state.tutorials.entities.tutorials);
   
-  const tutorial =  Object.values(tutorials).find((t) => t.chapter === chapter && t.page === currentPage);
- 
- 
-useEffect(() => {
-  console.log(1, tutorial)
-  dispatch(getTutorials(unit, field, subject));
-  console.log(2, tutorial)
-}, [dispatch, unit, field, subject, currentPage]);
+  const tutorial = Object.values(tutorials).find((t) => t.chapter === chapter && t.page === currentPage)
 
-
-
-
+  useEffect(() => {
+    dispatch(getTutorials(unit, field, subject))
+  }, [dispatch, unit, field, subject, currentPage])
 
   const saveContent = () => {
     if (!tutorial) {
-      console.log("Saving content...");
-      dispatch(addTutorialPage(pageType, content, currentPage, chapter, unit, field, subject));
+      console.log("Saving content...")
+      dispatch(addTutorialPage(pageType, content, currentPage, chapter, unit, field, subject))
     } else {
-      console.log("Updating content...");
-      dispatch(addTutorialPage(pageType, content, currentPage, chapter, unit, field, subject));
+      console.log("Updating content...")
+      dispatch(addTutorialPage(pageType, content, currentPage, chapter, unit, field, subject))
     }
-  };
+  }
 
   const handlePrevPage = () => {
     const newPage = currentPage - 1;
@@ -67,7 +62,7 @@ useEffect(() => {
         </div>
       </div>
       <div>
-        {tutorial ? (
+        {tutorial?.pageType === 'Text' ? (
           <div className="textEditor">
             <TipTapEditor tutorial={tutorial} editable={editable} setContent={setContent} setPageType={setPageType} />
           </div>
@@ -81,7 +76,7 @@ useEffect(() => {
                 </div>
                 );
               case "quiz":
-                return <div><h1>Quiz Component</h1></div>;
+                return <div><QuizCreator/></div>;
               case "interactive":
                 return <div><h1>Interactive Component</h1></div>;
               case "case study":
