@@ -29,7 +29,7 @@ const App = () => {
         <Route exact path="/learn/:subject/:field/unitselect" element={<UnitSelectPage/>} />
         <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />}/>
         <Route exact path="/learn/:subject/:field/:unit/addtutorial" element={<AddTutorialSelector />}/>
-        <Route exact path="/learn/:subject/:field/:unit/addtutorial/quiz" element={<QuizBuilder />}/>
+
 
 
 
