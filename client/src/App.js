@@ -6,20 +6,23 @@ import SignInPage from './components/SignInPage';
 import SubjectSelectPage from './components/SubjectSelectPage'
 import FieldSelectPage from './components/FieldSelectPage';
 import UnitSelectPage from './components/UnitSelectPage';
-
-
-
-import QuizBuilder from './components/tutorialBuilder/QuizBuilder'
-import InteractiveActiveBuilder from './components/tutorialBuilder/InteractiveActivityBuilder'
-import CaseStudyBuilder from './components/tutorialBuilder/CaseStudyBuilder'
+import Test from './components/Test';
 import AddTutorialSelector from './components/tutorialBuilder/AddTutorialSelector';
-
-
 import ChapterPage from './components/ChapterPage'
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+
+const theme = extendTheme({
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
+  },
+});
+
 
 const App = () => {
   return (
     <BrowserRouter>
+    <ChakraProvider theme={theme}>
       <NavBar />
       <Routes>
         <Route exact path="/"  element={<HomePage/>} />
@@ -29,6 +32,8 @@ const App = () => {
         <Route exact path="/learn/:subject/:field/unitselect" element={<UnitSelectPage/>} />
         <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />}/>
         <Route exact path="/learn/:subject/:field/:unit/addtutorial" element={<AddTutorialSelector />}/>
+        <Route exact path="/test" element={<Test/>}/>
+
 
 
 
@@ -46,6 +51,7 @@ const App = () => {
         <Route exact path="/learn/:subject/:subsubject/:unit/add-slide/interactive" element={<InteractiveActiveBuilder/>} />
         <Route exact path="/learn/:subject/:subsubject/:unit/add-slide/casestudy" element={<CaseStudyBuilder/>} /> */}
       </Routes>
+      </ChakraProvider>
     </BrowserRouter>
   );
 };

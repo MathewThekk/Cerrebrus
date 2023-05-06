@@ -2,11 +2,11 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getTutorials } from "../actions/tutorialActions"
 import { useParams, useLocation } from "react-router-dom"
-import { Button } from "@chakra-ui/react"
+import { useColorMode, Button } from "@chakra-ui/react"
+
 import TipTapEditor from "./teachingComponents/textEditor/TipTapEditor"
 import { addTutorialPage } from "../actions/tutorialActions"
 import { useNavigate } from "react-router-dom"
-
 import QuizCreator from "./teachingComponents/quiz/QuizCreator"
 
 const ChapterStartPage = () => {
@@ -21,6 +21,7 @@ const ChapterStartPage = () => {
   const [currentPage, setCurrentPage] = useState(page)
   const [editable, setEditable] = useState(false)
   const navigate = useNavigate()
+  const { colorMode, toggleColorMode } = useColorMode()
 
   const tutorials = useSelector((state) => state.tutorials.entities.tutorials)
 
@@ -71,6 +72,7 @@ const ChapterStartPage = () => {
             <>
               <Button onClick={() => setEditable(!editable)}> {editable ? "Exit Edit" : "Edit"} </Button>
               <Button onClick={saveContent}>{!tutorial ? "Save" : "Update"}</Button>
+              <Button onClick={toggleColorMode}>Toggle {colorMode === "light" ? "Dark" : "Light"} Mode</Button>
             </>
           )}
         </div>
@@ -91,7 +93,7 @@ const ChapterStartPage = () => {
                 )
               case "quiz":
                 return (
-                  <div className="textEditor">
+                  <div>
                     <QuizCreator submitQuizRef={submitQuizRef} editable={true} setContent={setContent} setPageType={setPageType} />
                   </div>
                 )

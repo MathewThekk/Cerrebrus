@@ -1,9 +1,8 @@
-import "./styles.css"
 import { useState, useEffect, forwardRef } from "react"
-import { Box, Button, Center, Container, Heading, HStack, Spacer, Stack, Input, Textarea, Select, InputGroup, InputLeftElement } from "@chakra-ui/react"
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
+import { Text, Button,  Container, Heading, Stack, HStack, VStack, Input, Textarea, Select, InputGroup, InputLeftElement } from "@chakra-ui/react"
+import { Link} from "react-router-dom"
 
-const QuizCreator = ({requireQuizIntro, submitQuizRef, setContent, setPageType}) => {
+const QuizCreator = forwardRef(({ requireQuizIntro, submitQuizRef, setContent, setPageType }, ref) => {
   const [quizTitle, setQuizTitle] = useState("")
   const [quizSynopsis, setQuizSynopsis] = useState("")
   const [questions, setQuestions] = useState([])
@@ -19,8 +18,6 @@ const QuizCreator = ({requireQuizIntro, submitQuizRef, setContent, setPageType})
     explanation: "",
     point: "",
   })
-
-  
 
   const handleQuestionChange = (e) => {
     setCurrentQuestion({
@@ -39,11 +36,10 @@ const QuizCreator = ({requireQuizIntro, submitQuizRef, setContent, setPageType})
     })
   }
 
-  const handleCorrectAnswerChange = (e) => {
-    setCurrentQuestion({
-      ...currentQuestion,
-      correctAnswer: e.target.value,
-    })
+  const handleCorrectAnswerChange = (e, index) => {
+    const updatedQuestions = [...questions]
+    updatedQuestions[index].correctAnswer = e.target.value
+    setQuestions(updatedQuestions)
   }
 
   const handleAddQuestion = () => {
@@ -63,15 +59,15 @@ const QuizCreator = ({requireQuizIntro, submitQuizRef, setContent, setPageType})
   }
 
   const handleQuizSubmission = () => {
-    console.log("123")
     const quizData = {
       quizTitle,
       quizSynopsis,
       questions,
     }
     setContent(quizData)
-    setPageType('quiz')
+    setPageType("quiz")
   }
+
   const handleMessageForCorrectAnswerChange = (e, index) => {
     const updatedQuestions = [...questions]
     updatedQuestions[index].messageForCorrectAnswer = e.target.value
@@ -99,80 +95,79 @@ const QuizCreator = ({requireQuizIntro, submitQuizRef, setContent, setPageType})
   useEffect(() => {
     submitQuizRef.current = handleQuizSubmission
     setQuestions([...questions, currentQuestion])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-
   return (
-    <div width="80vw" maxheight="80vh">
+    <Container maxW="80vw" maxH="80vh">
       {requireQuizIntro && (
-        <div className="container">
-          <div className="input-group">
-            <label htmlFor="quizTitle">Quiz Title</label>
-            <input type="text" id="quizTitle" value={quizTitle} onChange={(e) => setQuizTitle(e.target.value)} required />
-          </div>
+        <Stack spacing="6" direction="row">
+          <InputGroup>
+            <InputLeftElement children="Quiz Title" />
+            <Input type="text" placeholder="Enter Quiz Title" value={quizTitle} onChange={(e) => setQuizTitle(e.target.value)} isRequired />
+          </InputGroup>
 
-          <div className="input-group">
-            <label htmlFor="quizSynopsis">Quiz Synopsis</label>
-            <textarea id="quizSynopsis" value={quizSynopsis} onChange={(e) => setQuizSynopsis(e.target.value)} required></textarea>
-          </div>
+          <InputGroup>
+            <InputLeftElement children="Quiz Synopsis" />
+            <Textarea placeholder="Enter Quiz Synopsis" value={quizSynopsis} onChange={(e) => setQuizSynopsis(e.target.value)} isRequired />
+          </InputGroup>
 
-          <h2>Questions</h2>
-        </div>
+          <Heading size="md">Questions</Heading>
+        </Stack>
       )}
+
       {questions.map((question, index) => (
-        <div key={index} className="question-container">
-          <div className="input-group">
-            <label htmlFor={`question${index}`}>Question</label>
-            <input type="text" id={`question${index}`} value={question.question} onChange={handleQuestionChange} required />
-          </div>
-          {question.answers.map((answer, idx) => (
-            <div key={idx} className="input-group">
-              <label htmlFor={`answer${index}${idx}`}>Answer {idx + 1}</label>
-              <input type="text" id={`answer${index}${idx}`} value={answer} onChange={(e) => handleAnswerChange(e, idx)} required />
-            </div>
+        <Stack key={index} spacing="6" mt="3">
+          <VStack align="left">
+            <Text>Quesiton {index + 1}</Text>
+            <Input marginLeft="40px" type="text" placeholder="Enter Question" value={question.question} onChange={handleQuestionChange} isRequired />
+          </VStack>
+
+          {question.answers.map((answer, index) => (
+            <VStack key={index} align="left">
+              <Text>Answer {index + 1}</Text>
+              <Input type="text" placeholder={`Enter Answer ${index + 1}`} value={answer} onChange={(e) => handleAnswerChange(e, index)} isRequired />
+            </VStack>
           ))}
 
-          <div className="input-group">
-            <label htmlFor={`correctAnswer${index}`}>Correct Answer</label>
-            <select id={`correctAnswer${index}`} value={question.correctAnswer} onChange={(e) => handleCorrectAnswerChange(e, index)} required>
-              <option value="">Select correct answer</option>
-              {question.answers.map((answer, idx) => (
-                <option key={idx} value={idx.toString()}>
+          <VStack key={index} align="left">
+            <Text>Correct Answer</Text>
+            <Select placeholder="Select Correct Answer" value={question.correctAnswer} onChange={(e) => handleCorrectAnswerChange(e, index)} isRequired>
+              {question.answers.map((answer, index) => (
+                <option key={index} value={index.toString()}>
                   {answer}
                 </option>
               ))}
-            </select>
-          </div>
+            </Select>
+          </VStack>
 
-          <div className="input-group">
-            <label htmlFor={`messageForCorrectAnswer${index}`}>Message for Correct Answer</label>
-            <input type="text" id={`messageForCorrectAnswer${index}`} value={question.messageForCorrectAnswer} onChange={(e) => handleMessageForCorrectAnswerChange(e, index)} required />
-          </div>
+          <VStack  align="left">
+          <Text>Message for Correct Answer</Text>
+            <Input type="text" placeholder="Enter Message for Correct Answer" value={question.messageForCorrectAnswer} onChange={(e) => handleMessageForCorrectAnswerChange(e, index)} isRequired />
+          </VStack>
 
-          <div className="input-group">
-            <label htmlFor={`messageForIncorrectAnswer${index}`}>Message for Incorrect Answer</label>
-            <input type="text" id={`messageForIncorrectAnswer${index}`} value={question.messageForIncorrectAnswer} onChange={(e) => handleMessageForIncorrectAnswerChange(e, index)} required />
-          </div>
+          <VStack  align="left">
+          <Text>Message for Incorrect Answer</Text>
+            <Input type="text" placeholder="Enter Message for Incorrect Answer" value={question.messageForIncorrectAnswer} onChange={(e) => handleMessageForIncorrectAnswerChange(e, index)} isRequired />
+          </VStack>
 
-          <div className="input-group">
-            <label htmlFor={`explanation${index}`}>Explanation</label>
-            <textarea id={`explanation${index}`} value={question.explanation} onChange={(e) => handleExplanationChange(e, index)} required></textarea>
-          </div>
+          <VStack  align="left">
+          <Text>Explanation</Text>
+            <Textarea placeholder="Enter Explanation" value={question.explanation} onChange={(e) => handleExplanationChange(e, index)} isRequired />
+          </VStack>
 
-          <div className="input-group">
-            <label htmlFor={`point${index}`}>Point</label>
-            <input type="number" id={`point${index}`} value={question.point} onChange={(e) => handlePointChange(e, index)} required />
-          </div>
-
-        </div>
+          <VStack  align="left">
+          <Text>Point</Text>
+            <Input type="number" placeholder="Enter Point" value={question.point} onChange={(e) => handlePointChange(e, index)} isRequired />
+          </VStack>
+        </Stack>
       ))}
 
-      <div className="actions">
+      <HStack mt="6">
         <Link to="/">Cancel</Link>
-        <button onClick={handleAddQuestion}>Add Question</button>
-      </div>
-    </div>
+        <Button onClick={handleAddQuestion}>Add Question</Button>
+      </HStack>
+    </Container>
   )
-}
+})
 
 export default QuizCreator
