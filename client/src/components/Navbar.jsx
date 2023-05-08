@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Box, Flex, Spacer, Button } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Button, useColorMode } from '@chakra-ui/react';
 
 function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const { pathname } = useLocation();
 
+  const { colorMode } = useColorMode();
+
+  const navBarBgColor = colorMode === 'light' ? 'gray.700' : 'gray.700';
+
   const handleLogOut = () => {
     setIsLoggedIn(false);
   };
 
-  const [isTutorialPage, setIsTutorialPage] = useState(true) // update this to match the specific URL for the tutorial pages
+  const [isTutorialPage, setIsTutorialPage] = useState(true); // update this to match the specific URL for the tutorial pages
 
   return (
     <Flex
@@ -19,11 +23,11 @@ function NavBar() {
       justify="space-between"
       wrap="wrap"
       padding="1rem"
-      bg="purple.800"
-      color="white"
+      bg={colorMode ==="dark"?navBarBgColor :"#2E1A47"}
+      color = "white"
     >
       <Box>
-        <Button variant="ghost" colorScheme="whiteAlpha" as={RouterLink} to="/">
+        <Button variant="ghost" as={RouterLink} to="/">
           Home
         </Button>
       </Box>
@@ -31,20 +35,20 @@ function NavBar() {
       <Box display="flex" alignItems="center">
         {isTutorialPage && (
           <>
-            <Button colorScheme="whiteAlpha" variant="ghost" as={RouterLink} to="/learn/addtutorial">
+            <Button variant="ghost" as={RouterLink} to="/learn/addtutorial">
               Add Tutorial
             </Button>
-            <Button colorScheme="whiteAlpha" variant="ghost" as={RouterLink} to="/learn/modifytutorial">
+            <Button variant="ghost" as={RouterLink} to="/learn/modifytutorial">
               Modify Tutorial
             </Button>
           </>
         )}
         {isLoggedIn ? (
-          <Button colorScheme="whiteAlpha" variant="ghost" onClick={handleLogOut}>
+          <Button variant="ghost" onClick={handleLogOut}>
             Log Out
           </Button>
         ) : (
-          <Button colorScheme="whiteAlpha" variant="ghost" as={RouterLink} to="/signin">
+          <Button variant="ghost" as={RouterLink} to="/signin">
             Sign In
           </Button>
         )}

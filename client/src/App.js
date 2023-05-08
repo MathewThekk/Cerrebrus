@@ -8,7 +8,7 @@ import FieldSelectPage from './components/FieldSelectPage';
 import UnitSelectPage from './components/UnitSelectPage';
 import Test from './components/Test';
 import AddTutorialSelector from './components/tutorialBuilder/AddTutorialSelector';
-import ChapterPage from './components/ChapterPage'
+import ChapterPage from './components/teachingComponents/chapterPage/ChapterPage'
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
