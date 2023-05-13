@@ -1,23 +1,32 @@
-import { Button } from "@chakra-ui/react"
+import { Button, Flex } from "@chakra-ui/react"
 import TipTapEditor from "../textEditor/TipTapEditor"
 import QuizCreator from "../quiz/QuizCreator"
 import QuizReader from "../quiz/QuizReader"
 
-const ChapterPageContent = ({ onSave, pageTypeFromUrl, setContent, setPageType, editable, tutorial, setEditMode, submitQuizRef, navigate, subject, field, unit, chapter, currentPage }) => {
-  if (tutorial) {
+const ChapterPageContent = ({ onSave, pageTypeFromUrl, setContent, setPageType, editable, tutorial, editMode, setEditMode, submitQuizRef, navigate, subject, field, unit, chapter, currentPage }) => {
+  if (tutorial?.content) {
     switch (tutorial?.pageType) {
       case "Text":
         return (
-          <div className="textEditor">
+          <Flex justify="center" align="center" height="70vh" className="textEditor">
             <TipTapEditor tutorial={tutorial} editable={editable} setContent={setContent} setPageType={setPageType} />
-          </div>
+          </Flex>
         )
-        case "quiz":
+      case "quiz":
+        if (!editMode) {
+          console.log("Please")
           return (
-            <div className="textEditor">
+            <Flex justify="center" align="center" height="70vh">
               <QuizReader tutorial={tutorial} content={tutorial.content} editable={editable} setContent={setContent} setPageType={setPageType} />
-            </div>
+            </Flex>
           )
+        }
+        return (
+          <Flex justify="center" align="center" height="70vh">
+            <QuizCreator content={tutorial.content} onSave={onSave} setEditMode={setEditMode} submitQuizRef={submitQuizRef} editable={true} setContent={setContent} setPageType={setPageType} />
+          </Flex>
+        )
+
       default:
         return null
     }
@@ -28,50 +37,50 @@ const ChapterPageContent = ({ onSave, pageTypeFromUrl, setContent, setPageType, 
     switch (pageTypeFromUrl) {
       case "text":
         return (
-          <div className="textEditor">
+          <Flex justify="center" align="center" height="70vh">
             <TipTapEditor editable={true} setContent={setContent} setPageType={setPageType} />
-          </div>
+          </Flex>
         )
       case "quiz":
         return (
-          <div>
-            <QuizCreator onSave = {onSave} setEditMode={setEditMode} submitQuizRef={submitQuizRef} editable={true} setContent={setContent} setPageType={setPageType} />
-          </div>
+          <Flex justify="center" align="center" height="70vh">
+            <QuizCreator  onSave={onSave} setEditMode={setEditMode} submitQuizRef={submitQuizRef} editable={true} setContent={setContent} setPageType={setPageType} />
+          </Flex>
         )
       case "interactive":
         return (
-          <div>
+          <Flex>
             <h1>Interactive Component</h1>
-          </div>
+          </Flex>
         )
       case "case study":
         return (
-          <div>
+          <Flex>
             <h1>Case Study Component</h1>
-          </div>
+          </Flex>
         )
       default:
-        return null
+        break
     }
   }
 
   //when no tutorial is found and no tutorial to be added
   return (
-    <div className="chapterPage-No_Tutorial_Found">
-      <div>
+    <Flex justify="center" align="center" height="70vh">
+      <Flex flexDirection="column" alignItems="center">
         <h1>
           No tutorial found for chapter {chapter}, Page {currentPage}.
         </h1>
         <Button
+          m="4"
           onClick={() => {
             navigate(`/learn/${subject}/${field}/${unit}/addtutorial?chapter=${chapter}&page=${currentPage}`)
           }}
         >
           Add Tutorial
         </Button>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   )
 }
-
 export default ChapterPageContent

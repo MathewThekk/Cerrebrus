@@ -5,12 +5,12 @@ const ChapterPageHeaderButtons = ({ tutorial, pageTypeFromUrl, editable, setEdit
     <Box mt="3" mr="4">
       {(tutorial || pageTypeFromUrl) && (
         <>
-          {(tutorial || pageTypeFromUrl === "text") && (
-            <Button mr="2" width="6rem" onClick={() => setEditable(!editable)}>
-              {editable ? "Exit Edit" : "Edit"}
+          {(tutorial) && (
+            <Button mr="2" width="6rem" onClick={() => {setEditable(!editable); setEditMode(!editMode)}}>
+              {(!editable) ? "Exit Edit" : "Edit"}
             </Button>
           )}
-          {pageTypeFromUrl === "quiz" && editMode && (
+          {(tutorial || pageTypeFromUrl === "quiz") && (
             <Button
               mr="2"
               width="6rem"

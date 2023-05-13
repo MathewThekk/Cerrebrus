@@ -155,15 +155,15 @@ button.is_active {
   margin: 0 auto;
   }
 
-  .chapterPage {
+  /* .chapterPage {
     display: flex;
     flex-direction: column;
 
     width: 70vw;
     margin: 0 auto;
-    overflow: auto;
+
     height: 100%;
-  }
+  } */
   .chapterPage-pageNavigation {
     margin-top: 0.3rem;
     display: flex;
