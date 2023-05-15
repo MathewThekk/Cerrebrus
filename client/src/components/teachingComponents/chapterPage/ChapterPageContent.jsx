@@ -4,10 +4,10 @@ import QuizCreator from "../quiz/QuizCreator"
 import QuizRender from "../quiz/QuizRender";
 
 
-const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editable, tutorial, submitQuizRef, navigate, subject, field, unit, chapter, currentPage }) => {
+const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editable, tutorial, submitQuizRef, navigate, subject, field, unit, chapterNumber, currentPage }) => {
   if (tutorial?.content) {
     switch (tutorial?.pageType) {
-      case "Text":
+      case "text":
         return (
           <Flex justify="center"  className="textRender">
             <TipTapEditor tutorial={tutorial} editable={editable} setContent={setContent} setPageType={setPageType} />
@@ -69,12 +69,12 @@ const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editabl
     <Flex justify="center" align="center" height="70vh" className = "ChapterPageContent">
       <Flex flexDirection="column" alignItems="center">
         <h1>
-          No tutorial found for chapter {chapter}, Page {currentPage}.
+          No tutorial found for chapter {chapterNumber}, Page {currentPage}.
         </h1>
         <Button
           m="4"
           onClick={() => {
-            navigate(`/learn/${subject}/${field}/${unit}/addtutorial?chapter=${chapter}&page=${currentPage}`)
+            navigate(`/learn/${subject}/${field}/${unit}/addtutorial?chapter=${chapterNumber}&page=${currentPage}`)
           }}
         >
           Add Tutorial

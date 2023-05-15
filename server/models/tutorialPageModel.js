@@ -1,27 +1,29 @@
-import mongoose from "mongoose";
-
+import mongoose from "mongoose"
 
 const tutorialPageSchema = new mongoose.Schema({
   pageType: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: Object,
-    required: true
+    required: true,
   },
   page: {
     type: Number,
     required: true,
   },
-  chapter: {
+  chapterNumber: {
     type: Number,
     required: true,
   },
-  unit: { type: mongoose.Schema.Types.ObjectId, ref: 'Unit', required: true },
+  chapterName: {
+    type: String,
+    required: true,
+  },
+  unit: { type: mongoose.Schema.Types.ObjectId, ref: "Unit", required: true },
+})
 
-});
-
-const TutorialPage = mongoose.model('TutorialPage', tutorialPageSchema);
+const TutorialPage = mongoose.model("TutorialPage", tutorialPageSchema)
 
 export default TutorialPage

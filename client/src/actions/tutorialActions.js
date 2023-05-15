@@ -25,11 +25,12 @@ export const getTutorialPage = (page, chapter, unit, field, subject) => async (d
     console.log(error);
   }
 };
-export const addTutorialPage = (pageType, content, page, chapter, unit, field, subject) => async (dispatch) => {
+export const addTutorialPage = (tutorialPageData) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
+    console.log(tutorialPageData)
 
-    const { data } = await api.addTutorialPage(pageType, content, page, chapter, unit, field, subject);
+    const { data } = await api.addTutorialPage(tutorialPageData);
     console.log(data);
 
     dispatch(ADD_TUTORIAL_PAGE(data));

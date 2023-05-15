@@ -15,40 +15,47 @@ const ChapterPage = () => {
   const dispatch = useDispatch()
   const { subject, field, unit } = useParams()
   const queryParams = new URLSearchParams(useLocation().search)
-  const chapter = parseInt(queryParams.get("chapter"))
+  const chapterNumber = parseInt(queryParams.get("chapter"))
   const page = parseInt(queryParams.get("page"))
   const pageTypeFromUrl = queryParams.get("pagetype")
   const [content, setContent] = useState("")
   const [pageType, setPageType] = useState(pageTypeFromUrl)
   const [currentPage, setCurrentPage] = useState(page)
   const [editable, setEditable] = useState(false)
+  const [chapterName, setChapterName] = useState('First Chapter')
 
   const navigate = useNavigate()
+  const submitQuizRef = useRef(null)
+
 
 
   const tutorials = useSelector((state) => state.tutorials.entities.tutorials)
+  let tutorial = null
 
-  const tutorial = Object.values(tutorials).find((t) => t.chapter === chapter && t.page === currentPage)
+  if(tutorials) {tutorial = Object.values(tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)};
 
-  const submitQuizRef = useRef(null)
+
+  let tutorialPageData = {};
 
   useEffect(() => {
     dispatch(getTutorials(unit, field, subject))
   }, [dispatch, unit, field, subject, currentPage])
 
   const saveContent = () => {
+    console.log(tutorial)
     if (!tutorial && pageTypeFromUrl === ("text" || "quiz")) {
       console.log("Saving content...")
-      dispatch(addTutorialPage(pageType, content, currentPage, chapter, unit, field, subject))
-    } else if (tutorial) {
+      tutorialPageData = {pageType:pageType, content:content, currentPage:currentPage, chapterNumber:chapterNumber, chapterName:chapterName, unit:unit, field:field, subject:subject}
+      dispatch(addTutorialPage(tutorialPageData))
+    } if (tutorial) {
       console.log("Updating content...")
-      if (tutorial.pageType === "Text") {
-        dispatch(addTutorialPage(pageType, content, currentPage, chapter, unit, field, subject))
+      if (tutorial.pageType === "text") {
+        dispatch(addTutorialPage(pageType, content, currentPage, chapterNumber, unit, field, subject))
       }
 
       if (tutorial.pageType === "quiz") {
         submitQuizRef.current((content, pageType) => {
-          dispatch(addTutorialPage(pageType, content, currentPage, chapter, unit, field, subject))
+          dispatch(addTutorialPage(pageType, content, currentPage, chapterNumber, unit, field, subject))
           setEditable(false)
         })
       }
@@ -58,13 +65,13 @@ const ChapterPage = () => {
   const handlePrevPage = () => {
     const newPage = currentPage - 1
     setCurrentPage(newPage)
-    navigate(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${newPage}`)
+    navigate(`/learn/${subject}/${field}/${unit}?chapter=${chapterNumber}&page=${newPage}`)
   }
 
   const handleNextPage = () => {
     const newPage = currentPage + 1
     setCurrentPage(newPage)
-    navigate(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${newPage}`)
+    navigate(`/learn/${subject}/${field}/${unit}?chapter=${chapterNumber}&page=${newPage}`)
   }
 
   return (
@@ -73,14 +80,14 @@ const ChapterPage = () => {
         <Flex align="center" justify="center">
           <Heading size="md" textAlign="center" mt="3">
             {" "}
-            Chapter {chapter} - Page {currentPage}{" "}
+            Chapter {chapterNumber} - Page {currentPage}{" "}
           </Heading>
           <Flex justify="flex-end" flex="1">
             {" "}
-            <ChapterHeaderButtons tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} subject={subject} field={field} unit={unit} chapter={chapter} currentPage={currentPage} />{" "}
+            <ChapterHeaderButtons tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />{" "}
           </Flex>
         </Flex>
-        <ChapterPageContent pageTypeFromUrl={pageTypeFromUrl}  setContent={setContent} setPageType={setPageType} editable={editable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapter={chapter} currentPage={currentPage} />
+        <ChapterPageContent pageTypeFromUrl={pageTypeFromUrl}  setContent={setContent} setPageType={setPageType} editable={editable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
         <ChapterPageFooterButtons  editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
       </Box>
     </Flex>
