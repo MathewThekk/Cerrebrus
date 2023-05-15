@@ -1,13 +1,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700;900&display=swap");
 
 
+.ChapterPageContent {
+  padding: 10px;
+  border-top: 1px solid grey;
+  background: rgb(11, 16, 32);
+  border-radius: 0 0 5px 5px;
+  min-height: 70vh;
+  max-height: 80vh;
+  width: 70vw;
+  max-width: 70vw;
+  overflow-y: hidden;
+  color: #ffffff;
+}
 
 .ProseMirror {
   padding: 10px;
   border-top: 1px solid grey;
-  background: white;
+  background: rgb(11, 16, 32);
   border-radius: 0 0 5px 5px;
-  min-height: 100px;
+  min-height: 70vh;
+  max-height: 70vh;
+  width: 70vw;
+  max-width: 70vw;
+  overflow-y: hidden;
+  color: #ffffff;
+}
+.prose-mirror-character-count{
+  color: #ffffff;
+  text-align: right;
+
 }
 .ProseMirror:focus {
   border: none;
@@ -70,13 +92,6 @@
 }
 
 
-.textEditor {
-  border-radius: 5px;
-  border: 1px solid grey;
-  background-color: grey; /* dark background color */
-  color: black; /* light text color */
-}
-
 .menuBar {
   padding-bottom: 5px;
   display: flex;
@@ -89,7 +104,7 @@
   margin-right: 15px;
   outline: none;
   border: none;
-  background: none;
+  /* background: none; */
   color: rgb(70, 70, 70);
   cursor: pointer;
 }
@@ -120,9 +135,7 @@ button.is_active {
     background-color: #f5f5f5;
     font-weight: bold;
   }
-  .textEditor {
-    position: relative;
-  }
+ 
   
   .header {
    
@@ -147,26 +160,26 @@ button.is_active {
   
  
 
-  .textEditor {
-    height: 80vh;
-  width: 80vw;
+  .textRender {
+  height: 100%;
+  width: 100%;
+  max-width: 70vw;
+  max-height: 70vh;
   display: flex;
-  flex-direction: column;
-  margin: 0 auto;
+  border-radius: 5px;
+  border: 1px solid grey;
+  /* background-color: grey;  */
+  color: black; /* light text color */
+
   }
 
-  /* .chapterPage {
-    display: flex;
-    flex-direction: column;
 
-    width: 70vw;
-    margin: 0 auto;
-
-    height: 100%;
-  } */
+  
   .chapterPage-pageNavigation {
-    margin-top: 0.3rem;
+    margin-top: 1rem;
+    height: 70vh;
     display: flex;
+    align-items: baseline;
     justify-content: center;
     gap: 1rem;
     

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Box, Flex, Spacer, Button, useColorMode } from '@chakra-ui/react';
 
 function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const { pathname } = useLocation();
+  const { colorMode, toggleColorMode } = useColorMode()
 
-  const { colorMode } = useColorMode();
+
 
   const navBarBgColor = colorMode === 'light' ? 'gray.700' : 'gray.700';
 
@@ -30,9 +30,6 @@ function NavBar() {
         <Button variant="ghost" as={RouterLink} to="/">
           Home
         </Button>
-      </Box>
-      <Spacer />
-      <Box display="flex" alignItems="center">
         {isTutorialPage && (
           <>
             <Button variant="ghost" as={RouterLink} to="/learn/addtutorial">
@@ -43,6 +40,13 @@ function NavBar() {
             </Button>
           </>
         )}
+      </Box>
+      <Spacer />
+      <Box display="flex" alignItems="center">
+       
+         <Button mr="2" width="6rem" onClick={toggleColorMode}>
+            {colorMode === "light" ? "Dark" : "Light"}
+          </Button>
         {isLoggedIn ? (
           <Button variant="ghost" onClick={handleLogOut}>
             Log Out

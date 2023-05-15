@@ -2,10 +2,10 @@ import React from 'react'
 import {  Button,  Box } from "@chakra-ui/react"
 
 
-const ChapterPageFooterButtons = ({editMode, currentPage, handleNextPage, handlePrevPage}) => {
+const ChapterPageFooterButtons = ({editable, currentPage, handleNextPage, handlePrevPage}) => {
   return (
     <Box>
-    {!editMode && (
+    {!editable && (
         <div className="chapterPage-pageNavigation">
           <Button width="8rem" isDisabled={currentPage <= 1} onClick={handlePrevPage}>
             Previous Page

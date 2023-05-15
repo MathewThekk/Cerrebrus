@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Checkbox, Text, Button, Container, Heading, Stack, HStack, VStack, Input, Textarea, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import { correctAnswerMessages, wrongAnswerMessages } from "./answerMessageData"
 
-const QuizCreator = ({ requireQuizIntro, submitQuizRef, setContent, setPageType, setEditMode, onSave, content }) => {
+const QuizCreator = ({ requireQuizIntro, submitQuizRef, content }) => {
   const [quizTitle, setQuizTitle] = useState("nil")
   const [quizSynopsis, setQuizSynopsis] = useState("nil")
   const InitialQuizData = {
@@ -75,7 +75,6 @@ const QuizCreator = ({ requireQuizIntro, submitQuizRef, setContent, setPageType,
   useEffect(() => {
     console.log('useEffect')
     submitQuizRef.current = (callback) => handleQuizSubmission(currentQuestion, callback);
-    setEditMode(true)
   }, [currentQuestion])
 
   return (

@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getTutorials } from "../../../actions/tutorialActions"
 import { useParams, useLocation } from "react-router-dom"
-import { useColorMode, Button, Heading, Flex, Box } from "@chakra-ui/react"
+import {  Heading, Flex, Box } from "@chakra-ui/react"
 import ChapterHeaderButtons from "./ChapterPageHeaderButtons"
 import ChapterPageContent from "./ChapterPageContent"
 
@@ -22,10 +22,9 @@ const ChapterPage = () => {
   const [pageType, setPageType] = useState(pageTypeFromUrl)
   const [currentPage, setCurrentPage] = useState(page)
   const [editable, setEditable] = useState(false)
-  const [editMode, setEditMode] = useState(false)
 
   const navigate = useNavigate()
-  const { colorMode, toggleColorMode } = useColorMode()
+
 
   const tutorials = useSelector((state) => state.tutorials.entities.tutorials)
 
@@ -50,7 +49,7 @@ const ChapterPage = () => {
       if (tutorial.pageType === "quiz") {
         submitQuizRef.current((content, pageType) => {
           dispatch(addTutorialPage(pageType, content, currentPage, chapter, unit, field, subject))
-          setEditMode(false)
+          setEditable(false)
         })
       }
     }
@@ -70,7 +69,7 @@ const ChapterPage = () => {
 
   return (
     <Flex justify="center">
-      <Box maxW="70vw" maxH="70vh" w="100%">
+      <Box maxW="70vw" maxH="75vh" w="100%">
         <Flex align="center" justify="center">
           <Heading size="md" textAlign="center" mt="3">
             {" "}
@@ -78,11 +77,11 @@ const ChapterPage = () => {
           </Heading>
           <Flex justify="flex-end" flex="1">
             {" "}
-            <ChapterHeaderButtons tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} editMode={editMode} setEditMode={setEditMode} saveContent={saveContent} toggleColorMode={toggleColorMode} colorMode={colorMode} navigate={navigate} subject={subject} field={field} unit={unit} chapter={chapter} currentPage={currentPage} />{" "}
+            <ChapterHeaderButtons tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} subject={subject} field={field} unit={unit} chapter={chapter} currentPage={currentPage} />{" "}
           </Flex>
         </Flex>
-        <ChapterPageContent pageTypeFromUrl={pageTypeFromUrl} onSave={saveContent} setContent={setContent} setPageType={setPageType} editable={editable} tutorial={tutorial} editMode={editMode} setEditMode={setEditMode} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapter={chapter} currentPage={currentPage} />
-        <ChapterPageFooterButtons width="100%" editMode={editMode} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
+        <ChapterPageContent pageTypeFromUrl={pageTypeFromUrl}  setContent={setContent} setPageType={setPageType} editable={editable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapter={chapter} currentPage={currentPage} />
+        <ChapterPageFooterButtons  editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
       </Box>
     </Flex>
   )
