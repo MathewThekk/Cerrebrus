@@ -1,19 +1,19 @@
 import React from 'react'
-import {  Button,  Box } from "@chakra-ui/react"
+import {  Button,  Box, Flex } from "@chakra-ui/react"
 
 
 const ChapterPageFooterButtons = ({editable, currentPage, handleNextPage, handlePrevPage}) => {
   return (
     <Box>
     {!editable && (
-        <div className="chapterPage-pageNavigation">
+        <Flex  mt = "2" justify= "center" gap =  "1rem" >
           <Button width="8rem" isDisabled={currentPage <= 1} onClick={handlePrevPage}>
             Previous Page
           </Button>
           <Button width="8rem" onClick={handleNextPage}>
             Next Page
           </Button>
-        </div>
+        </Flex>
       )}
   
   </Box>

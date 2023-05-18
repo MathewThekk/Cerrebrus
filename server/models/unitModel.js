@@ -11,10 +11,16 @@ const unitSchema = new mongoose.Schema({
     ref: 'SubSubject',
     required: true
   },
-  tutorials: [
+  tutorialIds: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Tutorial'
+    }
+  ],
+  tutorials: [
+    {
+      type: Object,
+      requried: false
     }
   ]
 });

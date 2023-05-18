@@ -53,6 +53,9 @@ export const addTutorialPage = async (req, res) => {
       })
 
       const createdTutorialPage = await newTutorialPage.save()
+      unit.tutorials.push(createdTutorialPage)
+      unit.tutorialIds.push(createdTutorialPage._id)
+      await unit.save()
 
       res.status(201).json(createdTutorialPage)
     }
