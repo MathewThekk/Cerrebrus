@@ -1,30 +1,29 @@
-import mongoose from "mongoose";
-
+import mongoose from "mongoose"
 
 const unitSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   field: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'SubSubject',
-    required: true
+    ref: "SubSubject",
+    required: true,
   },
   tutorialIds: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Tutorial'
-    }
+      ref: "Tutorial",
+    },
   ],
   tutorials: [
     {
       type: Object,
-      requried: false
-    }
-  ]
-});
+      requried: false,
+    },
+  ],
+})
 
-const Unit = mongoose.model('Unit', unitSchema);
+const Unit = mongoose.model("Unit", unitSchema)
 
-export default Unit;
+export default Unit

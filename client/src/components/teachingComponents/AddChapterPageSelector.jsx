@@ -22,10 +22,10 @@ function AddChapterPageSelector() {
             Select a chapter mode:
           </Heading>
           <HStack spacing="4">
-            <Link to={`/learn/${subject}/${field}/${unit}/?chapter=${chapter}&page=${page}&pagetype=text`}>
+            <Link to={`/learn/${subject}/${field}/${unit}/chapter=${chapter}&page=${page}&pagetype=text`}>
               <Button>Text Chapter</Button>
             </Link>
-            <Link to={`/learn/${subject}/${field}/${unit}/?chapter=${chapter}&page=${page}&pagetype=quiz`}>
+            <Link to={`/learn/${subject}/${field}/${unit}/chapter=${chapter}&page=${page}&pagetype=quiz`}>
               <Button>Quiz</Button>
             </Link>
             <Link to={`${currentUrl}/interactive`}>

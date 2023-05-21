@@ -1,5 +1,5 @@
 import express from "express";
-import { getTutorials, addTutorialPage, getTutorialPage } from "../controllers/tutorialController.js";
+import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, deleteTutorialPage } from "../controllers/tutorialController.js";
 import { addSubject, getSubjects } from "../controllers/subjectController.js";
 import { addField, getFields } from "../controllers/fieldController.js";
 import { addUnit, getUnits } from "../controllers/unitController.js";
@@ -19,5 +19,7 @@ router.post("/:subject/:field/addunit", addUnit);
 router.get("/:subject/:field/:unit/", getTutorials);
 router.get("/:subject/:field/:unit?chapter=", getTutorialPage);
 router.post("/:subject/:field/:unit/", addTutorialPage);
+router.put("/:subject/:field/:unit/", updateTutorialPage);
+router.delete("/:subject/:field/:unit/", deleteTutorialPage);
 
 export default router;

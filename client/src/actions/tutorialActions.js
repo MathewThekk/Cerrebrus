@@ -1,4 +1,4 @@
-import { ADD_TUTORIAL_PAGE, GET_TUTORIALS, GET_TUTORIAL_PAGE } from "../reducers/tutorialReducer"
+import { ADD_TUTORIAL, SET_TUTORIALS, UPDATE_TUTORIAL, DELETE_TUTORIAL } from "../reducers/learnReducers"
 
 import * as api from "../api/api.js"
 
@@ -8,29 +8,44 @@ export const getTutorials = (unit, field, subject) => async (dispatch) => {
 
     const { data } = await api.getTutorials(unit, field, subject)
 
-    dispatch(GET_TUTORIALS(data))
+    dispatch(SET_TUTORIALS(data))
   } catch (error) {
     console.log(error)
   }
 }
-export const getTutorialPage = (page, chapter, unit, field, subject) => async (dispatch) => {
-  try {
-    // dispatch({ type: START_LOADING });
 
-    const { data } = await api.getTutorialPage(page, chapter, unit, field, subject)
-
-    // dispatch({ type: GET_TUTORIAL, payload: { post: data } });
-  } catch (error) {
-    console.log(error)
-  }
-}
 export const addTutorialPage = (tutorialPageData) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
 
     const { data } = await api.addTutorialPage(tutorialPageData)
 
-    dispatch(ADD_TUTORIAL_PAGE(data))
+    dispatch(ADD_TUTORIAL(data))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const updateTutorialPage = (tutorialPageData) => async (dispatch) => {
+  try {
+    // dispatch({ type: START_LOADING });
+
+    const { data } = await api.updateTutorialPage(tutorialPageData)
+
+    dispatch(UPDATE_TUTORIAL(data))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const deleteTutorialPage = (tutorial) => async (dispatch) => {
+  try {
+    // dispatch({ type: START_LOADING });
+
+
+    const { data } = await api.deleteTutorialPage(tutorial)
+
+    dispatch(DELETE_TUTORIAL(data))
   } catch (error) {
     console.log(error)
   }

@@ -22,10 +22,10 @@ function AddTutorial() {
             Select a tutorial mode:
           </Heading>
           <HStack spacing="4">
-            <Link to={`/learn/${subject}/${field}/${unit}/?chapter=${chapter}&page=${page}&pagetype=text`}>
+            <Link to={`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}&pagetype=text&action=add`}>
               <Button>Text Tutorial</Button>
             </Link>
-            <Link to={`/learn/${subject}/${field}/${unit}/?chapter=${chapter}&page=${page}&pagetype=quiz`}>
+            <Link to={`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}&pagetype=quiz&action=add`}>
               <Button>Quiz</Button>
             </Link>
             <Link to={`${currentUrl}/interactive`}>

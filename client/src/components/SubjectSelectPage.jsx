@@ -10,7 +10,7 @@ const SubjectSelectPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newSubjectName, setNewSubjectName] = useState("");
   const dispatch = useDispatch();
-  const subjects = useSelector((state) => state.subjects?.entities?.subjects);
+  const subjects = useSelector((state) => state.subjects);
   console.log(subjects);
 
   useEffect(() => {

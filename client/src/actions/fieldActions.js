@@ -1,4 +1,4 @@
-import { ADD_FIELD, GET_FIELDS, DELETE_FIELD } from "../reducers/tutorialReducer";
+import { ADD_FIELD, SET_FIELDS, DELETE_FIELD } from "../reducers/learnReducers";
 
 import * as api from "../api/api.js";
 
@@ -10,7 +10,7 @@ export const getFields = (subject) => async (dispatch) => {
 
     console.log(data);
 
-    dispatch(GET_FIELDS(data));
+    dispatch(SET_FIELDS(data));
   } catch (error) {
     console.log(error);
   }
@@ -35,7 +35,7 @@ export const deleteField = (name) => async (dispatch) => {
 
     const { data } = await api.deleteField(name);
 
-    dispatch({ type: DELETE_FIELD, payload: { post: data } });
+    dispatch(DELETE_FIELD(data));
   } catch (error) {
     console.log(error);
   }

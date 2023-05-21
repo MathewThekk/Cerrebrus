@@ -11,7 +11,7 @@ const UnitSelectPage = () => {
   const dispatch = useDispatch();
   const { subject, field } = useParams(); // <-- use `useParams` to get the field from the URL
 
-  const units = useSelector((state) => state.units?.entities?.units);
+  const units = useSelector((state) => state.units);
 
 
 

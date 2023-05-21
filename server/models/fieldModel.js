@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-
+import mongoose from "mongoose"
 
 const fieldSchema = new mongoose.Schema({
   name: {
@@ -18,8 +17,8 @@ const fieldSchema = new mongoose.Schema({
       ref: "Unit",
     },
   ],
-});
+})
 
-const Field = mongoose.model("Field", fieldSchema);
+const Field = mongoose.model("Field", fieldSchema)
 
-export default Field;
+export default Field

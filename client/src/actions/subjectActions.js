@@ -1,4 +1,4 @@
-import { ADD_SUBJECT, GET_SUBJECTS, DELETE_SUBJECT } from "../reducers/tutorialReducer";
+import { ADD_SUBJECT, SET_SUBJECTS, DELETE_SUBJECT } from "../reducers/learnReducers";
 
 import * as api from "../api/api.js";
 
@@ -9,7 +9,7 @@ export const getSubjects = () => async (dispatch) => {
     const { data } = await api.getSubjects();
 
 
-    dispatch(GET_SUBJECTS(data));
+    dispatch(SET_SUBJECTS(data));
   } catch (error) {
     console.log(error);
   }
@@ -31,7 +31,7 @@ export const deleteSubject = (name) => async (dispatch) => {
 
     const { data } = await api.deleteSubject(name);
 
-    dispatch({ type: DELETE_SUBJECT, payload: { post: data } });
+    dispatch(ADD_SUBJECT(data));
   } catch (error) {
     console.log(error);
   }

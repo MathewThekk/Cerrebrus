@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
-import reducer from './tutorialReducer.js';
+import reducer from './learnReducers.js';
 
-const {tutorialSlice, unitSlice, subjectSlice, fieldSlice} = reducer;
+const {tutorials, units, fields, subjects} = reducer;
 
 const rootReducer = combineReducers({
-  tutorials: tutorialSlice.reducer,
-  units: unitSlice.reducer,
-  fields: fieldSlice.reducer,
-  subjects: subjectSlice.reducer,
+  tutorials,
+  units,
+  fields,
+  subjects
 });
 
 export default rootReducer;

@@ -30,26 +30,9 @@ const App = () => {
         <Route exact path="/learn/subjectselect" element={<SubjectSelectPage/>} />
         <Route exact path="/learn/:subject/fieldselect" element={<FieldSelectPage/>} />
         <Route exact path="/learn/:subject/:field/unitselect" element={<UnitSelectPage/>} />
-        <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />}/>
+        <Route exact path="/learn/:subject/:field/:unit" element={<ChapterPage />}/>
         <Route exact path="/learn/:subject/:field/:unit/addtutorial" element={<AddTutorialSelector />}/>
         <Route exact path="/test" element={<Test/>}/>
-
-
-
-
-
-
-
-
-
-        {/* <Route exact path="/learn/science/chemistry/atoms" element={<Atoms/>} />
-        <Route exact path="/learn/science/chemistry" element={<ChemistryPage/>} /> */}
-
-
-        {/* <Route exact path="/learn/:subject/:field/:unit/add-slide" element={<AddTutorialSelector/>} /> */}
-        {/* <Route exact path="/learn/:subject/:subsubject/:unit/add-slide/quiz" element={<QuizBuilder/>} />
-        <Route exact path="/learn/:subject/:subsubject/:unit/add-slide/interactive" element={<InteractiveActiveBuilder/>} />
-        <Route exact path="/learn/:subject/:subsubject/:unit/add-slide/casestudy" element={<CaseStudyBuilder/>} /> */}
       </Routes>
       </ChakraProvider>
     </BrowserRouter>

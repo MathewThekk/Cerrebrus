@@ -12,7 +12,7 @@ const FieldSelectPage = () => {
   const dispatch = useDispatch();
   const { subject } = useParams(); // <-- use `useParams` to get the subject from the URL
 
-  const fields = useSelector((state) => state.fields?.entities?.fields);
+  const fields = useSelector((state) => state.fields);
   console.log(fields);
 
   useEffect(() => {
