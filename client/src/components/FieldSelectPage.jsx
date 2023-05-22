@@ -4,7 +4,7 @@ import { Box, Heading, HStack, Button } from "@chakra-ui/react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getFields, addField } from "../actions/fieldActions";
-import CustomModal from "./modals/customModal";
+import CustomModalDialog from "./modals/customModalDialog";
 
 const FieldSelectPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,7 +55,7 @@ const FieldSelectPage = () => {
             ))}
         </HStack>
       </Box>
-      <CustomModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} bodyPlaceHoderText={"Add Field"} modalValue={newField} setModalValue={setnewField} headerText={"Add Field"} footerText={"Add"} handleModalAdd={handleAddField} />
+      <CustomModalDialog isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} bodyPlaceHoderText={"Add Field"} modalValue={newField} setModalValue={setnewField} headerText={"Add Field"} footerText={"Add"} handleModalAdd={handleAddField} />
     </Box>
   );
 };

@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { Box, Button, Heading, HStack } from "@chakra-ui/react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { getUnits, addUnit } from "../actions/unitActions";
-import CustomModal from "./modals/customModal";
+import CustomModalDialog from "./modals/customModalDialog";
+
 
 const UnitSelectPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,7 +57,7 @@ const UnitSelectPage = () => {
             ))}
         </HStack>
       </Box>
-      <CustomModal
+      <CustomModalDialog
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         bodyPlaceHoderText={"Add Unit"}

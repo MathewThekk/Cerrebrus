@@ -1,7 +1,8 @@
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, Input } from "@chakra-ui/react";
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, Input,  } from "@chakra-ui/react";
 
-const CustomModal = ({ isModalOpen, setIsModalOpen,bodyPlaceHoderText, modalValue , setModalValue, headerText, footerText, handleModalAdd }) => {
+const CustomModalDialog = ({ isModalOpen, setIsModalOpen,bodyPlaceHoderText, modalValue , setModalValue, headerText, footerText, handleModalAdd }) => {
   return (
+
     <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
       <ModalOverlay />
       <ModalContent>
@@ -17,7 +18,8 @@ const CustomModal = ({ isModalOpen, setIsModalOpen,bodyPlaceHoderText, modalValu
         </ModalFooter>
       </ModalContent>
     </Modal>
+
   );
 };
 
-export default CustomModal;
+export default CustomModalDialog;

@@ -3,6 +3,8 @@ import { VStack, Link, Box } from "@chakra-ui/react"
 import { ArrowRightIcon } from "@chakra-ui/icons"
 
 const ChapterSideBar = ({ units, chapterNumber, unit:unitName, handleChapterNumberChange }) => {
+
+  console.log('sidebar', units)
   
   // Function to filter unique chapter numbers
   const getUniqueChapters = (tutorials) => {

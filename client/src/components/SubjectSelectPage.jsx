@@ -4,7 +4,8 @@ import { Box, Heading, HStack, Button } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getSubjects, addSubject } from "../actions/subjectActions";
-import CustomModal from "./modals/customModal";
+import CustomModalDialog from "./modals/customModalDialog";
+
 
 const SubjectSelectPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,7 +53,7 @@ const SubjectSelectPage = () => {
           ))}
         </HStack>
       </Box>
-      <CustomModal
+      <CustomModalDialog
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         bodyPlaceHoderText={"Add Subject"}
