@@ -15,7 +15,7 @@ const ChapterPage = () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const { subject, field, unit } = useParams()
-  const queryParams = new URLSearchParams(useLocation().search)
+  const queryParams = new URLSearchParams(location.search)
 
   const pageTypeFromUrl = queryParams.get("pagetype")
   let action = queryParams.get("action")
@@ -24,8 +24,8 @@ const ChapterPage = () => {
   const [pageType, setPageType] = useState(pageTypeFromUrl)
 
   const [chapterNumber, setChapterNumber] = useState(parseInt(queryParams.get("chapter")) ?? 1)
-  const [chapterName, setChapterName] = useState(null)
-  const [currentPage, setCurrentPage] = useState(1)
+
+  const [currentPage, setCurrentPage] = useState(parseInt(queryParams.get("page")) ?? 1)
 
   const [editable, setEditable] = useState(false)
 
@@ -33,24 +33,25 @@ const ChapterPage = () => {
   const submitQuizRef = useRef(null)
 
   let tutorialPageData = null
-  let tutorial = null
 
   const tutorials = useSelector((state) => state.tutorials)
-  const units = useSelector((state) => state.units)
+  const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)) ?? null
 
-  if (action !== "add" && tutorials) {
-    tutorial = Object.values(tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)
+  console.log(tutorial)
 
-    if (tutorial && chapterName === null) setChapterName(tutorial.chapterName)
-  }
+  // if (action !== "add" && tutorials) {
+
+  //   tutorial = Object.values(tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)
+  //   console.log(tutorial)
+  // }
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search)
-    const pageFromUrl = parseInt(queryParams.get("page"))
-    setCurrentPage(pageFromUrl)
-    dispatch(getTutorials(unit, field, subject))
     dispatch(getUnits(subject, field))
-  }, [location, chapterNumber])
+  }, [tutorials])
+
+  useEffect(() => {
+    dispatch(getTutorials(unit, field, subject))
+  }, [chapterNumber, currentPage])
 
   const saveContent = () => {
     console.log(content)
@@ -60,7 +61,7 @@ const ChapterPage = () => {
       content: content,
       currentPage: currentPage,
       chapterNumber: chapterNumber,
-      chapterName: chapterName,
+      chapterName: tutorial ? tutorial.chapterName : "",
       unit: unit,
       field: field,
       subject: subject,
@@ -105,13 +106,13 @@ const ChapterPage = () => {
     navigate(`/learn/${subject}/${field}/${unit}/addtutorial?chapter=${chapterNumber}&page=${currentPage + 1}`)
   }
 
-  const handleAddChapter = (newChapterName) => {
+  const handleAddChapter = (newChapterNumber, newChapterName) => {
     console.log("Adding New Chapter")
     tutorialPageData = {
       pageType: "text",
       content: defaultChapterPageContent,
-      currentPage: currentPage,
-      chapterNumber: chapterNumber,
+      currentPage: 1,
+      chapterNumber: newChapterNumber,
       chapterName: newChapterName,
       unit: unit,
       field: field,
@@ -119,15 +120,21 @@ const ChapterPage = () => {
     }
 
     dispatch(addTutorialPage(tutorialPageData))
-    navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber}&page=${1}`)
+    navigate(`/learn/${subject}/${field}/${unit}/?chapter=${newChapterNumber}&page=${1}`)
   }
 
   const handleDeletePage = () => {
-    if (tutorial) {
-      console.log("Deleting content...")
-
-      dispatch(deleteTutorialPage(tutorial))
+    console.log("Deleting content...")
+    if (!tutorial) {
+      setChapterNumber(chapterNumber - 1)
+      navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber - 1}&page=${1}`)
     }
+
+    if (tutorial) {
+      dispatch(deleteTutorialPage(tutorial))
+      setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)
+    }
+    console.log(tutorial)
   }
 
   const handlePrevPage = () => {
@@ -144,10 +151,10 @@ const ChapterPage = () => {
   }
 
   return (
-    <Box maxW="100%" w="100%" maxH="100%" mt="5">
+    <Box maxW="100%" w="100%" maxH="70vh" mt="5">
       <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />
-      <Flex>
-        <ChapterSideBar units={units} unit={unit} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} />
+      <Flex maxH="70vh">
+        <ChapterSideBar chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} />
         <ChapterPageContent pageTypeFromUrl={pageTypeFromUrl} setContent={setContent} setPageType={setPageType} editable={editable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
       </Flex>
       <ChapterPageFooterButtons editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />

@@ -26,16 +26,16 @@ const unitSlice = createSlice({
   initialState,
   reducers: {
     SET_UNITS: (state, action) => {
-      return { ...state, ...action.payload }
+      return action.payload
     },
     ADD_UNIT: (state, action) => {
-      return { ...state, ...action.payload }
+      return action.payload
     },
     UPDATE_UNIT: (state, action) => {
-      return { ...state, ...action.payload }
+      return action.payload
     },
     DELETE_UNIT: (state, action) => {
-      return { ...state, ...action.payload }
+      return action.payload
     },
   },
 })

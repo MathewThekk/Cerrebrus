@@ -5,7 +5,7 @@ import * as api from "../api/api.js"
 export const getTutorials = (unit, field, subject) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
-
+console.log(unit, field, subject)
     const { data } = await api.getTutorials(unit, field, subject)
 
     dispatch(SET_TUTORIALS(data))

@@ -1,15 +1,26 @@
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, Input, HStack } from "@chakra-ui/react"
+import { useState, useEffect } from "react";
 
-const AddChapterModal = ({ isModalOpen, setIsModalOpen, bodyPlaceHoderText, modalValue, setModalValue, bodyPlaceHoderText2, modalValue2, setModalValue2, headerText, footerText, handleModalAdd }) => {
+const AddChapterModal = ({handleAddChapter, isModalOpen, setIsModalOpen}) => {
+
+  console.log(1)
+
+  const maxChapterLimit = 30;
+
+
+  const [newChapterNumber, setNewChapterNumber] = useState(1)
+  const [newChapterName, setNewChapterName] = useState('')
+  
+ 
   return (
     <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader> {headerText} </ModalHeader>
+        <ModalHeader> Enter Chapter Number and Name </ModalHeader>
         <ModalBody>
           <HStack>
-            <Input maxLength={2} width="15%" type="number" placeholder={bodyPlaceHoderText} value={modalValue} onChange={(e) => setModalValue(parseInt(e.target.value))} />
-            <Input maxLength={20} placeholder={bodyPlaceHoderText2} value={modalValue2} onChange={(e) => setModalValue2(e.target.value)} />
+          <Input maxLength={2} width="15%" type="number" placeholder="01" value={newChapterNumber} onChange={(e) => {if (e.target.value < maxChapterLimit) setNewChapterNumber(e.target.value)}} />
+            <Input maxLength={20} placeholder="Chapter Name" value={newChapterName} onChange={(e) => setNewChapterName(e.target.value)} />
           </HStack>
         </ModalBody>
         <ModalFooter>
@@ -18,10 +29,10 @@ const AddChapterModal = ({ isModalOpen, setIsModalOpen, bodyPlaceHoderText, moda
             mr={3}
             onClick={() => {
               setIsModalOpen(false)
-              handleModalAdd()
+              handleAddChapter(newChapterNumber, newChapterName)
             }}
           >
-            {footerText}
+            Add Chapter
           </Button>
           <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
         </ModalFooter>

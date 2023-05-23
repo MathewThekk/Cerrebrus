@@ -72,7 +72,7 @@ export const getUnits = async (req, res) => {
 
     const fieldId = field._id;
     const units = await Unit.find({ field: fieldId });
-    console.log(units)
+
     res.status(200).send(units);
   } catch (error) {
     console.error(error);
