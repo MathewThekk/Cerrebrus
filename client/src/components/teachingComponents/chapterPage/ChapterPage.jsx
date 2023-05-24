@@ -37,38 +37,24 @@ const ChapterPage = () => {
   const tutorials = useSelector((state) => state.tutorials)
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)) ?? null
 
-  console.log(tutorial)
-
-  // if (action !== "add" && tutorials) {
-
-  //   tutorial = Object.values(tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)
-  //   console.log(tutorial)
-  // }
-
-  useEffect(() => {
-    dispatch(getUnits(subject, field))
-  }, [tutorials])
-
   useEffect(() => {
     dispatch(getTutorials(unit, field, subject))
   }, [chapterNumber, currentPage])
 
   const saveContent = () => {
-    console.log(content)
-
     tutorialPageData = {
       pageType: pageType,
       content: content,
       currentPage: currentPage,
       chapterNumber: chapterNumber,
-      chapterName: tutorial ? tutorial.chapterName : "",
+      chapterName: tutorials.find((t) => t.chapterNumber === chapterNumber).chapterName,
       unit: unit,
       field: field,
       subject: subject,
     }
     if (!tutorial && (pageTypeFromUrl === "text" || pageTypeFromUrl === "quiz")) {
       console.log("Saving content...")
-      console.log(tutorialPageData)
+
       if (pageTypeFromUrl === "text") {
         dispatch(addTutorialPage(tutorialPageData))
       }
@@ -90,7 +76,6 @@ const ChapterPage = () => {
         console.log("quiz update")
 
         submitQuizRef.current((content, pageType) => {
-          console.log(100, content, pageType)
           dispatch(updateTutorialPage({ ...tutorialPageData, pageType: "text", content: content }))
           setEditable(false)
         })
@@ -120,6 +105,8 @@ const ChapterPage = () => {
     }
 
     dispatch(addTutorialPage(tutorialPageData))
+    setChapterNumber(newChapterNumber)
+    setCurrentPage(1)
     navigate(`/learn/${subject}/${field}/${unit}/?chapter=${newChapterNumber}&page=${1}`)
   }
 
@@ -127,14 +114,33 @@ const ChapterPage = () => {
     console.log("Deleting content...")
     if (!tutorial) {
       setChapterNumber(chapterNumber - 1)
+      setCurrentPage(1)
       navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber - 1}&page=${1}`)
     }
 
     if (tutorial) {
+      const allTutorialFromChapter = tutorials.filter((t) => t.chapterNumber === chapterNumber && t.page !== currentPage)
+
+      if (allTutorialFromChapter.length === 0) {
+        console.log("not tutorials left in chapter")
+        setChapterNumber(chapterNumber - 1)
+        setCurrentPage(1)
+        navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber - 1}&page=${1}`)
+      }
+      if (allTutorialFromChapter.length !== 0) {
+        console.log("tutorials left in chapter")
+
+        const remainingPageNumbers = allTutorialFromChapter.map((t) => t.page)
+
+        let closestPage = remainingPageNumbers.reduce((prev, curr) => {
+          return Math.abs(curr - currentPage) < Math.abs(prev - currentPage) ? curr : prev
+        })
+        setCurrentPage(closestPage)
+        navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber}&page=${closestPage}`)
+      }
+
       dispatch(deleteTutorialPage(tutorial))
-      setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)
     }
-    console.log(tutorial)
   }
 
   const handlePrevPage = () => {
