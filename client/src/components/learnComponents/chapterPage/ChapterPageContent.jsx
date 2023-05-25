@@ -3,7 +3,7 @@ import TipTapEditor from "../textEditor/TipTapEditor"
 import QuizCreator from "../quiz/QuizCreator"
 import QuizRender from "../quiz/QuizRender"
 
-const ChapterPageContent = ({ pageTypeFromUrl, setContent, setPageType, editable, tutorial, submitQuizRef, navigate, subject, field, unit, chapterNumber, currentPage }) => {
+const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editable, tutorial, submitQuizRef, navigate, subject, field, unit, chapterNumber, currentPage }) => {
   if (tutorial?.content) {
     switch (tutorial?.pageType) {
       case "text":

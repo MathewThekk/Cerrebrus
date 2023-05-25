@@ -22,7 +22,7 @@ export const deleteField = (field, subject) => API.delete(`/learn/${subject}/del
 
 export const getUnits = (field, subject) => API.get(`/learn/${subject}/${field}/unitSelect`)
 export const addUnit = (unit, field, subject) => API.post(`/learn/${subject}/${field}/addunit?unit=${unit}`)
-export const deleteUnit = (unit, field, subject) => API.delete(`/learn/${subject}/${field}/deleteunit?unit=${unit}`)
+export const deleteUnit = (unitName, field, subject) => API.delete(`/learn/${subject}/${field}/deleteunit?unitname=${unitName}`)
 
 export const getTutorials = (unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}`)
 export const getTutorialPage = (page, chapter, unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`)

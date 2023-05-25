@@ -1,7 +1,7 @@
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, Input, HStack } from "@chakra-ui/react"
 import { useState, useEffect } from "react";
 
-const AddChapterModal = ({handleAddChapter, isModalOpen, setIsModalOpen}) => {
+const AddChapterModal = ({handleAddChapter, isAddChapterModalOpen, setIsAddChapterModalOpen}) => {
 
   console.log(1)
 
@@ -13,7 +13,7 @@ const AddChapterModal = ({handleAddChapter, isModalOpen, setIsModalOpen}) => {
   
  
   return (
-    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+    <Modal isOpen={isAddChapterModalOpen} onClose={() => setIsAddChapterModalOpen(false)}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader> Enter Chapter Number and Name </ModalHeader>
@@ -28,13 +28,13 @@ const AddChapterModal = ({handleAddChapter, isModalOpen, setIsModalOpen}) => {
             colorScheme="blue"
             mr={3}
             onClick={() => {
-              setIsModalOpen(false)
+              setIsAddChapterModalOpen(false)
               handleAddChapter(newChapterNumber, newChapterName)
             }}
           >
             Add Chapter
           </Button>
-          <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+          <Button onClick={() => setIsAddChapterModalOpen(false)}>Cancel</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

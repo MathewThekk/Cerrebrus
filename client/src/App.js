@@ -3,12 +3,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage'
 import NavBar from './components/Navbar'
 import SignInPage from './components/SignInPage';
-import SubjectSelectPage from './components/SubjectSelectPage'
-import FieldSelectPage from './components/FieldSelectPage';
+import SubjectPage from './components/learnComponents/subjectPage/SubjectPage'
+import FieldSelectPage from './components/learnComponents/fieldPage/FieldSelectPage';
 import UnitSelectPage from './components/UnitSelectPage';
 import Test from './components/Test';
 import AddTutorialSelector from './components/tutorialBuilder/AddTutorialSelector';
-import ChapterPage from './components/teachingComponents/chapterPage/ChapterPage'
+import ChapterPage from './components/learnComponents/chapterPage/ChapterPage'
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
@@ -27,7 +27,7 @@ const App = () => {
       <Routes>
         <Route exact path="/"  element={<HomePage/>} />
         <Route exact path="/signin" element={<SignInPage/>} />
-        <Route exact path="/learn/subjectselect" element={<SubjectSelectPage/>} />
+        <Route exact path="/learn/subjectselect" element={<SubjectPage/>} />
         <Route exact path="/learn/:subject/fieldselect" element={<FieldSelectPage/>} />
         <Route exact path="/learn/:subject/:field/unitselect" element={<UnitSelectPage/>} />
         <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />}/>

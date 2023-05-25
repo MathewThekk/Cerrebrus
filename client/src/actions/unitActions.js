@@ -22,9 +22,9 @@ export const addUnit = (unit, field, subject) => async (dispatch) => {
   }
 }
 
-export const deleteUnit = (name) => async (dispatch) => {
+export const deleteUnit = (unitName, field, subject) => async (dispatch) => {
   try {
-    const { data } = await api.deleteUnit(name)
+    const { data } = await api.deleteUnit(unitName, field, subject)
 
     dispatch(DELETE_UNIT(data))
   } catch (error) {

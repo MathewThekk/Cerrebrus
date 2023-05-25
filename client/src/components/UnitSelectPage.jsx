@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Box, Button, Heading, HStack } from "@chakra-ui/react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { getUnits, addUnit } from "../actions/unitActions";
-import CustomModalDialog from "./modals/customModalDialog";
+import CustomModalDialog from "./learnComponents/subjectPage/AddSubjectModal";
 
 
 const UnitSelectPage = () => {
@@ -23,14 +23,14 @@ const UnitSelectPage = () => {
   const handleAddUnit = async () => {
     if (newUnit.trim() === "") return;
 
-    await dispatch(addUnit(newUnit, field, subject));
+    dispatch(addUnit(newUnit, field, subject));
     setIsModalOpen(false);
   };
 
   return (
-    <Box h="100vh" display="flex" justifyContent="center" alignItems="center" bgGradient="linear(to-b, #4F3BA8, #141E30)">
+    <Box h="100vh" display="flex" justifyContent="center" alignItems="center" >
       <Box textAlign="center">
-        <Heading color="white" mb={4}>
+        <Heading  mb={4}>
           Choose a unit to learn
         </Heading>
         <Button colorScheme="blue" onClick={() => setIsModalOpen(true)}>
@@ -43,7 +43,7 @@ const UnitSelectPage = () => {
                 key={unit._id}
                 as={RouterLink}
                 to={{ 
-                  pathname: `/learn/${subject}/${field.toLowerCase()}/${unit.name.toLowerCase()}`,
+                  pathname: `/learn/${subject}/${field.toLowerCase()}/${unit?.name.toLowerCase()}`,
                   search: `?chapter=1&page=1`
                 }}
                 colorScheme="blue"

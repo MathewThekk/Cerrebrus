@@ -13,7 +13,8 @@ import TableRow from "@tiptap/extension-table-row"
 import TextAlign from "@tiptap/extension-text-align"
 import CharacterCount from "@tiptap/extension-character-count"
 
-const TipTapEditor = ({ tutorial, editable, setContent, setPageType }) => {
+const TipTapEditor = ({ tutorial, editable, setEditable, setContent, setPageType }) => {
+
   useEffect(() => {
     setPageType("text")
   })
@@ -43,6 +44,7 @@ const TipTapEditor = ({ tutorial, editable, setContent, setPageType }) => {
       onUpdate: ({ editor }) => {
         const editorJsonContent = editor.getJSON()
         setContent(editorJsonContent)
+
       },
     },
     [tutorial]
@@ -57,11 +59,7 @@ const TipTapEditor = ({ tutorial, editable, setContent, setPageType }) => {
 
   return (
     <div>
-      {editable ? (
-        <div>
-          <MenuBar editor={editor} />
-        </div>
-      ) : null}
+      {editable ? <MenuBar editor={editor} /> : null}
       <EditorContent editor={editor} />
       <div className="prose-mirror-character-count">{editor && editable && `${editor.storage.characterCount.characters()}/${limit} characters`}</div>
     </div>
