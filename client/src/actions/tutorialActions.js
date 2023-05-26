@@ -38,6 +38,18 @@ export const updateTutorialPage = (tutorialPageData) => async (dispatch) => {
   }
 }
 
+export const updateTutorialChapterName = (newChapterName, chapterNumber, unitName, field, subject) => async (dispatch) => {
+  try {
+    // dispatch({ type: START_LOADING });
+
+    const { data } = await api.updateTutorialChapterName(newChapterName, chapterNumber, unitName, field, subject)
+
+    dispatch(UPDATE_TUTORIAL(data))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const deleteTutorialPage = (tutorial) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });

@@ -83,11 +83,8 @@ export const getUnits = async (req, res) => {
 }
 
 export const deleteUnit = async (req, res) => {
-
-
   const { subject: subjectName, field: fieldName } = req.params
-  const { unitname:unitName } = req.query
-
+  const { unitname: unitName } = req.query
 
   try {
     // Find the Subject document that matches the subject
@@ -114,7 +111,7 @@ export const deleteUnit = async (req, res) => {
       name: unitName,
     })
 
-    console.log(unitName, "deleting",unit.name)
+    console.log(unitName, "deleting", unit.name)
 
     if (!unit) {
       return res.status(404).json({ message: "Unit not found" })
@@ -124,6 +121,56 @@ export const deleteUnit = async (req, res) => {
     await TutorialPage.deleteMany({
       unit: unit._id,
     })
+
+    const units = await Unit.find({
+      field: field._id,
+    })
+
+    res.status(201).send(units)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server Error while saving new unit" })
+  }
+}
+
+export const updateUnitName = async (req, res) => {
+  const { subject: subjectName, field: fieldName, unit: unitName } = req.params
+  const { newUnitName } = req.body
+
+
+  try {
+    // Find the Subject document that matches the subject
+    const subject = await Subject.findOne({
+      name: { $regex: new RegExp(subjectName, "i") },
+    })
+
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" })
+    }
+
+    // Find the Field document that matches the field name and belongs to the subject
+    const field = await Field.findOne({
+      name: { $regex: new RegExp(fieldName, "i") },
+      subject: subject._id,
+    })
+
+    if (!field) {
+      return res.status(404).json({ message: "Field not found" })
+    }
+
+
+    const unit = await Unit.findOne({
+      field: field._id,
+      name: unitName,
+    })
+
+    console.log(88, unit)
+
+    if (!unit) {
+      return res.status(404).json({ message: "Unit not found" })
+    }
+    const a = await Unit.findByIdAndUpdate(unit._id, { name: newUnitName }, { new: true })
+    console.log(a)
 
     const units = await Unit.find({
       field: field._id,

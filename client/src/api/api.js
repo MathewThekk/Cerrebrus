@@ -22,14 +22,17 @@ export const deleteField = (field, subject) => API.delete(`/learn/${subject}/del
 
 export const getUnits = (field, subject) => API.get(`/learn/${subject}/${field}/unitSelect`)
 export const addUnit = (unit, field, subject) => API.post(`/learn/${subject}/${field}/addunit?unit=${unit}`)
+export const updateUnitName = (newUnitName, unit, field, subject) => API.put(`/learn/${subject}/${field}/${unit}/updateunitname`, {newUnitName})
 export const deleteUnit = (unitName, field, subject) => API.delete(`/learn/${subject}/${field}/deleteunit?unitname=${unitName}`)
 
 export const getTutorials = (unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}`)
 export const getTutorialPage = (page, chapter, unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`)
 export const addTutorialPage = (tutorialPageData) => API.post(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}&page=${tutorialPageData.currentPage}`, tutorialPageData)
 export const updateTutorialPage = (tutorialPageData) => API.put(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}&page=${tutorialPageData.currentPage}`, tutorialPageData)
+export const updateTutorialChapterName = (newChapterName, chapterNumber, unitName, field, subject) => API.put(`/learn/${subject}/${field}/${unitName}/updatechaptername?chapter=${chapterNumber}`, {newChapterName} )
 export const deleteTutorialPage = (tutorial) => API.delete(`/learn/${tutorial.subject}/${tutorial.field}/${tutorial.unit}?chapter=${tutorial.chapterNumber}&pageId=${tutorial._id}`)
-export const TutorialPage = (pageType, content, page, chapter, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`, { pageType, content })
+
+// export const TutorialPage = (pageType, content, page, chapter, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`, { pageType, content })
 
 export const signIn = (formData) => API.post("/user/signin", formData)
 export const signUp = (formData) => API.post("/user/signup", formData)

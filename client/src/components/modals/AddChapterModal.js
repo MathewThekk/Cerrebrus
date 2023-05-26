@@ -5,7 +5,7 @@ const AddChapterModal = ({handleAddChapter, isAddChapterModalOpen, setIsAddChapt
 
   console.log(1)
 
-  const maxChapterLimit = 30;
+  const maxChapterLimit = 10;
 
 
   const [newChapterNumber, setNewChapterNumber] = useState(1)
@@ -20,7 +20,7 @@ const AddChapterModal = ({handleAddChapter, isAddChapterModalOpen, setIsAddChapt
         <ModalBody>
           <HStack>
           <Input maxLength={2} width="15%" type="number" placeholder="01" value={newChapterNumber} onChange={(e) => {if (e.target.value < maxChapterLimit) setNewChapterNumber(e.target.value)}} />
-            <Input maxLength={20} placeholder="Chapter Name" value={newChapterName} onChange={(e) => setNewChapterName(e.target.value)} />
+            <Input maxLength={60} placeholder="Chapter Name" value={newChapterName} onChange={(e) => setNewChapterName(e.target.value)} />
           </HStack>
         </ModalBody>
         <ModalFooter>

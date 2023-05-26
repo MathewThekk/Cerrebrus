@@ -161,8 +161,52 @@ export const updateTutorialPage = async (req, res) => {
         unit: unit._id,
       })
       res.status(200).send(tutorials)
-     
     }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server Error" })
+  }
+}
+
+export const updateChapterName = async (req, res) => {
+  try {
+    const { field: fieldName, unit: unitName, subject: subjectName } = req.params
+    const chapterNumber = req.query.chapter // Access chapterNumber query parameter
+    const {newChapterName} = req.body
+    console.log(999, req.body, newChapterName)
+
+    const field = await Field.findOne({
+      name: { $regex: new RegExp(fieldName, "i") },
+    })
+
+    if (!field) {
+      return res.status(404).json({ message: "Field not found" })
+    }
+
+    // Find the unit that belongs to the field and subject
+    const unit = await Unit.findOne({
+      name: { $regex: new RegExp(unitName, "i") },
+      field: field._id,
+    })
+
+    if (!unit) {
+      return res.status(404).json({ message: "Unit not found" })
+    }
+
+    await TutorialPage.updateMany(
+      {
+        unit: unit._id,
+        chapterNumber: chapterNumber,
+      },
+      {
+        chapterName: newChapterName,
+      }
+    )
+
+    const tutorials = await TutorialPage.find({
+      unit: unit._id,
+    })
+    res.status(200).send(tutorials)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: "Server Error" })

@@ -5,8 +5,8 @@ import { useParams, useLocation } from "react-router-dom"
 import { Flex, Box } from "@chakra-ui/react"
 import ChapterHeaderButtons from "./ChapterPageHeaderButtons"
 import ChapterPageContent from "./ChapterPageContent"
-import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage } from "../../../actions/tutorialActions"
-import { deleteUnit } from "../../../actions/unitActions"
+import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage, updateTutorialChapterName } from "../../../actions/tutorialActions"
+import { deleteUnit, updateUnitName } from "../../../actions/unitActions"
 import { useNavigate } from "react-router-dom"
 import ChapterPageFooterButtons from "./ChapterPageFooterButtons"
 import ChapterSideBar from "./ChapterSideBar"
@@ -109,16 +109,29 @@ const ChapterPage = () => {
           tutorialMap.set(tutorial.chapterNumber, tutorial)
         }
       })
+
       return Array.from(tutorialMap.values())
     }
   }
 
+  const handleChapterNameChange = (newChapterName, chapterNumber, unitName) => {
+    console.log(newChapterName, chapterNumber, unitName, field, subject)
+
+    dispatch(updateTutorialChapterName(newChapterName, chapterNumber, unitName, field, subject))
+  }
+
+  const handleUnitNameChange = (newUnitName, unit) => {
+    console.log(newUnitName, unit, field, subject)
+
+    dispatch(updateUnitName(newUnitName, unit, field, subject))
+  }
+
   const handleAddChapter = (newChapterNumber, newChapterName) => {
-    if(!Array.isArray(tutorials) || tutorials.length === 0)
-    {
-      console.log("Not tutorials")
+    if (!Array.isArray(tutorials) || tutorials.length === 0) {
+      console.log("No tutorials")
     }
-    if (getUniqueChapterTutorials().map((t) => t.chapterNumber === newChapterNumber).length > 0) {
+
+    if (getUniqueChapterTutorials().filter((t) => t.chapterNumber === newChapterNumber).length > 0) {
       console.log("chapter number already exist")
       return null
     }
@@ -205,10 +218,10 @@ const ChapterPage = () => {
   }
 
   return (
-    <Box maxW="100%" w="100%" maxH="70vh" mt="5">
+    <Box maxW="100%" w="100%" maxH="90vh" mt="5">
       <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleAddUnit={handleAddUnit} handleDeleteUnit={handleDeleteUnit} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />
-      <Flex maxH="70vh">
-        <ChapterSideBar getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
+      <Flex maxH="90vh" minH="70vh" borderTop="1px solid" borderColor="gray.300">
+        <ChapterSideBar handleUnitNameChange={handleUnitNameChange} handleChapterNameChange={handleChapterNameChange} editable={editable} getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
         <ChapterPageContent isAnyChapterExistForUnit={isAnyChapterExistForUnit} pageTypeFromUrl={pageTypeFromUrl} setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
       </Flex>
       <ChapterPageFooterButtons editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
