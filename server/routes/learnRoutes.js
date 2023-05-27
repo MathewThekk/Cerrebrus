@@ -3,6 +3,7 @@ import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, del
 import { addSubject, getSubjects } from "../controllers/subjectController.js";
 import { addField, getFields } from "../controllers/fieldController.js";
 import { addUnit, getUnits, deleteUnit, updateUnitName } from "../controllers/unitController.js";
+import { getComments, addComment, updateComment, deleteComment } from "../controllers/commentController.js";
 
 const router = express.Router();
 // import auth from "../middleware/auth.js";
@@ -23,7 +24,11 @@ router.get("/:subject/:field/:unit?chapter=", getTutorialPage);
 router.post("/:subject/:field/:unit/", addTutorialPage);
 router.put("/:subject/:field/:unit/", updateTutorialPage);
 router.put("/:subject/:field/:unit/updatechaptername", updateChapterName);
-
 router.delete("/:subject/:field/:unit/", deleteTutorialPage);
+
+router.get("/:subject/:field/:unit/comments/:tutorialid", getComments);
+router.post("/:subject/:field/:unit/comments/:tutorialid", addComment);
+router.put("/:subject/:field/:unit/comments/:commentid", updateComment);
+router.delete("/:subject/:field/:unit/comments/:commentid", deleteComment);
 
 export default router;

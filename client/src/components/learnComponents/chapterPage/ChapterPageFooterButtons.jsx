@@ -4,7 +4,7 @@ import {  Button,  Box, Flex } from "@chakra-ui/react"
 
 const ChapterPageFooterButtons = ({editable, currentPage, handleNextPage, handlePrevPage}) => {
   return (
-    <Box>
+    <Box ml="18%">
     {!editable && (
         <Flex  mt = "2" justify= "center" gap =  "1rem" >
           <Button width="8rem" isDisabled={currentPage <= 1} onClick={handlePrevPage}>

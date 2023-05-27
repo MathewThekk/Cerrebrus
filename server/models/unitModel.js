@@ -7,7 +7,7 @@ const unitSchema = new mongoose.Schema({
   },
   field: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "SubSubject",
+    ref: "Field",
     required: true,
   },
   tutorialIds: [

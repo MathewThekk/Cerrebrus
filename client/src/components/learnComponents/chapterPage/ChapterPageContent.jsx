@@ -8,20 +8,20 @@ const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editabl
     switch (tutorial?.pageType) {
       case "text":
         return (
-          <Flex justify="center" className="textRender">
+          <Flex  className="ChapterPageContent">
             <TipTapEditor tutorial={tutorial} editable={editable} setContent={setContent} setPageType={setPageType} />
           </Flex>
         )
       case "quiz":
         if (!editable) {
           return (
-            <Flex justify="center" align="center" className="ChapterPageContent">
+            <Flex  className="ChapterPageContent">
               <QuizRender quizData={tutorial.content} />
             </Flex>
           )
         }
         return (
-          <Flex justify="center" align="center" className="ChapterPageContent">
+          <Flex  className="ChapterPageContent">
             <QuizCreator content={tutorial.content} submitQuizRef={submitQuizRef} />
           </Flex>
         )
@@ -36,13 +36,13 @@ const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editabl
     switch (pageTypeFromUrl) {
       case "text":
         return (
-          <Flex justify="center" align="center" className="ChapterPageContent">
+          <Flex  className="ChapterPageContent">
             <TipTapEditor editable={true} setContent={setContent} setPageType={setPageType} />
           </Flex>
         )
       case "quiz":
         return (
-          <Flex justify="center" align="center" className="ChapterPageContent">
+          <Flex className="ChapterPageContent">
             <QuizCreator submitQuizRef={submitQuizRef} />
           </Flex>
         )

@@ -1,7 +1,7 @@
 import Unit from "../models/unitModel.js"
 import Subject from "../models/subjectModel.js"
 import Field from "../models/fieldModel.js"
-import TutorialPage from "../models/tutorialPageModel.js"
+import Tutorial from "../models/tutorialModel.js"
 
 export const addUnit = async (req, res) => {
   const { subject: subjectName, field: fieldName } = req.params
@@ -118,7 +118,7 @@ export const deleteUnit = async (req, res) => {
     }
 
     await Unit.findByIdAndDelete(unit._id)
-    await TutorialPage.deleteMany({
+    await Tutorial.deleteMany({
       unit: unit._id,
     })
 

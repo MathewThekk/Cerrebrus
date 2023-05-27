@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams, useLocation, useNavigate } from "react-router-dom"
 import { Flex, Box } from "@chakra-ui/react"
 import ChapterHeaderButtons from "./ChapterPageHeaderButtons"
+import ChapterSideBar from "./ChapterSideBar"
 import ChapterPageContent from "./ChapterPageContent"
 import ChapterPageFooterButtons from "./ChapterPageFooterButtons"
-import ChapterSideBar from "./ChapterSideBar"
+import CommentsSection from "./CommentsSection"
+
 import { defaultChapterPageContent } from "./ChapterFirstPageDefaultContent"
 import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage, updateTutorialChapterName } from "../../../actions/tutorialActions"
 import { deleteUnit, updateUnitName, addUnit } from "../../../actions/unitActions"
@@ -212,13 +214,16 @@ const ChapterPage = () => {
   }
 
   return (
-    <Box maxW="100%" w="100%" maxH="90vh" mt="5">
-      <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleAddUnit={handleAddUnit} handleDeleteUnit={handleDeleteUnit} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />
-      <Flex maxH="90vh" minH="70vh" borderTop="1px solid" borderBottom="1px solid" borderColor="gray.300">
-        <ChapterSideBar handleUnitNameChange={handleUnitNameChange} handleChapterNameChange={handleChapterNameChange} editable={editable} getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
-        <ChapterPageContent isAnyChapterExistForUnit={isAnyChapterExistForUnit} pageTypeFromUrl={pageTypeFromUrl} setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
-      </Flex>
-      <ChapterPageFooterButtons editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
+    <Box overflowX="hidden">
+      <Box maxW="100vw" minH="100%" mt="5">
+        <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleAddUnit={handleAddUnit} handleDeleteUnit={handleDeleteUnit} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />
+        <Flex maxH="100vh" w="100%" minH="75vh" h="75vh" borderTop="1px solid" borderBottom="1px solid" borderColor="gray.300">
+          <ChapterSideBar handleUnitNameChange={handleUnitNameChange} handleChapterNameChange={handleChapterNameChange} editable={editable} getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
+          <ChapterPageContent isAnyChapterExistForUnit={isAnyChapterExistForUnit} pageTypeFromUrl={pageTypeFromUrl} setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
+        </Flex>
+        <ChapterPageFooterButtons editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
+      </Box>
+      <CommentsSection />
     </Box>
   )
 }

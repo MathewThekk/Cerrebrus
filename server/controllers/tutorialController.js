@@ -1,4 +1,4 @@
-import TutorialPage from "../models/tutorialPageModel.js"
+import Tutorial from "../models/tutorialModel.js"
 import Unit from "../models/unitModel.js"
 import Field from "../models/fieldModel.js"
 
@@ -27,7 +27,7 @@ export const addTutorialPage = async (req, res) => {
       return res.status(404).json({ message: "Unit not found" })
     }
 
-    const tutorialPage = await TutorialPage.findOne({
+    const tutorialPage = await Tutorial.findOne({
       unit: unit._id,
       chapterNumber: chapterNumber,
       page: page,
@@ -35,7 +35,7 @@ export const addTutorialPage = async (req, res) => {
 
     if (tutorialPage) {
       //since we are inserting a new tutorial in existing page, all existing tutorials pushed forward by 1 page
-      await TutorialPage.updateMany(
+      await Tutorial.updateMany(
         {
           unit: unit._id,
           chapterNumber: chapterNumber,
@@ -46,7 +46,7 @@ export const addTutorialPage = async (req, res) => {
         }
       )
     }
-    const newTutorialPage = new TutorialPage({
+    const newTutorialPage = new Tutorial({
       pageType: pageType,
       content: content,
       page: page,
@@ -60,7 +60,7 @@ export const addTutorialPage = async (req, res) => {
     unit.tutorialIds.push(createdTutorialPage._id)
     await unit.save()
 
-    const tutorials = await TutorialPage.find({
+    const tutorials = await Tutorial.find({
       unit: unit._id,
     })
     res.status(200).send(tutorials)
@@ -76,7 +76,7 @@ export const deleteTutorialPage = async (req, res) => {
 
     console.log(456, id)
 
-    const tutorialPageToDelete = await TutorialPage.findById(id) // Find the tutorial by id
+    const tutorialPageToDelete = await Tutorial.findById(id) // Find the tutorial by id
 
     if (!tutorialPageToDelete) {
       return res.status(404).json({ message: "Tutorial page not found" })
@@ -89,7 +89,7 @@ export const deleteTutorialPage = async (req, res) => {
     }
 
     // Decrement the page number of the following tutorials
-    await TutorialPage.updateMany(
+    await Tutorial.updateMany(
       {
         unit: unit._id,
         chapterNumber: tutorialPageToDelete.chapterNumber,
@@ -101,14 +101,14 @@ export const deleteTutorialPage = async (req, res) => {
     )
 
     // Delete the tutorial
-    await TutorialPage.findByIdAndDelete(id)
+    await Tutorial.findByIdAndDelete(id)
 
     // Remove tutorial from unit's tutorials array
     unit.tutorials = unit.tutorials.filter((tutorial) => tutorial._id.toString() !== id)
     unit.tutorialIds = unit.tutorialIds.filter((tutorialId) => tutorialId.toString() !== id)
     await unit.save()
 
-    const tutorials = await TutorialPage.find({
+    const tutorials = await Tutorial.find({
       unit: unit._id,
     })
     res.status(200).send(tutorials)
@@ -143,7 +143,7 @@ export const updateTutorialPage = async (req, res) => {
       return res.status(404).json({ message: "Unit not found" })
     }
 
-    const tutorialPage = await TutorialPage.findOne({
+    const tutorialPage = await Tutorial.findOne({
       unit: unit._id,
       chapterNumber: chapterNumber,
       page: page,
@@ -157,7 +157,7 @@ export const updateTutorialPage = async (req, res) => {
         if (tutorial._id === updateTutorialPage._id) tutorial.content = updateTutorialPage.content
       })
       await unit.save()
-      const tutorials = await TutorialPage.find({
+      const tutorials = await Tutorial.find({
         unit: unit._id,
       })
       res.status(200).send(tutorials)
@@ -193,7 +193,7 @@ export const updateChapterName = async (req, res) => {
       return res.status(404).json({ message: "Unit not found" })
     }
 
-    await TutorialPage.updateMany(
+    await Tutorial.updateMany(
       {
         unit: unit._id,
         chapterNumber: chapterNumber,
@@ -203,7 +203,7 @@ export const updateChapterName = async (req, res) => {
       }
     )
 
-    const tutorials = await TutorialPage.find({
+    const tutorials = await Tutorial.find({
       unit: unit._id,
     })
     res.status(200).send(tutorials)
@@ -237,7 +237,7 @@ export const getTutorials = async (req, res) => {
     }
 
     const unitId = unit._id
-    const tutorials = await TutorialPage.find({
+    const tutorials = await Tutorial.find({
       unit: unitId,
     })
 
@@ -274,7 +274,7 @@ export const getTutorialPage = async (req, res) => {
     }
 
     const unitId = unit._id
-    const tutorial = await TutorialPage.findOne({
+    const tutorial = await Tutorial.findOne({
       unit: unitId,
       chapter: chapter,
       page: page,

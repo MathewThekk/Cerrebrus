@@ -13,7 +13,7 @@ const ChapterPageHeaderButtons = ({ action, tutorial, editable, setEditable, sav
   
  
  return (
-   <Flex justify="center" mb="2" minW="100%">
+   <Flex justify="center" mb="2" minW="100%" ml="10%">
 
      {/* Button to open the modal */}
      <Button mr="2" width="7rem" onClick={() => setIsAddChapterModalOpen(true)}>

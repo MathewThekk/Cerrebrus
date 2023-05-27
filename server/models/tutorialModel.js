@@ -22,8 +22,14 @@ const tutorialPageSchema = new mongoose.Schema({
     required: true,
   },
   unit: { type: mongoose.Schema.Types.ObjectId, ref: "Unit", required: true },
+  commentsId: [
+    {
+      type: Object,
+      requried: false,
+    },
+  ],
 })
 
-const TutorialPage = mongoose.model("TutorialPage", tutorialPageSchema)
+const Tutorial = mongoose.model("Tutorial", tutorialPageSchema)
 
-export default TutorialPage
+export default Tutorial

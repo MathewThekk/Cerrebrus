@@ -32,6 +32,12 @@ export const updateTutorialPage = (tutorialPageData) => API.put(`/learn/${tutori
 export const updateTutorialChapterName = (newChapterName, chapterNumber, unitName, field, subject) => API.put(`/learn/${subject}/${field}/${unitName}/updatechaptername?chapter=${chapterNumber}`, {newChapterName} )
 export const deleteTutorialPage = (tutorial) => API.delete(`/learn/${tutorial.subject}/${tutorial.field}/${tutorial.unit}?chapter=${tutorial.chapterNumber}&pageId=${tutorial._id}`)
 
+export const getComments = (tutorialId, unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}/comments/${tutorialId}`)
+export const deleteComment = (commentId, unit, field, subject) => API.delete(`/learn/${subject}/${field}/${unit}/comments/${commentId}`)
+export const addComment = (content, tutorialId, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}/comments/${tutorialId}`, {content})
+export const updateComment = (content, commentId, unit, field, subject) => API.put(`/learn/${subject}/${field}/${unit}/comments/${commentId}`, {content})
+
+
 // export const TutorialPage = (pageType, content, page, chapter, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`, { pageType, content })
 
 export const signIn = (formData) => API.post("/user/signin", formData)

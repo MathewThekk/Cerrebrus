@@ -6,9 +6,10 @@
   border-top: 1px solid grey;
   background: rgb(11, 16, 32);
   border-radius: 0 0 5px 5px;
-  width: 70vw;
-  max-width: 70vw;
-  min-height: 70vh;
+  /* width: 70vw; */
+  /* max-width: 70vw; */
+  width: 100%;
+  min-height: 100%;
   overflow-y: hidden;
   overflow-x:hidden;
   color: #ffffff;
@@ -19,10 +20,10 @@
   border-top: 1px solid grey;
   background: rgb(11, 16, 32);
   border-radius: 0 0 5px 5px;
-  min-height: 70vh;
   max-height: 70vh;
-  width: 70vw;
-  max-width: 70vw;
+  min-height: 65vh;
+  width: 80vw;
+  /* max-width: 70vw; */
   overflow-y: hidden;
   overflow-x:hidden;
   color: #ffffff;
@@ -101,12 +102,11 @@
 }
 .menuBar button {
   font-size: 18px;
-  margin: 7px;
-  margin-right: 15px;
+  padding: 0.5rem;
   outline: none;
   border: none;
   /* background: none; */
-  color: rgb(70, 70, 70);
+  color: rgb(180, 171, 171);
   cursor: pointer;
 }
 .menuBar button:last-child {
@@ -164,8 +164,9 @@ button.is_active {
   .textRender {
   height: 100%;
   width: 100%;
-  max-width: 70vw;
-  max-height: 70vh;
+  /* max-width: 70vw; */
+  /* max-height: 70vh; */
+  min-height: 100%;
   display: flex;
   border-radius: 5px;
   border: 1px solid grey;
