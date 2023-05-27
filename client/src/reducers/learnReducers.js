@@ -1,6 +1,6 @@
 import { createSlice, current } from "@reduxjs/toolkit"
 
-const initialState = {}
+const initialState = []
 
 const tutorialSlice = createSlice({
   name: "tutorials",

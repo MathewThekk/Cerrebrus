@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
-import { Box, Heading, Flex, Button, VStack } from "@chakra-ui/react"
+import { Heading, Flex, Button, VStack } from "@chakra-ui/react"
 import { Link as RouterLink, useParams } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { getFields, addField } from "../../../actions/fieldActions"
@@ -21,23 +21,25 @@ const FieldSelectPage = () => {
 
   const handleAddField = async () => {
     if (newField.trim() === "") return
-  
+
     // replace spaces with hyphens
-    const fieldWithHyphens = newField.replace(/\s+/g, '-');
-  
+    const fieldWithHyphens = newField.replace(/\s+/g, "-")
+
     dispatch(addField(fieldWithHyphens, subject))
     setIsModalOpen(false)
   }
 
   return (
     <VStack align="center" justify="center" textAlign="center" maxW="100%" w="100%" minH="70vh" mt="5">
-      <Button align = "flex-start" onClick={() => setIsModalOpen(true)}>Add Field</Button>
+      <Button align="flex-start" onClick={() => setIsModalOpen(true)}>
+        Add Field
+      </Button>
       <Heading mb={4}>Choose a field</Heading>
-      <Flex align="center" justify="center" spacing={4} wrap="wrap" >
+      <Flex align="center" justify="center" spacing={4} wrap="wrap">
         {fields &&
           Object.values(fields).map((field) => (
             <Button key={field._id} as={RouterLink} to={`/learn/${subject}/${field.name.toLowerCase()}/unitselect`} _hover={{ opacity: 0.8 }}>
-             {field.name.replace(/-/g, ' ')}
+              {field.name.replace(/-/g, " ")}
             </Button>
           ))}
       </Flex>

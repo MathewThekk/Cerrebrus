@@ -5,9 +5,8 @@ import NavBar from './components/Navbar'
 import SignInPage from './components/SignInPage';
 import SubjectPage from './components/learnComponents/subjectPage/SubjectPage'
 import FieldSelectPage from './components/learnComponents/fieldPage/FieldSelectPage';
-import UnitSelectPage from './components/UnitSelectPage';
 import Test from './components/Test';
-import AddTutorialSelector from './components/tutorialBuilder/AddTutorialSelector';
+import AddTutorialSelector from './components/learnComponents/AddTutorialSelector';
 import ChapterPage from './components/learnComponents/chapterPage/ChapterPage'
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
@@ -29,7 +28,6 @@ const App = () => {
         <Route exact path="/signin" element={<SignInPage/>} />
         <Route exact path="/learn/subjectselect" element={<SubjectPage/>} />
         <Route exact path="/learn/:subject/fieldselect" element={<FieldSelectPage/>} />
-        <Route exact path="/learn/:subject/:field/unitselect" element={<UnitSelectPage/>} />
         <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />}/>
         <Route exact path="/learn/:subject/:field/:unit/addtutorial" element={<AddTutorialSelector />}/>
         <Route exact path="/test" element={<Test/>}/>

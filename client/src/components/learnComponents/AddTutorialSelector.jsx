@@ -2,7 +2,7 @@ import { Box, Button, Center, Container, Heading, HStack, Spacer, Stack } from "
 
 import { Link, useLocation, useParams } from "react-router-dom"
 
-function AddChapterPageSelector() {
+function AddTutorialSelector() {
   const { subject, field, unit } = useParams()
   const queryParams = new URLSearchParams(useLocation().search)
   const chapter = parseInt(queryParams.get("chapter"))
@@ -19,13 +19,13 @@ function AddChapterPageSelector() {
       <Center>
         <Stack spacing="4">
           <Heading as="h2" size="xl" textAlign="center">
-            Select a chapter mode:
+            Select a tutorial mode:
           </Heading>
           <HStack spacing="4">
-            <Link to={`/learn/${subject}/${field}/${unit}/chapter=${chapter}&page=${page}&pagetype=text`}>
-              <Button>Text Chapter</Button>
+            <Link to={`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}&pagetype=text&action=add`}>
+              <Button>Text Tutorial</Button>
             </Link>
-            <Link to={`/learn/${subject}/${field}/${unit}/chapter=${chapter}&page=${page}&pagetype=quiz`}>
+            <Link to={`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}&pagetype=quiz&action=add`}>
               <Button>Quiz</Button>
             </Link>
             <Link to={`${currentUrl}/interactive`}>
@@ -53,4 +53,4 @@ function AddChapterPageSelector() {
   )
 }
 
-export default AddChapterPageSelector
+export default AddTutorialSelector

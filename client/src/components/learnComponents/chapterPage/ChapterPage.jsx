@@ -1,37 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams, useLocation } from "react-router-dom"
+import { useParams, useLocation, useNavigate } from "react-router-dom"
 import { Flex, Box } from "@chakra-ui/react"
 import ChapterHeaderButtons from "./ChapterPageHeaderButtons"
 import ChapterPageContent from "./ChapterPageContent"
-import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage, updateTutorialChapterName } from "../../../actions/tutorialActions"
-import { deleteUnit, updateUnitName } from "../../../actions/unitActions"
-import { useNavigate } from "react-router-dom"
 import ChapterPageFooterButtons from "./ChapterPageFooterButtons"
 import ChapterSideBar from "./ChapterSideBar"
-import { addUnit } from "../../../actions/unitActions"
 import { defaultChapterPageContent } from "./ChapterFirstPageDefaultContent"
+import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage, updateTutorialChapterName } from "../../../actions/tutorialActions"
+import { deleteUnit, updateUnitName, addUnit } from "../../../actions/unitActions"
 
 const ChapterPage = () => {
   const dispatch = useDispatch()
   const location = useLocation()
+  const navigate = useNavigate()
+
   const { subject, field, unit } = useParams()
-
   const queryParams = new URLSearchParams(location.search)
-
   const pageTypeFromUrl = queryParams.get("pagetype")
   const action = queryParams.get("action")
 
   const [content, setContent] = useState("")
   const [pageType, setPageType] = useState(pageTypeFromUrl)
   const [chapterNumber, setChapterNumber] = useState(1)
-
   const [currentPage, setCurrentPage] = useState(1)
-
   const [editable, setEditable] = useState(false)
-
-  const navigate = useNavigate()
   const submitQuizRef = useRef(null)
 
   let tutorialPageData = null
@@ -220,7 +214,7 @@ const ChapterPage = () => {
   return (
     <Box maxW="100%" w="100%" maxH="90vh" mt="5">
       <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleAddUnit={handleAddUnit} handleDeleteUnit={handleDeleteUnit} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />
-      <Flex maxH="90vh" minH="70vh" borderTop="1px solid" borderColor="gray.300">
+      <Flex maxH="90vh" minH="70vh" borderTop="1px solid" borderBottom="1px solid" borderColor="gray.300">
         <ChapterSideBar handleUnitNameChange={handleUnitNameChange} handleChapterNameChange={handleChapterNameChange} editable={editable} getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
         <ChapterPageContent isAnyChapterExistForUnit={isAnyChapterExistForUnit} pageTypeFromUrl={pageTypeFromUrl} setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
       </Flex>
