@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start:dev": "nodemon server.js",
-    "start": "NODE_ENV=production node -r esm server.js",
+    "start": "NODE_ENV=production node server.js",
     "test": "npm test"
   },
   "repository": {
