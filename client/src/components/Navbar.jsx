@@ -1,36 +1,28 @@
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Box, Flex, Spacer, Button, useColorMode } from '@chakra-ui/react';
+import { useState } from "react"
+import { useSelector } from "react-redux"
+
+import { Link as RouterLink } from "react-router-dom"
+import { Box, Flex, Spacer, Button, useColorMode } from "@chakra-ui/react"
 
 function NavBar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
   const { colorMode, toggleColorMode } = useColorMode()
 
+  const tutorial = useSelector((state) => state.tutorialPage)
 
-
-  const navBarBgColor = colorMode === 'light' ? 'gray.700' : 'gray.700';
+  const navBarBgColor = colorMode === "light" ? "gray.700" : "gray.700"
 
   const handleLogOut = () => {
-    setIsLoggedIn(false);
-  };
-
-  const [isTutorialPage, setIsTutorialPage] = useState(true); // update this to match the specific URL for the tutorial pages
+    setIsLoggedIn(false)
+  }
 
   return (
-    <Flex
-      as="nav"
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      padding="1rem"
-      bg={colorMode ==="dark"?navBarBgColor :"#2E1A47"}
-      color = "white"
-    >
+    <Flex as="nav" align="center" justify="space-between" wrap="wrap" padding="1rem" bg={colorMode === "dark" ? navBarBgColor : "#2E1A47"} color="white">
       <Box>
         <Button variant="ghost" as={RouterLink} to="/">
           Home
         </Button>
-        {isTutorialPage && (
+        {tutorial && (
           <>
             <Button variant="ghost" as={RouterLink} to="/learn/addtutorial">
               Add Tutorial
@@ -43,10 +35,9 @@ function NavBar() {
       </Box>
       <Spacer />
       <Box display="flex" alignItems="center">
-       
-         <Button mr="2" width="6rem" onClick={toggleColorMode}>
-            {colorMode === "light" ? "Dark" : "Light"}
-          </Button>
+        <Button mr="2" width="6rem" onClick={toggleColorMode}>
+          {colorMode === "light" ? "Dark" : "Light"}
+        </Button>
         {isLoggedIn ? (
           <Button variant="ghost" onClick={handleLogOut}>
             Log Out
@@ -58,7 +49,7 @@ function NavBar() {
         )}
       </Box>
     </Flex>
-  );
+  )
 }
 
-export default NavBar;
+export default NavBar

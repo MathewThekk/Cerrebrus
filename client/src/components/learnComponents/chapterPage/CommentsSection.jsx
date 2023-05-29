@@ -19,7 +19,7 @@ const CommentsSection = () => {
 
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)) ?? null
   const comments = useSelector((state) => state.comments)
-  console.log(comments)
+
 
   useEffect(() => {
     // setChapterNumber(parseInt(queryParams.get("chapter")))
@@ -27,7 +27,7 @@ const CommentsSection = () => {
     if (tutorial) {
       dispatch(getComments(tutorial._id))
     }
-  }, [location, tutorial])
+  }, [dispatch, location, tutorial])
 
   const handleAddComment = () => {
     console.log("adding comment")

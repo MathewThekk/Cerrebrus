@@ -1,5 +1,5 @@
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, Input, HStack } from "@chakra-ui/react"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const AddChapterModal = ({handleAddChapter, isAddChapterModalOpen, setIsAddChapterModalOpen}) => {
 

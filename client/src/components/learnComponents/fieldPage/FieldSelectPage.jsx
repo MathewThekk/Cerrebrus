@@ -17,7 +17,7 @@ const FieldSelectPage = () => {
 
   useEffect(() => {
     dispatch(getFields(subject))
-  }, [subject])
+  }, [dispatch, subject])
 
   const handleAddField = async () => {
     if (newField.trim() === "") return

@@ -11,7 +11,7 @@ const SubjectSelectPage = () => {
 
   useEffect(() => {
     dispatch(getSubjects())
-  }, [])
+  }, [dispatch])
 
   return (
     <VStack align="center" justify="center" textAlign="center" maxW="100%" w="100%" minH="70vh" mt="5">

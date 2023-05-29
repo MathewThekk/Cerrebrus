@@ -12,6 +12,7 @@ import CommentsSection from "./CommentsSection"
 import { defaultChapterPageContent } from "./ChapterFirstPageDefaultContent"
 import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage, updateTutorialChapterName } from "../../../actions/tutorialActions"
 import { deleteUnit, updateUnitName, addUnit } from "../../../actions/unitActions"
+import { SET_TUTORIAL } from "../../../reducers/learnReducers"
 
 const ChapterPage = () => {
   const dispatch = useDispatch()
@@ -41,6 +42,10 @@ const ChapterPage = () => {
     action === "add" ? setEditable(true) : setEditable(false)
 
     dispatch(getTutorials(unit, field, subject))
+
+    if (tutorial) {
+      dispatch(SET_TUTORIAL(tutorial))
+    }
   }, [units.length, location])
 
   const saveContent = () => {

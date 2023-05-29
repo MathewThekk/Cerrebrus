@@ -31,7 +31,7 @@ export const deleteSubject = (name) => async (dispatch) => {
 
     const { data } = await api.deleteSubject(name);
 
-    dispatch(ADD_SUBJECT(data));
+    dispatch(DELETE_SUBJECT(data));
   } catch (error) {
     console.log(error);
   }

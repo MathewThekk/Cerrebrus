@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react"
-import { Checkbox, Text, Button, Container, Heading, Stack, HStack, VStack, Input, Textarea, InputGroup, InputLeftElement } from "@chakra-ui/react"
+import { Checkbox, Text, Container, Heading, Stack, HStack, VStack, Input, Textarea, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import { correctAnswerMessages, wrongAnswerMessages } from "./answerMessageData"
 
 const QuizCreator = ({ requireQuizIntro, submitQuizRef, content }) => {
@@ -75,7 +76,7 @@ const QuizCreator = ({ requireQuizIntro, submitQuizRef, content }) => {
   useEffect(() => {
     console.log('useEffect')
     submitQuizRef.current = (callback) => handleQuizSubmission(currentQuestion, callback);
-  }, [currentQuestion])
+  }, [currentQuestion, submitQuizRef ])
 
   return (
     <Container maxW="80vw" maxH="80vh">
