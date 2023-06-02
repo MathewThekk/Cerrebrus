@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage'
 import NavBar from './components/Navbar'
-import SignInPage from './components/SignInPage';
+// import SignInPage from './components/SignInPage';
+import SignInPage from './components/Authentication/SignInPage';
 import SubjectPage from './components/learnComponents/subjectPage/SubjectPage'
 import FieldSelectPage from './components/learnComponents/fieldPage/FieldSelectPage';
 import Test from './components/Test';
 import AddTutorialSelector from './components/learnComponents/AddTutorialSelector';
 import ChapterPage from './components/learnComponents/chapterPage/ChapterPage'
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { syncAuthState } from './reducers/userReducers';
+import { useDispatch } from 'react-redux';
 
 const theme = extendTheme({
   config: {
@@ -19,6 +22,13 @@ const theme = extendTheme({
 
 
 const App = () => {
+  const dispatch = useDispatch()
+
+  useEffect(()=> {
+    dispatch(syncAuthState());
+  })
+
+
   return (
     <BrowserRouter>
     <ChakraProvider theme={theme}>

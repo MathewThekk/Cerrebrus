@@ -115,7 +115,7 @@ export const { SET_UNITS, ADD_UNIT, UPDATE_UNIT, DELETE_UNIT } = unitSlice.actio
 export const { SET_FIELDS, ADD_FIELD, UPDATE_FIELD, DELETE_FIELD } = fieldSlice.actions
 export const { SET_SUBJECTS, ADD_SUBJECT, UPDATE_SUBJECT, DELETE_SUBJECT } = subjectSlice.actions
 
-export const reducers = {
+export const learnReducers = {
   tutorials: tutorialSlice.reducer,
   tutorialPage: tutorialPageSlice.reducer,
   comments: commentSlice.reducer,
@@ -124,4 +124,4 @@ export const reducers = {
   subjects: subjectSlice.reducer,
 }
 
-export default reducers
+export default learnReducers
