@@ -1,5 +1,4 @@
 import learnRoutes from './routes/learnRoutes.js'
-import userRoutes from './routes/userRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import express from 'express'
 import db from './db/db.js'
@@ -18,7 +17,6 @@ app.use(express.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
 
 app.use("/learn", learnRoutes);
-app.use("/user", userRoutes);
 app.use("/auth", authRoutes)
 
 // Routes

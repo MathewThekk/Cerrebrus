@@ -1,5 +1,5 @@
 import axios from "axios"
-import firebase from "firebase/compat/app"
+
 
 let baseURL
 let logoutCallback
@@ -26,6 +26,7 @@ API.interceptors.request.use(async (req) => {
   } else {
     if (logoutCallback) {
       console.log("logging out")
+      localStorage.setItem('lastLocation', window.location.pathname);
       logoutCallback()
     }
   }

@@ -6,7 +6,7 @@ const useLogout = () => {
 
   const logout = async () => {
     await firebase.auth().signOut()
-    navigate("/signin")
+    navigate("/login")
   }
 
   return logout

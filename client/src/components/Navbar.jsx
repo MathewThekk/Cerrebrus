@@ -36,8 +36,8 @@ function NavBar() {
             Log Out
           </Button>
         ) : (
-          <Button variant="ghost" as={RouterLink} to="/signin">
-            Sign In
+          <Button variant="ghost" as={RouterLink} to="/login">
+            Log In
           </Button>
         )}
       </Box>

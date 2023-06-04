@@ -4,7 +4,8 @@ import StyledFirebaseAuth from "./StyledFireBaseAuth.tsx"
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import { Box, Button, VStack, Heading, Text } from "@chakra-ui/react"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 // import { getAnalytics } from "firebase/analytics"
 
@@ -34,24 +35,26 @@ const uiConfig = {
   },
 }
 
-function SignInPage() {
+function LogInPage() {
   const [isSignedIn, setIsSignedIn] = useState(false) // Local signed-in state.
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const user = useSelector((state) => state.user.user)
 
-  // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
-    // const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
-    //   setIsSignedIn(!!user)
-
-    // If a user is signed in, save their data to MongoDB.
     if (user) {
       setIsSignedIn(true)
+      const lastLocation = localStorage.getItem("lastLocation")
+      if (lastLocation) {
+        navigate(lastLocation) // history is an instance of `useHistory()`
+        localStorage.removeItem("lastLocation")
+      } else {
+        navigate("/") // Or whatever default location you want
+      }
     } else {
       setIsSignedIn(false)
     }
-  }, [user])
+  }, [user, navigate])
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" bgGradient="linear(to-r, teal.500,green.500)" height="100vh">
@@ -72,4 +75,4 @@ function SignInPage() {
   )
 }
 
-export default SignInPage
+export default LogInPage

@@ -2,8 +2,8 @@ import React, { useEffect } from "react"
 import { Routes, Route } from "react-router-dom"
 import HomePage from "./components/HomePage"
 import NavBar from "./components/Navbar"
-// import SignInPage from './components/SignInPage';
-import SignInPage from "./components/Authentication/SignInPage"
+// import LogInPage from './components/LogInPage';
+import LogInPage from "./components/Authentication/LogInPage"
 import SubjectPage from "./components/learnComponents/subjectPage/SubjectPage"
 import FieldSelectPage from "./components/learnComponents/fieldPage/FieldSelectPage"
 import Test from "./components/Test"
@@ -36,7 +36,7 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route exact path="/" element={<HomePage />} />
-        <Route exact path="/signin" element={<SignInPage />} />
+        <Route exact path="/login" element={<LogInPage />} />
         <Route exact path="/learn/subjectselect" element={<SubjectPage />} />
         <Route exact path="/learn/:subject/fieldselect" element={<FieldSelectPage />} />
         <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />} />

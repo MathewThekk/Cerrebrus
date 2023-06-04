@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { userLogin } from "../actions/signInAction"
+import { userLogin } from "../actions/loginAction"
 
 const userSlice = createSlice({
   name: "user",
