@@ -4,9 +4,7 @@ import StyledFirebaseAuth from "./StyledFireBaseAuth.tsx"
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import { Box, Button, VStack, Heading, Text } from "@chakra-ui/react"
-
-import * as api from "../../api/api.js"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
 // import { getAnalytics } from "firebase/analytics"
 
@@ -38,6 +36,7 @@ const uiConfig = {
 
 function SignInPage() {
   const [isSignedIn, setIsSignedIn] = useState(false) // Local signed-in state.
+  const dispatch = useDispatch()
 
   const user = useSelector((state) => state.user.user)
 
@@ -49,28 +48,7 @@ function SignInPage() {
     // If a user is signed in, save their data to MongoDB.
     if (user) {
       setIsSignedIn(true)
-      const { displayName, email, photoURL, uid, emailVerified, providerData, createdAt, lastLoginAt } = user
-
-      const userData = {
-        name: displayName,
-        email,
-        photoURL,
-        uid,
-        emailVerified,
-        providerData,
-        createdAt,
-        lastLoginAt,
-      }
-
-      try {
-        // no need to dispatch redux action, since redux state is updated by syncAuthState() middleware automatically, however keeping action format for consistency
-        console.log("sending user to backend")
-        api.userLogin(userData)
-      } catch (error) {
-        console.error("Failed to save user data to MongoDB:", error)
-      }
-    }
-    else{
+    } else {
       setIsSignedIn(false)
     }
   }, [user])

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Flex, Box, Button, Input, Avatar, IconButton, Heading, Text, HStack } from "@chakra-ui/react"
 import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons"
 import { useDispatch, useSelector } from "react-redux"
-import { addComment, getComments, updateComment, deleteComment } from "../../../actions/commentAction"
+import { addComment, getComments, updateComment, deleteComment, likeComment, dislikeComment } from "../../../actions/commentAction"
 import { useLocation } from "react-router-dom"
 
 const CommentsSection = () => {
@@ -17,9 +17,8 @@ const CommentsSection = () => {
 
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)) ?? null
   const comments = useSelector((state) => state.comments)
-  const user = useSelector((state) => state.user?.user)
 
-  console.log(user)
+  const dbUser = useSelector((state) => state.user.dbUser)
 
   useEffect(() => {
     if (tutorial) {
@@ -50,9 +49,9 @@ const CommentsSection = () => {
         Comments
       </Heading>
       <Text mb={5}>{comments?.length > 0 ? comments.length : 0} comments</Text>
-      {comments && comments.length > 0 && comments.map((comment, index) => <Comment key={index} comment={comment} handleDeleteComment={handleDeleteComment} handleUpdateComment={handleUpdateComment} />)}
+      {comments && comments.length > 0 && comments.map((comment, index) => <Comment key={index} comment={comment} dbUser={dbUser} handleDeleteComment={handleDeleteComment} handleUpdateComment={handleUpdateComment} />)}
       <Flex mt={5}>
-        <Avatar size="sm" name={user?.displayName} />
+        <Avatar size="sm" name={dbUser?.name} />
         <Input placeholder="Add a comment" value={newCommentContent} onChange={(e) => setNewCommentContent(e.target.value)} ml={2} flex={1} />
       </Flex>
       <Flex mt={5}>
@@ -69,15 +68,25 @@ const CommentsSection = () => {
 
 export default CommentsSection
 
-const Comment = ({ comment, handleDeleteComment, handleUpdateComment }) => {
+const Comment = ({ comment, handleDeleteComment, handleUpdateComment, dbUser }) => {
+  const dispatch = useDispatch()
   const [isEditing, setEditing] = useState(false)
   const [editedContent, setEditedContent] = useState(comment.content)
+
+  let isCommentCreator = comment?.userId?._id === dbUser?._id
 
   const handleEdit = () => {
     if (isEditing) {
       handleUpdateComment(editedContent, comment._id)
     }
     setEditing(!isEditing)
+  }
+
+  const handleLike = (commentId) => {
+    dispatch(likeComment(commentId))
+  }
+  const handleDislike = (commentId) => {
+    dispatch(dislikeComment(commentId))
   }
 
   const formattedDate = new Date(comment.updatedAt).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" }).replace(" at", "")
@@ -95,23 +104,28 @@ const Comment = ({ comment, handleDeleteComment, handleUpdateComment }) => {
         {!isEditing && <Text>{comment.content}</Text>}
         {isEditing && <Input value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />}
         <Flex mt={2} align="center">
-          <IconButton size="sm" variant="ghost" icon={<ArrowUpIcon />} aria-label="Like" />
-          <Text ml={2}>{comment.likes}</Text>
-          <IconButton size="sm" variant="ghost" icon={<ArrowDownIcon />} aria-label="Dislike" ml={2} />
-          <Text ml={2}>{comment.dislikes}</Text>
-          <Button size="sm" variant="ghost" onClick={handleEdit} ml={2}>
-            {isEditing ? "Confirm" : "Edit"}
-          </Button>
-         {console.log(comment)} <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              handleDeleteComment(comment._id)
-            }}
-            ml={2}
-          >
-            Delete
-          </Button>
+          <IconButton size="sm" variant="ghost" icon={<ArrowUpIcon />} aria-label="Like" onClick={() => handleLike(comment._id)} />
+          <Text ml={2}>{comment.likeCount}</Text>
+          <IconButton size="sm" variant="ghost" icon={<ArrowDownIcon />} aria-label="Dislike" onClick={() => handleDislike(comment._id)} />
+          <Text ml={2}>{comment.dislikeCount}</Text>
+
+          {isCommentCreator && (
+            <>
+              <Button size="sm" variant="ghost" onClick={handleEdit} ml={2}>
+                {isEditing ? "Confirm" : "Edit"}
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  handleDeleteComment(comment._id)
+                }}
+                ml={2}
+              >
+                Delete
+              </Button>
+            </>
+          )}
         </Flex>
 
         {comment.replies.map((reply) => (

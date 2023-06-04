@@ -4,9 +4,10 @@ export const userLogin = async (req, res) => {
   const { uid, name, email, photoURL, emailVerified, providerData, createdAt, lastLoginAt } = req.body
 
   try {
-    console.log(req.userId)
+    const user = await User.findById(req.userId)
+
     // If the user doesn't exist, create a new user
-    if (!req.userId) {
+    if (!user) {
       const user = new User({
         uid,
         name,
@@ -18,11 +19,11 @@ export const userLogin = async (req, res) => {
         lastLoginAt,
       })
 
-      await user.save()
-      res.status(201).json({ message: "New user created!", user })
+      const newUser = await user.save()
+      res.status(201).json({ message: "New user created!", newUser })
     } else {
       // If user already exists, simply return the user
-      res.json({ message: "User signed in!" })
+      res.status(200).json({ message: "User signed in!", user })
     }
   } catch (error) {
     console.error(error)

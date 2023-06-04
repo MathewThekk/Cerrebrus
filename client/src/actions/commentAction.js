@@ -43,3 +43,23 @@ export const updateComment = (content, commentId) => async (dispatch) => {
     console.log(error)
   }
 }
+
+export const likeComment = (commentId) => async (dispatch) => {
+  try {
+    const { data } = await api.likeComment(commentId)
+
+    dispatch(UPDATE_COMMENT(data))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const dislikeComment = (commentId) => async (dispatch) => {
+  try {
+    const { data } = await api.dislikeComment(commentId)
+
+    dispatch(UPDATE_COMMENT(data))
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -32,8 +32,6 @@ export const addComment = async (req, res) => {
   const { content } = req.body
   const userId = req.userId
 
-  console.log(888, userId)
-
   try {
     const tutorial = await Tutorial.findById(tutorialid)
 
@@ -97,6 +95,54 @@ export const updateComment = async (req, res) => {
     }
 
     comment.content = content
+    await comment.save()
+    const comments = await Comment.find({
+      tutorialId: comment.tutorialId,
+    }).populate("userId", "name").exec()
+
+    res.status(201).send(comments)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server Error while updating comment" })
+  }
+}
+
+export const likeComment = async (req, res) => {
+  const { commentid } = req.params
+
+
+  try {
+    const comment = await Comment.findById(commentid)
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" })
+    }
+
+    comment.likeCount += 1
+    await comment.save()
+    const comments = await Comment.find({
+      tutorialId: comment.tutorialId,
+    }).populate("userId", "name").exec()
+
+    res.status(201).send(comments)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server Error while updating comment" })
+  }
+}
+
+export const dislikeComment = async (req, res) => {
+  const { commentid } = req.params
+
+
+  try {
+    const comment = await Comment.findById(commentid)
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" })
+    }
+
+    comment.dislikeCount += 1
     await comment.save()
     const comments = await Comment.find({
       tutorialId: comment.tutorialId,

@@ -3,8 +3,10 @@ import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, del
 import { addSubject, getSubjects } from "../controllers/subjectController.js";
 import { addField, getFields } from "../controllers/fieldController.js";
 import { addUnit, getUnits, deleteUnit, updateUnitName } from "../controllers/unitController.js";
-import { getComments, addComment, updateComment, deleteComment } from "../controllers/commentController.js";
+import { getComments, addComment, updateComment, deleteComment, likeComment, dislikeComment } from "../controllers/commentController.js";
 import { authenticationCheck, adminCheck } from "../middleware/authMiddleware.js";
+
+
 
 const router = express.Router();
 // import auth from "../middleware/auth.js";
@@ -31,5 +33,8 @@ router.get("/comments/:tutorialid",authenticationCheck, getComments);
 router.post("/:subject/:field/:unit/comments/:tutorialid", authenticationCheck, addComment);
 router.put("/:subject/:field/:unit/comments/:commentid", authenticationCheck, updateComment);
 router.delete("/:subject/:field/:unit/comments/:commentid",authenticationCheck, deleteComment);
+router.put("/likecomment/:commentid", authenticationCheck, likeComment);
+router.put("/dislikecomment/:commentid", authenticationCheck, dislikeComment);
+
 
 export default router;
