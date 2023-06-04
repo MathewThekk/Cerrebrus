@@ -5,6 +5,9 @@ import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import { Box, Button, VStack, Heading, Text } from "@chakra-ui/react"
 
+import * as api from "../../api/api.js"
+import { useSelector } from "react-redux"
+
 // import { getAnalytics } from "firebase/analytics"
 
 // Configure Firebase.
@@ -36,13 +39,41 @@ const uiConfig = {
 function SignInPage() {
   const [isSignedIn, setIsSignedIn] = useState(false) // Local signed-in state.
 
+  const user = useSelector((state) => state.user.user)
+
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
-      setIsSignedIn(!!user)
-    })
-    return () => unregisterAuthObserver() // Make sure we un-register Firebase observers when the component unmounts.
-  }, [])
+    // const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
+    //   setIsSignedIn(!!user)
+
+    // If a user is signed in, save their data to MongoDB.
+    if (user) {
+      setIsSignedIn(true)
+      const { displayName, email, photoURL, uid, emailVerified, providerData, createdAt, lastLoginAt } = user
+
+      const userData = {
+        name: displayName,
+        email,
+        photoURL,
+        uid,
+        emailVerified,
+        providerData,
+        createdAt,
+        lastLoginAt,
+      }
+
+      try {
+        // no need to dispatch redux action, since redux state is updated by syncAuthState() middleware automatically, however keeping action format for consistency
+        console.log("sending user to backend")
+        api.userLogin(userData)
+      } catch (error) {
+        console.error("Failed to save user data to MongoDB:", error)
+      }
+    }
+    else{
+      setIsSignedIn(false)
+    }
+  }, [user])
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" bgGradient="linear(to-r, teal.500,green.500)" height="100vh">
@@ -50,7 +81,7 @@ function SignInPage() {
         <Heading size="xl" color="gray.800">
           Mind Stair
         </Heading>
-        <Text color="gray.600">{!isSignedIn ? "Please sign-in:" : `Welcome ${firebase.auth().currentUser.displayName}! You are now signed-in!`}</Text>
+        <Text color="gray.600">{!isSignedIn ? "Please sign-in:" : `Welcome ${"qq"}! You are now signed-in!`}</Text>
         {!isSignedIn ? (
           <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
         ) : (

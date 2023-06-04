@@ -1,6 +1,8 @@
 import axios from "axios"
+import firebase from "firebase/compat/app"
 
 let baseURL
+let logoutCallback
 
 if (process.env.NODE_ENV === "production") {
   baseURL = "https://cerrebrus.onrender.com"
@@ -10,14 +12,28 @@ if (process.env.NODE_ENV === "production") {
 
 const API = axios.create({ baseURL: baseURL })
 
-API.interceptors.request.use((req) => {
-  if (localStorage.getItem("profile")) {
-    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem("profile")).token}`
+API.setLogoutCallback = (callback) => {
+  logoutCallback = callback
+}
+
+API.interceptors.request.use(async (req) => {
+  const token = localStorage.getItem("token")
+  const tokenExpiresAt = localStorage.getItem("tokenExpiresAt")
+
+  // Check if token is still valid
+  if (token && new Date().getTime() < Number(tokenExpiresAt)) {
+    req.headers.Authorization = `Bearer ${token}`
+  } else {
+    if (logoutCallback) {
+      console.log("logging out")
+      logoutCallback()
+    }
   }
 
   return req
 })
 
+//learn apis
 export const deleteTutorial = (currentUrl, page) => API.delete(currentUrl, { page })
 
 export const getSubjects = () => API.get("/learn/subjectselect")
@@ -40,12 +56,12 @@ export const updateTutorialPage = (tutorialPageData) => API.put(`/learn/${tutori
 export const updateTutorialChapterName = (newChapterName, chapterNumber, unitName, field, subject) => API.put(`/learn/${subject}/${field}/${unitName}/updatechaptername?chapter=${chapterNumber}`, { newChapterName })
 export const deleteTutorialPage = (tutorial) => API.delete(`/learn/${tutorial.subject}/${tutorial.field}/${tutorial.unit}?chapter=${tutorial.chapterNumber}&pageId=${tutorial._id}`)
 
-export const getComments = (tutorialId, unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}/comments/${tutorialId}`)
+export const getComments = (tutorialId) => API.get(`/learn/comments/${tutorialId}`)
 export const deleteComment = (commentId, unit, field, subject) => API.delete(`/learn/${subject}/${field}/${unit}/comments/${commentId}`)
 export const addComment = (content, tutorialId, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}/comments/${tutorialId}`, { content })
 export const updateComment = (content, commentId, unit, field, subject) => API.put(`/learn/${subject}/${field}/${unit}/comments/${commentId}`, { content })
 
-// export const TutorialPage = (pageType, content, page, chapter, unit, field, subject) => API.post(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`, { pageType, content })
+// auth apis
+export const userLogin = (userData) => API.post("/auth/login", userData)
 
-export const signIn = (formData) => API.post("/user/signin", formData)
-export const signUp = (formData) => API.post("/user/signup", formData)
+export default API

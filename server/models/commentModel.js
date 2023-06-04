@@ -11,7 +11,7 @@ const replySchema = new mongoose.Schema(
 const commentSchema = new mongoose.Schema(
   {
     tutorialId: { type: mongoose.Schema.Types.ObjectId, ref: "Tutorial", required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     content: { type: String, required: true },
     replies: [replySchema],
   },

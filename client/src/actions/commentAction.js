@@ -4,7 +4,6 @@ import * as api from "../api/api.js"
 
 export const getComments = (tutorialId) => async (dispatch) => {
   try {
-
     const { data } = await api.getComments(tutorialId)
 
     dispatch(SET_COMMENTS(data))
@@ -15,7 +14,6 @@ export const getComments = (tutorialId) => async (dispatch) => {
 
 export const addComment = (content, tutorialId) => async (dispatch) => {
   try {
-
     const { data } = await api.addComment(content, tutorialId)
 
     console.log(data)

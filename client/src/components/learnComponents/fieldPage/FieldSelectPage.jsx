@@ -1,8 +1,7 @@
-import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
 import { Heading, Flex, Button, VStack } from "@chakra-ui/react"
 import { Link as RouterLink, useParams } from "react-router-dom"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { getFields, addField } from "../../../actions/fieldActions"
 import CustomModalDialog from "../../modals/CustomModalDialog"
 
@@ -13,7 +12,7 @@ const FieldSelectPage = () => {
   const { subject } = useParams() // <-- use `useParams` to get the subject from the URL
 
   const fields = useSelector((state) => state.fields)
-  console.log(fields)
+  const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
 
   useEffect(() => {
     dispatch(getFields(subject))
@@ -31,9 +30,11 @@ const FieldSelectPage = () => {
 
   return (
     <VStack align="center" justify="center" textAlign="center" maxW="100%" w="100%" minH="70vh" mt="5">
-      <Button align="flex-start" onClick={() => setIsModalOpen(true)}>
-        Add Field
-      </Button>
+      {isAdmin && (
+        <Button align="flex-start" onClick={() => setIsModalOpen(true)}>
+          Add Field
+        </Button>
+      )}
       <Heading mb={4}>Choose a field</Heading>
       <Flex align="center" justify="center" spacing={4} wrap="wrap">
         {fields &&

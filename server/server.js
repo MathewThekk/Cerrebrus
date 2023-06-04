@@ -1,5 +1,6 @@
 import learnRoutes from './routes/learnRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 import express from 'express'
 import db from './db/db.js'
 import cors from 'cors';
@@ -18,6 +19,7 @@ app.use(cors());
 
 app.use("/learn", learnRoutes);
 app.use("/user", userRoutes);
+app.use("/auth", authRoutes)
 
 // Routes
 app.get('/', (req, res) => {

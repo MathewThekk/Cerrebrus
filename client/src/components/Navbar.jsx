@@ -1,23 +1,19 @@
 import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import firebase from "firebase/compat/app"
+import useLogout from "../utils/useLogout"
 
 import { Link as RouterLink } from "react-router-dom"
 import { Box, Flex, Spacer, Button, useColorMode } from "@chakra-ui/react"
 
 function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode()
-  const navigate = useNavigate()
-  const tutorial = useSelector((state) => state.tutorialPage)
+  const logout = useLogout()
   const user = useSelector((state) => state.user.user)
-  console.log(user)
 
   const navBarBgColor = colorMode === "light" ? "gray.700" : "gray.700"
 
   const handleLogOut = async () => {
     try {
-      await firebase.auth().signOut()
-      navigate(`/signin`)
+      logout()
     } catch (error) {
       console.error("Error signing out: ", error)
     }
@@ -29,16 +25,6 @@ function NavBar() {
         <Button variant="ghost" as={RouterLink} to="/">
           Home
         </Button>
-        {tutorial && (
-          <>
-            <Button variant="ghost" as={RouterLink} to="/learn/addtutorial">
-              Add Tutorial
-            </Button>
-            <Button variant="ghost" as={RouterLink} to="/learn/modifytutorial">
-              Modify Tutorial
-            </Button>
-          </>
-        )}
       </Box>
       <Spacer />
       <Box display="flex" alignItems="center">

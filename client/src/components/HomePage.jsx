@@ -13,7 +13,7 @@ function HomePage() {
     >
       <Box textAlign="center">
         <Heading color="white" mb={4}>
-          Welcome to Cerrebrus!
+          Welcome to Mind Stair!
         </Heading>
         <Text color="white" fontSize="xl" mb={8}>
           Learn it all with our interactive platform.

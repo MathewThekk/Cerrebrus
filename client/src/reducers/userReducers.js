@@ -29,12 +29,26 @@ export default userReducers
 //middleware to get user from firebase
 export const syncAuthState = () => async (dispatch) => {
   const auth = getAuth()
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
-      const { uid, displayName, email, photoURL, emailVerified, providerData, isAnonymous } = user
+      const { uid, displayName, email, photoURL, emailVerified, providerData } = user
+
+      // Get the token result to access custom claims
+      const idTokenResult = await user.getIdTokenResult()
+      const isAdmin = idTokenResult.claims.admin || false
+
+      // Save the token in local storage, along with the expiration time
+      const expiresInMilliseconds = Date.parse(idTokenResult.expirationTime) // Convert to milliseconds
+
+      localStorage.setItem("token", idTokenResult.token)
+      localStorage.setItem("tokenExpiresAt", expiresInMilliseconds)
+
       const providerDetails = providerData[0] // If you want data from the first provider only
-      dispatch(SET_USER({ uid, displayName, email, photoURL, emailVerified, providerData: providerDetails, isAnonymous }))
+      dispatch(SET_USER({ uid, displayName, email, photoURL, emailVerified, providerData: providerDetails, isAdmin }))
     } else {
+      // User is logged out, clear the token from local storage
+      localStorage.removeItem("token")
+      localStorage.removeItem("tokenExpiresAt")
       dispatch(SET_USER(null))
     }
   })

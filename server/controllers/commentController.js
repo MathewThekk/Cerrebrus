@@ -1,11 +1,14 @@
 import Comment from "../models/commentModel.js"
 import Tutorial from "../models/tutorialModel.js"
+import User from "../models/userModel.js"
 
 export const getComments = async (req, res) => {
   const { tutorialid } = req.params
+  const userId = req.userId
 
   try {
     const tutorial = await Tutorial.findById(tutorialid)
+    const user = await User.findById(userId)
 
     if (!tutorial) {
       return res.status(404).json({ message: "Tutorial not found" })
@@ -13,7 +16,9 @@ export const getComments = async (req, res) => {
 
     const comments = await Comment.find({
       tutorialId: tutorial._id,
-    })
+    }).populate("userId", "name").exec()
+
+    console.log(comments)
 
     res.status(200).send(comments)
   } catch (error) {
@@ -25,6 +30,9 @@ export const getComments = async (req, res) => {
 export const addComment = async (req, res) => {
   const { tutorialid } = req.params
   const { content } = req.body
+  const userId = req.userId
+
+  console.log(888, userId)
 
   try {
     const tutorial = await Tutorial.findById(tutorialid)
@@ -36,6 +44,7 @@ export const addComment = async (req, res) => {
     const newComment = new Comment({
       tutorialId: tutorial._id,
       content: content,
+      userId: userId,
     })
     await newComment.save()
 
@@ -44,7 +53,7 @@ export const addComment = async (req, res) => {
 
     const comments = await Comment.find({
       tutorialId: tutorialid,
-    })
+    }).populate("userId", "name").exec()
 
     res.status(201).send(comments)
   } catch (error) {
@@ -67,7 +76,7 @@ export const deleteComment = async (req, res) => {
 
     const comments = await Comment.find({
       tutorialId: comment.tutorialId,
-    })
+    }).populate("userId", "name").exec()
 
     res.status(201).send(comments)
   } catch (error) {
@@ -91,7 +100,7 @@ export const updateComment = async (req, res) => {
     await comment.save()
     const comments = await Comment.find({
       tutorialId: comment.tutorialId,
-    })
+    }).populate("userId", "name").exec()
 
     res.status(201).send(comments)
   } catch (error) {

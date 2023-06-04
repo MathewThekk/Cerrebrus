@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import { Flex, Box, Button, Input, Avatar, IconButton, Heading, Text, HStack } from "@chakra-ui/react"
-import {  ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons"
+import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons"
 import { useDispatch, useSelector } from "react-redux"
-import { addComment, getComments, updateComment,deleteComment } from "../../../actions/commentAction"
+import { addComment, getComments, updateComment, deleteComment } from "../../../actions/commentAction"
 import { useLocation } from "react-router-dom"
 
 const CommentsSection = () => {
@@ -10,20 +10,18 @@ const CommentsSection = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(useLocation().search)
 
-  // const [comments, setComments] = useState([])
   const [newCommentContent, setNewCommentContent] = useState("")
-  // const [chapterNumber, setChapterNumber] = useState(1)
-  // const [currentPage, setCurrentPage] = useState(1)
+
   const chapterNumber = parseInt(queryParams.get("chapter"))
   const currentPage = parseInt(queryParams.get("page"))
 
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)) ?? null
   const comments = useSelector((state) => state.comments)
+  const user = useSelector((state) => state.user?.user)
 
+  console.log(user)
 
   useEffect(() => {
-    // setChapterNumber(parseInt(queryParams.get("chapter")))
-    // setCurrentPage(parseInt(queryParams.get("page")))
     if (tutorial) {
       dispatch(getComments(tutorial._id))
     }
@@ -54,7 +52,7 @@ const CommentsSection = () => {
       <Text mb={5}>{comments?.length > 0 ? comments.length : 0} comments</Text>
       {comments && comments.length > 0 && comments.map((comment, index) => <Comment key={index} comment={comment} handleDeleteComment={handleDeleteComment} handleUpdateComment={handleUpdateComment} />)}
       <Flex mt={5}>
-        <Avatar size="sm" name="User" />
+        <Avatar size="sm" name={user?.displayName} />
         <Input placeholder="Add a comment" value={newCommentContent} onChange={(e) => setNewCommentContent(e.target.value)} ml={2} flex={1} />
       </Flex>
       <Flex mt={5}>
@@ -82,14 +80,14 @@ const Comment = ({ comment, handleDeleteComment, handleUpdateComment }) => {
     setEditing(!isEditing)
   }
 
-  const formattedDate = new Date(comment.updatedAt).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric", }).replace(" at", "")
+  const formattedDate = new Date(comment.updatedAt).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" }).replace(" at", "")
 
   return (
     <Flex my={2}>
-      <Avatar size="sm" name="User"  />
+      <Avatar size="sm" name={comment?.userId?.name} />
       <Box ml={2} flex={1}>
         <HStack spacing="3">
-          <Text>{"Mathew"}</Text>
+          <Text>{comment?.userId?.name}</Text>
           <Text fontSize="sm" color="gray.500">
             {formattedDate}{" "}
           </Text>
@@ -104,7 +102,7 @@ const Comment = ({ comment, handleDeleteComment, handleUpdateComment }) => {
           <Button size="sm" variant="ghost" onClick={handleEdit} ml={2}>
             {isEditing ? "Confirm" : "Edit"}
           </Button>
-          <Button
+         {console.log(comment)} <Button
             size="sm"
             variant="ghost"
             onClick={() => {
