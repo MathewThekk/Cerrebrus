@@ -10,18 +10,29 @@ import { useNavigate } from "react-router-dom"
 // import { getAnalytics } from "firebase/analytics"
 
 // Configure Firebase.
-const config = {
-  apiKey: "AIzaSyDUanFNG2Njfjz0qKP4Ltdzh9t8fwLY0ws",
-  authDomain: "mindstair-b78b5.firebaseapp.com",
-  projectId: "mindstair-b78b5",
-  storageBucket: "mindstair-b78b5.appspot.com",
-  messagingSenderId: "141373915008",
-  appId: "1:141373915008:web:5692ddf14e6f544db20b65",
-  measurementId: "G-0HEXKMVBGF",
+const firebaseDevconfig = {
+  apiKey: process.env.REACT_APP_DEV_API_KEY,
+  authDomain: process.env.REACT_APP_DEV_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_DEV_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_DEV_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_DEV_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_DEV_APP_ID,
+  measurementId: process.env.REACT_APP_DEV_MEASUREMENT_ID,
 }
 
+const firebaseProdConfig = {
+  apiKey: process.env.REACT_APP_PROD_API_KEY,
+  authDomain: process.env.REACT_APP_PROD_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROD_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_PROD_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_PROD_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_PROD_APP_ID,
+  measurementId: process.env.REACT_APP_PROD_MEASUREMENT_ID
+}
+const firebaseConfig = process.env.NODE_ENV === 'production' ? firebaseProdConfig : firebaseDevconfig;
+
 // Initialize Firebase
-firebase.initializeApp(config)
+firebase.initializeApp(firebaseConfig)
 
 // Configure FirebaseUI.
 const uiConfig = {
