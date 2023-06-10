@@ -29,7 +29,7 @@ const App = () => {
   useEffect(() => {
     dispatch(syncAuthState())
     API.setLogoutCallback(logout)
-  })
+  },[])
 
   return (
     <ChakraProvider theme={theme}>

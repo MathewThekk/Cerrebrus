@@ -3,7 +3,7 @@ import UserAdmin from "../../models/userAdminModel.js"
 import admin from "firebase-admin"
 
 export const addAdmin = async (req, res) => {
-  const { newAdminUid } = req.body // newAdminUid should be sent from frontend
+  const { uid: newAdminUid } = req.headers // newAdminUid should be sent from frontend
 
   try {
     // Check if the user exists in the User collection
@@ -14,9 +14,10 @@ export const addAdmin = async (req, res) => {
     }
 
     // Check if the user to be added as admin is already an admin
-    const userIsAlreadyAdmin = await UserAdmin.findOne({ "user.uid": newAdminUid }).populate("user")
+    const existingUser = await User.findOne({uid: newAdminUid})
+    const existingAdminUser = await UserAdmin.findOne({user: existingUser._id})
 
-    if (userIsAlreadyAdmin) {
+    if (existingAdminUser) {
       return res.status(400).send("User is already an admin")
     }
 
@@ -35,25 +36,27 @@ export const addAdmin = async (req, res) => {
 }
 
 export const getAdmin = async (req, res) => {
-  const { uid } = req.body // uid should be sent from frontend
+  const { uid } = req.headers // uid should be sent from frontend
 
   try {
     // Check if the user is an admin
-    const userAdmin = await UserAdmin.findOne({ "user.uid": uid }).populate("user")
+
+    const user = await User.findOne({uid: uid})
+    const userAdmin = await UserAdmin.findOne( {user: user._id})
 
     if (!userAdmin) {
       return res.status(400).send("User is not an admin")
     }
 
     // Check the custom claim in Firebase
-    const user = await admin.auth().getUser(uid)
-    const isAdmin = user.customClaims && user.customClaims.admin
+    const fireBaseUser = await admin.auth().getUser(uid)
+    const isAdmin = fireBaseUser.customClaims && fireBaseUser.customClaims.admin
 
     if (!isAdmin) {
       return res.status(400).send("User is not marked as admin in Firebase")
     }
 
-    return res.send(true)
+    return res.send("User is admin in backend and firebase")
   } catch (error) {
     console.log(error)
     return res.status(500).send("Internal Server Error")
@@ -61,29 +64,29 @@ export const getAdmin = async (req, res) => {
 }
 
 export const deleteAdmin = async (req, res) => {
-  const { uid } = req.body // uid should be sent from frontend
+  const { uid } = req.headers // uid should be sent from frontend
 
   try {
     // Check if the user is an admin
-    const userAdmin = await UserAdmin.findOne({ "user.uid": uid }).populate("user")
-
+    const user = await User.findOne({uid: uid})
+    const userAdmin = await UserAdmin.findOne( {user: user._id})
     if (!userAdmin) {
       return res.status(400).send("User is not an admin")
     }
 
     // Remove the user from the MongoDB admin collection
-    await UserAdmin.deleteOne({ "user.uid": uid })
+    await UserAdmin.deleteOne({ _id: userAdmin._id })
 
     // Check the custom claim in Firebase
-    const user = await admin.auth().getUser(uid)
-    const isAdmin = user.customClaims && user.customClaims.admin
+    const firebaseUser = await admin.auth().getUser(uid)
+    const isAdmin = firebaseUser.customClaims && firebaseUser.customClaims.admin
 
     if (isAdmin) {
       // Remove the custom claim in Firebase
       await admin.auth().setCustomUserClaims(uid, { admin: false })
     }
 
-    return res.send("Admin rights removed successfully")
+    return res.send("Admin rights removed successfully in db and firebase")
   } catch (error) {
     console.log(error)
     return res.status(500).send("Internal Server Error")

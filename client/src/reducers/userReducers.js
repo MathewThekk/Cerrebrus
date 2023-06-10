@@ -34,12 +34,14 @@ export default userReducers
 //middleware to get user from firebase
 export const syncAuthState = () => async (dispatch) => {
   const auth = getAuth()
+
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const { displayName, email, photoURL, uid, emailVerified, providerData, createdAt, lastLoginAt } = user
 
       // Get the token result to access custom claims
       const idTokenResult = await user.getIdTokenResult()
+
       const isAdmin = idTokenResult.claims.admin || false
 
       // Save the token in local storage, along with the expiration time

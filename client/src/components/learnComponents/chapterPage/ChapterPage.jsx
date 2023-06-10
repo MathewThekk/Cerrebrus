@@ -37,7 +37,6 @@ const ChapterPage = () => {
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)) ?? null
   const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
 
-
   useEffect(() => {
     setChapterNumber(parseInt(queryParams.get("chapter")))
     setCurrentPage(parseInt(queryParams.get("page")))

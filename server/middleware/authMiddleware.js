@@ -31,12 +31,13 @@ export const authenticationCheck = async (req, res, next) => {
   }
 }
 
-export const adminCheck = async (req, res, next) => {
+export const adminAuthorisationCheck = async (req, res, next) => {
   try {
-    const user = await admin.auth().getUser(req.firebaseUserUid)
-    const adminUser = await UserAdmin.findOne({ "user.uid": req.firebaseUserUid }).populate("user")
+    const firebaseUser = await admin.auth().getUser(req.firebaseUserUid)
 
-    if (user.customClaims && user.customClaims.admin === true && adminUser) {
+    const adminUser = await UserAdmin.findOne({ user: req.userId})
+
+    if (firebaseUser.customClaims && firebaseUser.customClaims.admin === true && adminUser) {
       next()
     } else {
       res.status(403).send("User is not an admin")
@@ -44,5 +45,20 @@ export const adminCheck = async (req, res, next) => {
   } catch (error) {
     console.log(error)
     res.status(500).send("Failed to check admin status")
+  }
+}
+
+export const superAdminCheck = async (req, res, next) => {
+  try {
+
+    // Replace 'YOUR_UID' with your Firebase uid
+    if (req.firebaseUserUid === 'eyWpV80tMHQ11tLuIkVwBweshOn2') {
+      next()
+    } else {
+      res.status(403).send("User is not authorized to perform this action")
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).send("Failed to check owner status")
   }
 }
