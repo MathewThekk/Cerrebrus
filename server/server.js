@@ -14,7 +14,12 @@ app.use(express.json());
 
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
-app.use(cors());
+
+var corsOptions = {
+  origin: 'https://mindstair.com',
+  optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 
 app.use("/learn", learnRoutes);
 app.use("/auth", authRoutes)
