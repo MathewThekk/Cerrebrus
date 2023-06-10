@@ -17,7 +17,9 @@ app.use(express.urlencoded({ limit: '30mb', extended: true }))
 
 var corsOptions = {
   origin: 'https://mindstair.com',
-  optionsSuccessStatus: 200
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }
 app.use(cors(corsOptions));
 
