@@ -5,7 +5,7 @@ let baseURL
 let logoutCallback
 
 if (process.env.NODE_ENV === "production") {
-  baseURL = "https://cerrebrus.onrender.com"
+  baseURL = "https://api.mindstair.com"
 } else {
   baseURL = "http://localhost:8000"
 }
