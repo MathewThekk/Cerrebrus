@@ -32,6 +32,7 @@ const firebaseProdConfig = {
 const firebaseConfig = process.env.NODE_ENV === 'production' ? firebaseProdConfig : firebaseDevconfig;
 
 // Initialize Firebase
+console.log(firebaseConfig, process.env.NODE_ENV)
 firebase.initializeApp(firebaseConfig)
 
 // Configure FirebaseUI.
