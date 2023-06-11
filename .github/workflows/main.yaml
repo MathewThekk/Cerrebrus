@@ -31,8 +31,5 @@ jobs:
       # - name: Run Client Tests
       #   run: cd client && npm test
 
-      - name: Build Server
-        run: cd server && npm run build
-
       - name: Build Client
         run: cd client && npm run build
