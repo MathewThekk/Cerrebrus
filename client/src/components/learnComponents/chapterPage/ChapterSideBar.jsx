@@ -15,11 +15,10 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
   const chapter = parseInt(queryParams.get("chapter"))
 
   const units = useSelector((state) => state.units)
-  const tutorials = useSelector((state) => state.tutorials)
+
+  const currenTutorials = useSelector((state) => state.tutorials)
   const [newChapterName, setNewChapterName] = useState("")
   const [newUnitName, setNewUnitName] = useState("")
-
-  
 
   useEffect(() => {
     dispatch(getUnits(subject, field))
@@ -28,7 +27,7 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
         navigate(`/learn/${subject}/${field}/${units[0].name.toLowerCase()}?chapter=${1}&page=${1}`)
       }
     }
-  }, [tutorials, units.length])
+  }, [currenTutorials, units.length])
 
   return (
     <Box minW="19vw" maxW="17vw" minH="100%" maxH="100%" overflow="auto" boxShadow="lg" borderRight="1px solid" borderColor="gray.300">
@@ -57,10 +56,10 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
                 )}
               </Flex>
 
-              {Array.isArray(tutorials) &&
+              {Array.isArray(currenTutorials) &&
                 unit?.tutorials?.length > 0 &&
-                getUniqueChapterTutorials(unit.tutorials).map((tutorial) => {
-                  const { _id, chapterNumber: tutorialChapterNumber, chapterName } = tutorial
+                getUniqueChapterTutorials(unit.tutorials).map((t) => {
+                  const { _id, chapterNumber: tutorialChapterNumber, chapterName } = t
 
                   const isActiveChapter = chapter === tutorialChapterNumber && unitName.toLowerCase() === unit.name.toLowerCase()
 

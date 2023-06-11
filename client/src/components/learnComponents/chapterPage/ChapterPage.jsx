@@ -103,7 +103,7 @@ const ChapterPage = () => {
     navigate(`/learn/${subject}/${field}/${unit}/addtutorial?chapter=${chapterNumber}&page=${currentPage + 1}`)
   }
 
-  const getUniqueChapterTutorials = () => {
+  const getUniqueChapterTutorials = (tutorials) => {
     const tutorialMap = new Map()
     if (Array.isArray(tutorials)) {
       tutorials.forEach((tutorial) => {
@@ -133,7 +133,7 @@ const ChapterPage = () => {
       console.log("No tutorials")
     }
 
-    if (getUniqueChapterTutorials().filter((t) => t.chapterNumber === newChapterNumber).length > 0) {
+    if (getUniqueChapterTutorials(tutorials).filter((t) => t.chapterNumber === newChapterNumber).length > 0) {
       console.log("chapter number already exist")
       return null
     }
