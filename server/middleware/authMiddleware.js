@@ -35,7 +35,7 @@ export const adminAuthorisationCheck = async (req, res, next) => {
   try {
     const firebaseUser = await admin.auth().getUser(req.firebaseUserUid)
 
-    const adminUser = await UserAdmin.findOne({ user: req.userId})
+    const adminUser = await UserAdmin.findOne({ user: req.userId })
 
     if (firebaseUser.customClaims && firebaseUser.customClaims.admin === true && adminUser) {
       next()
@@ -50,9 +50,14 @@ export const adminAuthorisationCheck = async (req, res, next) => {
 
 export const superAdminCheck = async (req, res, next) => {
   try {
+    // Get the environment variable based on the current NODE_ENV
+    const envVariable = process.env.NODE_ENV === "production" ? "PRODUCTION_UIDS" : "DEVELOPMENT_UIDS"
 
-    // Replace 'YOUR_UID' with your Firebase uid
-    if (req.firebaseUserUid === 'eyWpV80tMHQ11tLuIkVwBweshOn2') {
+    // Get the authorized UIDs from the environment variables
+    const authorizedUids = process.env[envVariable].split(",")
+
+    // Check if the user's UID is in the list of authorized UIDs
+    if (authorizedUids.includes(req.firebaseUserUid)) {
       next()
     } else {
       res.status(403).send("User is not authorized to perform this action")
