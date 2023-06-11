@@ -16,11 +16,27 @@ app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
 
 var corsOptions = {
-  origin: 'https://mindstair.com',
+  origin: function (origin, callback) {
+    if (process.env.NODE_ENV === 'production') {
+      // In production, only allow requests from your production site
+      if (origin === 'https://mindstair.com') {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    } else {
+      // In development, allow requests from localhost
+      if (origin.startsWith('http://localhost')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
   optionsSuccessStatus: 204
-}
+};
 app.use(cors(corsOptions));
 
 app.use("/learn", learnRoutes);
