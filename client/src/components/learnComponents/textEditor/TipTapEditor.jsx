@@ -18,7 +18,7 @@ const TipTapEditor = ({ tutorial, editable, setEditable, setContent, setPageType
   useEffect(() => {
     setPageType("text")
   })
-  const limit = 200
+  const limit = 2000
 
   const editor = useEditor(
     {
