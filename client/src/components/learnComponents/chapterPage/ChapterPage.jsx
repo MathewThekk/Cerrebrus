@@ -13,6 +13,7 @@ import { defaultChapterPageContent } from "./ChapterFirstPageDefaultContent"
 import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage, updateTutorialChapterName } from "../../../actions/tutorialActions"
 import { deleteUnit, updateUnitName, addUnit } from "../../../actions/unitActions"
 import { SET_TUTORIAL } from "../../../reducers/learnReducers"
+import ChapterAdditionalInformationSection from "./ChapterAdditionalInformationSection"
 
 const ChapterPage = () => {
   const dispatch = useDispatch()
@@ -37,6 +38,7 @@ const ChapterPage = () => {
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)) ?? null
   const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
 
+
   useEffect(() => {
     setChapterNumber(parseInt(queryParams.get("chapter")))
     setCurrentPage(parseInt(queryParams.get("page")))
@@ -51,7 +53,7 @@ const ChapterPage = () => {
 
   const saveContent = () => {
     tutorialPageData = {
-      pageType: pageType,
+      pageType: pageType === 'quiz'? 'quiz':'text',
       content: content,
       currentPage: currentPage,
       chapterNumber: chapterNumber,
@@ -84,11 +86,15 @@ const ChapterPage = () => {
         console.log("quiz update")
 
         submitQuizRef.current((content, pageType) => {
-          dispatch(updateTutorialPage({ ...tutorialPageData, pageType: "text", content: content }))
+          dispatch(updateTutorialPage({ ...tutorialPageData, pageType: "quiz", content: content }))
           setEditable(false)
         })
       }
     }
+  }
+
+  const saveAdditionalInformationContent = () => {
+
   }
 
   const handleChapterNumberChange = (chapterNumber, unit) => {
@@ -229,6 +235,7 @@ const ChapterPage = () => {
         </Flex>
         <ChapterPageFooterButtons editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
       </Box>
+      <ChapterAdditionalInformationSection editable={editable} saveAdditionalInformationContent = {saveAdditionalInformationContent}/>
       <CommentsSection />
     </Box>
   )

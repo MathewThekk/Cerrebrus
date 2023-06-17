@@ -45,7 +45,7 @@ export const getFields = (subject) => API.get(`/learn/${subject}/fieldSelect`)
 export const addField = (field, subject) => API.post(`/learn/${subject}/fieldSelect/addfield?field=${field}`)
 export const deleteField = (field, subject) => API.delete(`/learn/${subject}/deletefield?field=${field}`, { field })
 
-export const getUnits = (field, subject) => API.get(`/learn/${subject}/${field}/unitSelect`)
+export const getUnits = (field, subject, populateTutorial) => API.get(`/learn/${subject}/${field}/unitSelect?populatetutorial=${populateTutorial}`)
 export const addUnit = (unit, field, subject) => API.post(`/learn/${subject}/${field}/addunit?unit=${unit}`)
 export const updateUnitName = (newUnitName, unit, field, subject) => API.put(`/learn/${subject}/${field}/${unit}/updateunitname`, { newUnitName })
 export const deleteUnit = (unitName, field, subject) => API.delete(`/learn/${subject}/${field}/deleteunit?unitname=${unitName}`)
@@ -64,6 +64,11 @@ export const addComment = (content, tutorialId, unit, field, subject) => API.pos
 export const updateComment = (content, commentId, unit, field, subject) => API.put(`/learn/${subject}/${field}/${unit}/comments/${commentId}`, { content })
 export const likeComment = (commentId) => API.put(`/learn/likecomment/${commentId}`)
 export const dislikeComment = (commentId) => API.put(`/learn/dislikecomment/${commentId}`)
+
+//additionalInformation APIs
+export const deleteAdditionalInformation = (tutorialId) => API.delete(`/learn/additionalinformation/${tutorialId}`)
+export const addAdditionalInformation = (additionalInformationContent, tutorialId) => API.post(`/learn/additionalinformation/${tutorialId}`, { additionalInformationContent })
+export const updateAdditionalInformation = (additionalInformationContent, tutorialId) => API.put(`/learn/additionalinformation/${tutorialId}`, { additionalInformationContent })
 
 // auth apis
 export const userLogin = (userData) => API.post("/auth/login", userData)

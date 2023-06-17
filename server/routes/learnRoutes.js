@@ -1,5 +1,5 @@
 import express from "express";
-import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, deleteTutorialPage, updateChapterName } from "../controllers/tutorialController.js";
+import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, deleteTutorialPage, updateChapterName, addOrUpdateAdditionalInformation, deleteAdditionalInformation } from "../controllers/tutorialController.js";
 import { addSubject, getSubjects } from "../controllers/subjectController.js";
 import { addField, getFields } from "../controllers/fieldController.js";
 import { addUnit, getUnits, deleteUnit, updateUnitName } from "../controllers/unitController.js";
@@ -35,6 +35,10 @@ router.put("/:subject/:field/:unit/comments/:commentid", authenticationCheck, up
 router.delete("/:subject/:field/:unit/comments/:commentid",authenticationCheck, deleteComment);
 router.put("/likecomment/:commentid", authenticationCheck, likeComment);
 router.put("/dislikecomment/:commentid", authenticationCheck, dislikeComment);
+
+router.post("/additionalinformation/:tutorialid", authenticationCheck, addOrUpdateAdditionalInformation);
+router.put("/additionalinformation/:tutorialid", authenticationCheck, addOrUpdateAdditionalInformation);
+router.delete("/additionalinformation/:tutorialid",authenticationCheck, deleteAdditionalInformation);
 
 
 export default router;

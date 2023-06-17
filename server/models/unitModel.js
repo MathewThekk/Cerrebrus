@@ -15,13 +15,7 @@ const unitSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Tutorial",
     },
-  ],
-  tutorials: [
-    {
-      type: Object,
-      requried: false,
-    },
-  ],
+  ]
 })
 
 const Unit = mongoose.model("Unit", unitSchema)

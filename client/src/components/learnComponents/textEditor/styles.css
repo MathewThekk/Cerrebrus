@@ -3,7 +3,7 @@
 
 .ChapterPageContent {
   padding: 10px;
-  border-top: 1px solid grey;
+
   background: rgb(11, 16, 32);
   border-radius: 0 0 5px 5px;
   /* width: 70vw; */
@@ -15,7 +15,8 @@
   color: #ffffff;
 }
 
-.ProseMirror {
+
+#TutorialEditor .ProseMirror {
   padding: 10px;
   border-top: 1px solid grey;
   background: rgb(11, 16, 32);
@@ -28,6 +29,18 @@
   overflow-x:hidden;
   color: #ffffff;
 }
+
+#additionalInformationEditor .ProseMirror {
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+  max-height: 70vh;
+  width: 80vw; 
+  max-width: 70vw;
+  overflow-y: hidden;
+  overflow-x:hidden;
+  color: #ffffff;
+}
+
 .prose-mirror-character-count{
   color: #ffffff;
   text-align: right;

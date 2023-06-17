@@ -52,6 +52,7 @@ export const addUnit = async (req, res) => {
 export const getUnits = async (req, res) => {
   try {
     const { subject: subjectName, field: fieldName } = req.params
+    const populatetutorial = JSON.parse(req.query.populatetutorial)
 
     // Find the Subject document that matches the subjectName
     const subject = await Subject.findOne({
@@ -74,6 +75,11 @@ export const getUnits = async (req, res) => {
 
     const fieldId = field._id
     const units = await Unit.find({ field: fieldId })
+
+    if (populatetutorial === true) {
+      const units = await Unit.find({ field: fieldId }).populate('tutorialIds');
+      return res.status(200).send(units)
+    }
 
     res.status(200).send(units)
   } catch (error) {
@@ -137,7 +143,6 @@ export const updateUnitName = async (req, res) => {
   const { subject: subjectName, field: fieldName, unit: unitName } = req.params
   const { newUnitName } = req.body
 
-
   try {
     // Find the Subject document that matches the subject
     const subject = await Subject.findOne({
@@ -158,13 +163,11 @@ export const updateUnitName = async (req, res) => {
       return res.status(404).json({ message: "Field not found" })
     }
 
-
     const unit = await Unit.findOne({
       field: field._id,
       name: unitName,
     })
 
-    console.log(88, unit)
 
     if (!unit) {
       return res.status(404).json({ message: "Unit not found" })

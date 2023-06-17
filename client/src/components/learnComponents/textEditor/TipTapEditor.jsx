@@ -1,6 +1,5 @@
 import "./styles.css"
-import React, { useEffect } from "react"
-
+import React, { useEffect, useState } from "react"
 import StarterKit from "@tiptap/starter-kit"
 import { useEditor, EditorContent } from "@tiptap/react"
 import MenuBar from "./MenuBar"
@@ -13,11 +12,7 @@ import TableRow from "@tiptap/extension-table-row"
 import TextAlign from "@tiptap/extension-text-align"
 import CharacterCount from "@tiptap/extension-character-count"
 
-const TipTapEditor = ({ tutorial, editable, setEditable, setContent, setPageType }) => {
-
-  useEffect(() => {
-    setPageType("text")
-  })
+const TipTapEditor = ({ content, editable, setContent }) => {
   const limit = 2000
 
   const editor = useEditor(
@@ -38,24 +33,25 @@ const TipTapEditor = ({ tutorial, editable, setEditable, setContent, setPageType
         }),
       ],
       editable: editable,
-
-      content: tutorial?.content ? tutorial.content : "Go on..Write something...",
+      content: content,
+      // content: editorType === 'additionalInformation'? tutorial?.additionalInformationContent : "Go on..Write something...",
 
       onUpdate: ({ editor }) => {
         const editorJsonContent = editor.getJSON()
         setContent(editorJsonContent)
-
       },
     },
-    [tutorial]
+    []
   )
   useEffect(() => {
     if (!editor) {
       return undefined
     }
-
-    editor.setEditable(editable)
-  }, [editor, editable])
+    if (editor) {
+      editor.commands.setContent(content)
+      editor.setEditable(editable)
+    }
+  }, [editor, content, editable])
 
   return (
     <div>

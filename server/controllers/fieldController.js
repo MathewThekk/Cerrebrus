@@ -21,7 +21,7 @@ export const addField = async (req, res) => {
       subject: subject._id, // Set the subject property to the _id of the subject
     });
     await newField.save();
-    console.log("log 2", newField);
+
 
     // Add the new Field to the fields array of the subject and save the subject
     subject.fields.push(newField._id);

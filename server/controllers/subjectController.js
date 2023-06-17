@@ -19,7 +19,7 @@ export const addSubject = async (req, res) => {
 export const getSubjects = async (req, res) => {
   try {
     const subjects = await Subject.find();
-    console.log(3, subjects);
+
 
     res.status(201).send(subjects);
   } catch (error) {

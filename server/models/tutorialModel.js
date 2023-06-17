@@ -21,6 +21,10 @@ const tutorialPageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  additionalInformationContent:{
+    type:Object,
+    required: false
+  },
   unit: { type: mongoose.Schema.Types.ObjectId, ref: "Unit", required: true },
   commentsId: [
     {

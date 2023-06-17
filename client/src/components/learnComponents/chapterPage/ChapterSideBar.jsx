@@ -20,8 +20,10 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
   const [newChapterName, setNewChapterName] = useState("")
   const [newUnitName, setNewUnitName] = useState("")
 
+  const populateTutorial = true
+
   useEffect(() => {
-    dispatch(getUnits(subject, field))
+    dispatch(getUnits(subject, field, populateTutorial))
     if (unitName === "unitselect") {
       if (units.length > 0) {
         navigate(`/learn/${subject}/${field}/${units[0].name.toLowerCase()}?chapter=${1}&page=${1}`)
@@ -56,9 +58,8 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
                 )}
               </Flex>
 
-              {Array.isArray(currenTutorials) &&
-                unit?.tutorials?.length > 0 &&
-                getUniqueChapterTutorials(unit.tutorials).map((t) => {
+              {unit?.tutorialIds?.length > 0 &&
+                getUniqueChapterTutorials(unit.tutorialIds).map((t) => {
                   const { _id, chapterNumber: tutorialChapterNumber, chapterName } = t
 
                   const isActiveChapter = chapter === tutorialChapterNumber && unitName.toLowerCase() === unit.name.toLowerCase()

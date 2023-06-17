@@ -56,7 +56,6 @@ export const addTutorialPage = async (req, res) => {
     })
 
     const createdTutorialPage = await newTutorialPage.save()
-    unit.tutorials.push(createdTutorialPage)
     unit.tutorialIds.push(createdTutorialPage._id)
     await unit.save()
 
@@ -74,7 +73,7 @@ export const deleteTutorialPage = async (req, res) => {
   try {
     const id = req.query.pageId
 
-    console.log(456, id)
+
 
     const tutorialPageToDelete = await Tutorial.findById(id) // Find the tutorial by id
 
@@ -104,7 +103,6 @@ export const deleteTutorialPage = async (req, res) => {
     await Tutorial.findByIdAndDelete(id)
 
     // Remove tutorial from unit's tutorials array
-    unit.tutorials = unit.tutorials.filter((tutorial) => tutorial._id.toString() !== id)
     unit.tutorialIds = unit.tutorialIds.filter((tutorialId) => tutorialId.toString() !== id)
     await unit.save()
 
@@ -152,11 +150,8 @@ export const updateTutorialPage = async (req, res) => {
     if (tutorialPage) {
       tutorialPage.content = content
 
-      const updatedTutorialPage = await tutorialPage.save()
-      unit.tutorials.map((tutorial) => {
-        if (tutorial._id === updateTutorialPage._id) tutorial.content = updateTutorialPage.content
-      })
-      await unit.save()
+      await tutorialPage.save()
+
       const tutorials = await Tutorial.find({
         unit: unit._id,
       })
@@ -172,8 +167,8 @@ export const updateChapterName = async (req, res) => {
   try {
     const { field: fieldName, unit: unitName, subject: subjectName } = req.params
     const chapterNumber = req.query.chapter // Access chapterNumber query parameter
-    const {newChapterName} = req.body
-    console.log(999, req.body, newChapterName)
+    const { newChapterName } = req.body
+
 
     const field = await Field.findOne({
       name: { $regex: new RegExp(fieldName, "i") },
@@ -236,9 +231,8 @@ export const getTutorials = async (req, res) => {
       return res.status(404).json({ message: "Unit not found" })
     }
 
-    const unitId = unit._id
     const tutorials = await Tutorial.find({
-      unit: unitId,
+      unit: unit._id,
     })
 
     res.status(200).send(tutorials)
@@ -273,17 +267,63 @@ export const getTutorialPage = async (req, res) => {
       return res.status(404).json({ message: "Unit not found" })
     }
 
-    const unitId = unit._id
     const tutorial = await Tutorial.findOne({
-      unit: unitId,
+      unit: unit._id,
       chapter: chapter,
       page: page,
     })
 
-    console.log(tutorial)
+
     res.status(200).send(tutorial)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: "Server Error while getting all units" })
+  }
+}
+
+export const addOrUpdateAdditionalInformation = async (req, res) => {
+  const { tutorialid } = req.params
+  const { additionalInformationContent } = req.body
+  console.log(tutorialid, additionalInformationContent)
+  try {
+    const tutorialPage = await Tutorial.findById(tutorialid)
+
+    if (tutorialPage) {
+      tutorialPage.additionalInformationContent = additionalInformationContent
+
+      await tutorialPage.save()
+
+      const tutorials = await Tutorial.find({
+        unit: tutorialPage.unit,
+      })
+
+      res.status(200).send(tutorials)
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export const deleteAdditionalInformation = async (req, res) => {
+  const { tutorialId } = req.params
+  const { additionalInformationContent } = req.body
+  try {
+    const tutorialPage = await Tutorial.findById(tutorialId)
+
+    if (tutorialPage) {
+      tutorialPage.additionalInformationContent = null
+
+      await tutorialPage.save()
+
+      const tutorials = await Tutorial.find({
+        unit: tutorialPage.unit,
+      })
+
+      res.status(200).send(tutorials)
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: error.message })
   }
 }

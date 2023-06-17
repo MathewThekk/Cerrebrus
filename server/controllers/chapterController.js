@@ -91,7 +91,7 @@ export const getChapters = async (req, res) => {
       unit: unitId,
     });
 
-    console.log(chapters);
+
     res.status(200).send(chapters);
   } catch (error) {
     console.error(error);
@@ -131,7 +131,7 @@ export const getChapterPage = async (req, res) => {
       page: page,
     });
 
-    console.log(chapter);
+
     res.status(200).send(chapter);
   } catch (error) {
     console.error(error);

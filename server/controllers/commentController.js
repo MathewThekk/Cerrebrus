@@ -18,7 +18,7 @@ export const getComments = async (req, res) => {
       tutorialId: tutorial._id,
     }).populate("userId", "name").exec()
 
-    console.log(comments)
+
 
     res.status(200).send(comments)
   } catch (error) {

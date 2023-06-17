@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const AddChapterModal = ({handleAddChapter, isAddChapterModalOpen, setIsAddChapterModalOpen}) => {
 
-  console.log(1)
+
 
   const maxChapterLimit = 10;
 
