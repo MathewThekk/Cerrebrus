@@ -28,11 +28,11 @@ const ChapterAdditionalInformationSection = ({ editable }) => {
   }
 
   return (
-    <Box ml="19%" pt="10" minH="30rem" maxW="80vw" p={5}>
+    <Box ml="19%" pt="10"  maxW="80vw" p={5}>
       <Heading size="lg" mb={5}>
         Additional Information
       </Heading>
-      <Flex id="additionalInformationEditor" className="ChapterAdditionalInformationSection">
+      <Flex id="additionalInformationEditor" >
         <TipTapEditor content={tutorialPage.additionalInformationContent} editable={editable} setContent={setAdditionalInformation} />
       </Flex>
       {editable && (
