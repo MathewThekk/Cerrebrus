@@ -1,5 +1,5 @@
 import "./styles.css"
-import React, { useEffect, useState } from "react"
+import React, { useEffect} from "react"
 import StarterKit from "@tiptap/starter-kit"
 import { useEditor, EditorContent } from "@tiptap/react"
 import MenuBar from "./MenuBar"

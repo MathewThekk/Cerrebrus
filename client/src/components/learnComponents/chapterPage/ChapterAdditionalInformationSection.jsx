@@ -1,7 +1,7 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Flex, Box, Button, Heading } from "@chakra-ui/react"
 import { useState } from "react"
-import { addAdditionalInformation, deleteAdditionalInformation, updateAdditionalInformation } from "../../../actions/AdditionalInformationAction"
+import { addAdditionalInformation, deleteAdditionalInformation } from "../../../actions/AdditionalInformationAction"
 import { useDispatch, useSelector } from "react-redux"
 import TipTapEditor from "../textEditor/TipTapEditor"
 
@@ -12,14 +12,9 @@ const ChapterAdditionalInformationSection = ({ editable }) => {
 
   const tutorialPage = useSelector((state) => state.tutorialPage)
 
-  const handleAdd = () => {
+  const handleSave = () => {
     console.log("adding additional info")
     dispatch(addAdditionalInformation(additionalInformation, tutorialPage._id))
-  }
-
-  const handleUpdate = (editedContent, commentId) => {
-    console.log("updating additional info")
-    dispatch(updateAdditionalInformation(additionalInformation, tutorialPage._id))
   }
 
   const handleDelete = () => {
@@ -37,7 +32,7 @@ const ChapterAdditionalInformationSection = ({ editable }) => {
       </Flex>
       {editable && (
         <Flex mt={5}>
-          <Button width="6rem" mr={5} onClick={handleAdd}>
+          <Button width="6rem" mr={5} onClick={handleSave}>
             Save
           </Button>
           <Button width="6rem" onClick={handleDelete} colorScheme="blue">

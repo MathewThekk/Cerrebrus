@@ -1,4 +1,4 @@
-import { ADD_TUTORIAL, SET_TUTORIALS, UPDATE_TUTORIAL, DELETE_TUTORIAL } from "../reducers/learnReducers"
+import { SET_TUTORIALS } from "../reducers/learnReducers"
 
 import * as api from "../api/api.js"
 
@@ -14,17 +14,6 @@ console.log(additionalInformationContent, tutorialId)
   }
 }
 
-export const updateAdditionalInformation = (additionalInformationContent, tutorialId) => async (dispatch) => {
-  try {
-    // dispatch({ type: START_LOADING });
-
-    const { data } = await api.updateAdditionalInformation(additionalInformationContent, tutorialId)
-
-    dispatch(SET_TUTORIALS(data))
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 export const deleteAdditionalInformation = (additionalInformationContent, tutorialId) => async (dispatch) => {
     try {
