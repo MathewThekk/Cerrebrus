@@ -2,33 +2,34 @@ import React from "react"
 import { Flex, Box, Button, Heading } from "@chakra-ui/react"
 import { useState } from "react"
 import { addAdditionalInformation, deleteAdditionalInformation } from "../../../actions/AdditionalInformationAction"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector} from "react-redux"
 import TipTapEditor from "../textEditor/TipTapEditor"
 
 const ChapterAdditionalInformationSection = ({ editable }) => {
   const dispatch = useDispatch()
 
-  const [additionalInformation, setAdditionalInformation] = useState("")
+  const tutorial = useSelector(state => state.tutorialPage)
 
-  const tutorialPage = useSelector((state) => state.tutorialPage)
+  const [additionalInformation, setAdditionalInformation] = useState("")
 
   const handleSave = () => {
     console.log("adding additional info")
-    dispatch(addAdditionalInformation(additionalInformation, tutorialPage._id))
+    dispatch(addAdditionalInformation(additionalInformation, tutorial._id))
   }
 
   const handleDelete = () => {
     console.log("deleting additional info")
-    dispatch(deleteAdditionalInformation(tutorialPage._id))
+    dispatch(deleteAdditionalInformation(tutorial._id))
   }
 
+
   return (
-    <Box ml="19%" pt="10"  maxW="80vw" p={5}>
+    <Box ml="19%" pt="10" maxW="80vw" p={5}>
       <Heading size="lg" mb={5}>
         Additional Information
       </Heading>
-      <Flex id="additionalInformationEditor" >
-        <TipTapEditor content={tutorialPage.additionalInformationContent} editable={editable} setContent={setAdditionalInformation} />
+      <Flex id="additionalInformationEditor">
+        <TipTapEditor content={tutorial?.additionalInformationContent} editable={editable} setContent={setAdditionalInformation} />
       </Flex>
       {editable && (
         <Flex mt={5}>

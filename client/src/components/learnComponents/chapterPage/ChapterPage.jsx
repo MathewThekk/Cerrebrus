@@ -35,9 +35,9 @@ const ChapterPage = () => {
   let tutorialPageData = null
   const units = useSelector((state) => state.units)
   const tutorials = useSelector((state) => state.tutorials)
+
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber && t.page === currentPage)) ?? null
   const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
-
 
   useEffect(() => {
     setChapterNumber(parseInt(queryParams.get("chapter")))
@@ -45,15 +45,17 @@ const ChapterPage = () => {
     action === "add" ? setEditable(true) : setEditable(false)
 
     dispatch(getTutorials(unit, field, subject))
+  }, [units.length, location])
 
+  useEffect(() => {
     if (tutorial) {
       dispatch(SET_TUTORIAL(tutorial))
     }
-  }, [units.length, location])
+  }, [tutorials])
 
   const saveContent = () => {
     tutorialPageData = {
-      pageType: pageType === 'quiz'? 'quiz':'text',
+      pageType: pageType === "quiz" ? "quiz" : "text",
       content: content,
       currentPage: currentPage,
       chapterNumber: chapterNumber,
@@ -93,9 +95,7 @@ const ChapterPage = () => {
     }
   }
 
-  const saveAdditionalInformationContent = () => {
-
-  }
+  const saveAdditionalInformationContent = () => {}
 
   const handleChapterNumberChange = (chapterNumber, unit) => {
     navigate(`/learn/${subject}/${field}/${unit.toLowerCase()}?chapter=${chapterNumber}&page=${1}`)
@@ -123,8 +123,6 @@ const ChapterPage = () => {
   }
 
   const handleChapterNameChange = (newChapterName, chapterNumber, unitName) => {
-    console.log(newChapterName, chapterNumber, unitName, field, subject)
-
     dispatch(updateTutorialChapterName(newChapterName, chapterNumber, unitName, field, subject))
   }
 
@@ -228,14 +226,16 @@ const ChapterPage = () => {
   return (
     <Box overflowX="hidden">
       <Box maxW="100vw" minH="100%" mt="5">
-       {isAdmin && <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleAddUnit={handleAddUnit} handleDeleteUnit={handleDeleteUnit} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />}
+        {isAdmin && (
+          <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleAddUnit={handleAddUnit} handleDeleteUnit={handleDeleteUnit} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />
+        )}
         <Flex maxH="100vh" w="100%" minH="75vh" h="75vh" borderTop="6px solid" borderBottom="6px solid" borderColor="black">
           <ChapterSideBar handleUnitNameChange={handleUnitNameChange} handleChapterNameChange={handleChapterNameChange} editable={editable} getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
-          <ChapterPageContent isAnyChapterExistForUnit={isAnyChapterExistForUnit} pageTypeFromUrl={pageTypeFromUrl} setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} tutorial={tutorial} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
+          <ChapterPageContent isAnyChapterExistForUnit={isAnyChapterExistForUnit} pageTypeFromUrl={pageTypeFromUrl} setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
         </Flex>
         <ChapterPageFooterButtons editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
       </Box>
-      <ChapterAdditionalInformationSection editable={editable} saveAdditionalInformationContent = {saveAdditionalInformationContent}/>
+      <ChapterAdditionalInformationSection editable={editable} saveAdditionalInformationContent={saveAdditionalInformationContent} />
       <CommentsSection />
     </Box>
   )

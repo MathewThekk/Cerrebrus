@@ -31,7 +31,7 @@ const TipTapEditor = ({ content, editable, setContent, limit }) => {
         }),
       ],
       editable: editable,
-      content: content,
+      content: content ?? '',
       // content: editorType === 'additionalInformation'? tutorial?.additionalInformationContent : "Go on..Write something...",
 
       onUpdate: ({ editor }) => {

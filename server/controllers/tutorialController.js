@@ -298,17 +298,17 @@ export const addOrUpdateAdditionalInformation = async (req, res) => {
 }
 
 export const deleteAdditionalInformation = async (req, res) => {
-  const { tutorialId } = req.params
+  const { tutorialid } = req.params
 
   try {
-    const tutorialPage = await Tutorial.findById(tutorialId)
+    const tutorialPage = await Tutorial.findById(tutorialid)
 
     if (tutorialPage) {
       tutorialPage.additionalInformationContent = null
 
       await tutorialPage.save()
 
-      res.status(200).send(tutorialPage)
+      return res.status(200).send(tutorialPage)
     }
   } catch (error) {
     console.error(error)

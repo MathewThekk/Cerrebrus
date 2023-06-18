@@ -5,7 +5,7 @@ import * as api from "../api/api.js"
 export const addAdditionalInformation = (additionalInformationContent, tutorialId) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
-console.log(additionalInformationContent, tutorialId)
+    console.log(additionalInformationContent, tutorialId)
     const { data } = await api.addAdditionalInformation(additionalInformationContent, tutorialId)
 
     dispatch(SET_TUTORIAL(data))
@@ -14,15 +14,14 @@ console.log(additionalInformationContent, tutorialId)
   }
 }
 
-
 export const deleteAdditionalInformation = (additionalInformationContent, tutorialId) => async (dispatch) => {
-    try {
-      // dispatch({ type: START_LOADING });
-  
-      const { data } = await api.deleteAdditionalInformation(additionalInformationContent, tutorialId)
-  
-      dispatch(SET_TUTORIAL(data))
-    } catch (error) {
-      console.log(error)
-    }
+  try {
+    // dispatch({ type: START_LOADING });
+
+    const { data } = await api.deleteAdditionalInformation(additionalInformationContent, tutorialId)
+    console.log(data)
+    dispatch(SET_TUTORIAL(data))
+  } catch (error) {
+    console.log(error)
   }
+}
