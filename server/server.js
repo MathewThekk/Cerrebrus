@@ -17,6 +17,7 @@ app.use(express.urlencoded({ limit: '30mb', extended: true }))
 
 var corsOptions = {
   origin: function (origin, callback) {
+    console.log('Origin:', origin);
     if (process.env.NODE_ENV === 'production') {
       // In production, only allow requests from your production site
       if (origin === 'https://mindstair.com') {
