@@ -32,7 +32,7 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
   }, [currenTutorials, units.length])
 
   return (
-    <Box minW="19vw" maxW="17vw" minH="100%" maxH="100%" overflow="auto" boxShadow="lg" borderRight="1px solid" borderColor="gray.300">
+    <Box minW="19vw" maxW="17vw" minH="100%" maxH="100%" overflow="auto" boxShadow="lg" borderRight="5px solid" borderColor="black">
       <Box p="5" fontWeight="900" fontFamily="Arial, sans-serif" fontSize="xl">
         Technical Product Management
       </Box>
@@ -40,7 +40,7 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
         Object.values(units).map((unit) => {
           return (
             <VStack key={unit._id} spacing="0">
-              <Flex backgroundColor="#1E1D2A" w="100%">
+              <Flex  w="100%">
                 {editable ? (
                   <Editable
                     defaultValue={unit.name}
@@ -65,7 +65,7 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
                   const isActiveChapter = chapter === tutorialChapterNumber && unitName.toLowerCase() === unit.name.toLowerCase()
 
                   return (
-                    <Flex p="2" w="100%" key={_id} display="flex" textAlign="left" bg={isActiveChapter ? "black" : null} h="100%">
+                    <Flex p="2" w="100%" key={_id} display="flex" textAlign="left" bg={isActiveChapter ? "Grey" : null} h="100%">
                       <Checkbox isChecked={isActiveChapter} size="md" colorScheme="green" mr={2} />
                       {editable ? (
                         <Editable

@@ -35,7 +35,8 @@ var corsOptions = {
   },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
-  optionsSuccessStatus: 204
+  optionsSuccessStatus: 204,
+  maxAge: 86400  // The preflight response is cached for 24 hours
 };
 app.use(cors(corsOptions));
 

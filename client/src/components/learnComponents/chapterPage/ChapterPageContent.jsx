@@ -9,7 +9,7 @@ const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editabl
       case "text":
         return (
           <Flex  className="ChapterPageContent">
-            <TipTapEditor content={tutorial.content} editable={editable} setContent={setContent} setPageType={setPageType} />
+            <TipTapEditor content={tutorial.content} editable={editable} setContent={setContent} setPageType={setPageType} limit = {25000} />
           </Flex>
         )
       case "quiz":

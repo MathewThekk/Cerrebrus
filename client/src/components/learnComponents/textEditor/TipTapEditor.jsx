@@ -12,9 +12,7 @@ import TableRow from "@tiptap/extension-table-row"
 import TextAlign from "@tiptap/extension-text-align"
 import CharacterCount from "@tiptap/extension-character-count"
 
-const TipTapEditor = ({ content, editable, setContent }) => {
-  const limit = 2000
-
+const TipTapEditor = ({ content, editable, setContent, limit }) => {
   const editor = useEditor(
     {
       extensions: [
