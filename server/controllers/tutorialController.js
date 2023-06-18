@@ -73,8 +73,6 @@ export const deleteTutorialPage = async (req, res) => {
   try {
     const id = req.query.pageId
 
-
-
     const tutorialPageToDelete = await Tutorial.findById(id) // Find the tutorial by id
 
     if (!tutorialPageToDelete) {
@@ -168,7 +166,6 @@ export const updateChapterName = async (req, res) => {
     const { field: fieldName, unit: unitName, subject: subjectName } = req.params
     const chapterNumber = req.query.chapter // Access chapterNumber query parameter
     const { newChapterName } = req.body
-
 
     const field = await Field.findOne({
       name: { $regex: new RegExp(fieldName, "i") },
@@ -273,7 +270,6 @@ export const getTutorialPage = async (req, res) => {
       page: page,
     })
 
-
     res.status(200).send(tutorial)
   } catch (error) {
     console.error(error)
@@ -284,7 +280,7 @@ export const getTutorialPage = async (req, res) => {
 export const addOrUpdateAdditionalInformation = async (req, res) => {
   const { tutorialid } = req.params
   const { additionalInformationContent } = req.body
-  console.log(tutorialid, additionalInformationContent)
+
   try {
     const tutorialPage = await Tutorial.findById(tutorialid)
 
@@ -293,11 +289,7 @@ export const addOrUpdateAdditionalInformation = async (req, res) => {
 
       await tutorialPage.save()
 
-      const tutorials = await Tutorial.find({
-        unit: tutorialPage.unit,
-      })
-
-      res.status(200).send(tutorials)
+      res.status(200).send(tutorialPage)
     }
   } catch (error) {
     console.error(error)
@@ -307,7 +299,7 @@ export const addOrUpdateAdditionalInformation = async (req, res) => {
 
 export const deleteAdditionalInformation = async (req, res) => {
   const { tutorialId } = req.params
-  const { additionalInformationContent } = req.body
+
   try {
     const tutorialPage = await Tutorial.findById(tutorialId)
 
@@ -316,11 +308,7 @@ export const deleteAdditionalInformation = async (req, res) => {
 
       await tutorialPage.save()
 
-      const tutorials = await Tutorial.find({
-        unit: tutorialPage.unit,
-      })
-
-      res.status(200).send(tutorials)
+      res.status(200).send(tutorialPage)
     }
   } catch (error) {
     console.error(error)

@@ -1,5 +1,5 @@
 import "./styles.css"
-import React, { useEffect} from "react"
+import React, { useEffect } from "react"
 import StarterKit from "@tiptap/starter-kit"
 import { useEditor, EditorContent } from "@tiptap/react"
 import MenuBar from "./MenuBar"
@@ -47,6 +47,7 @@ const TipTapEditor = ({ content, editable, setContent }) => {
     if (!editor) {
       return undefined
     }
+
     if (editor) {
       editor.commands.setContent(content)
       editor.setEditable(editable)

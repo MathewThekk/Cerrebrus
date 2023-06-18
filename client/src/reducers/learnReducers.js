@@ -36,7 +36,6 @@ const commentSlice = createSlice({
   initialState,
   reducers: {
     SET_COMMENTS: (state, action) => {
-
       return action.payload
     },
     ADD_COMMENT: (state, action) => {
