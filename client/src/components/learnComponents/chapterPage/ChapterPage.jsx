@@ -118,7 +118,11 @@ const ChapterPage = () => {
         }
       })
 
-      return Array.from(tutorialMap.values())
+      const sortedTutorials = Array.from(tutorialMap.values())
+    
+      sortedTutorials.sort((a, b) => a.chapterNumber - b.chapterNumber)
+      
+      return sortedTutorials
     }
   }
 
