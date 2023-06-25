@@ -26,13 +26,13 @@ const TipTapEditor = ({ content, editable, setContent, limit }) => {
         TextAlign.configure({
           types: ["heading", "paragraph"],
         }),
+
         CharacterCount.configure({
           limit,
         }),
       ],
       editable: editable,
-      content: content ?? '',
-      // content: editorType === 'additionalInformation'? tutorial?.additionalInformationContent : "Go on..Write something...",
+      content: content ?? "",
 
       onUpdate: ({ editor }) => {
         const editorJsonContent = editor.getJSON()

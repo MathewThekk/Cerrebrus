@@ -2,32 +2,32 @@ import { Button, Flex } from "@chakra-ui/react"
 import TipTapEditor from "../textEditor/TipTapEditor"
 import QuizCreator from "../quiz/QuizCreator"
 import QuizRender from "../quiz/QuizRender"
-import { useSelector} from "react-redux"
+import { useSelector } from "react-redux"
+import CKEditor5 from "../textEditor/CKEditor5"
 
+const ChapterPageContent = ({ pageTypeFromUrl, setContent, setPageType, editable, submitQuizRef, navigate, subject, field, unit, chapterNumber, currentPage }) => {
+  const tutorial = useSelector((state) => state.tutorialPage)
 
-const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editable,  submitQuizRef, navigate, subject, field, unit, chapterNumber, currentPage }) => {
-  
-  const tutorial = useSelector(state => state.tutorialPage)
-
-  
   if (tutorial?.content) {
     switch (tutorial?.pageType) {
       case "text":
         return (
-          <Flex  className="ChapterPageContent">
-            <TipTapEditor content={tutorial.content} editable={editable} setContent={setContent} setPageType={setPageType} limit = {25000} />
+          // <Flex className="ChapterPageContent">
+          <Flex className="ChapterPageContent">
+            {/* <TipTapEditor content={tutorial.content} editable={editable} setContent={setContent} setPageType={setPageType} limit = {25000} /> */}
+            <CKEditor5 content={tutorial.content} editable={editable} setContent={setContent} setPageType={setPageType} limit={25000} />
           </Flex>
         )
       case "quiz":
         if (!editable) {
           return (
-            <Flex  className="ChapterPageContent">
+            <Flex className="ChapterPageContent">
               <QuizRender quizData={tutorial.content} />
             </Flex>
           )
         }
         return (
-          <Flex  className="ChapterPageContent">
+          <Flex className="ChapterPageContent">
             <QuizCreator content={tutorial.content} submitQuizRef={submitQuizRef} />
           </Flex>
         )
@@ -42,7 +42,7 @@ const ChapterPageContent = ({  pageTypeFromUrl, setContent, setPageType, editabl
     switch (pageTypeFromUrl) {
       case "text":
         return (
-          <Flex  className="ChapterPageContent">
+          <Flex className="ChapterPageContent">
             <TipTapEditor editable={true} setContent={setContent} setPageType={setPageType} />
           </Flex>
         )
