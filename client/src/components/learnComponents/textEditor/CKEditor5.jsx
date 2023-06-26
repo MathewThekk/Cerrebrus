@@ -1,10 +1,12 @@
 import './ckeditor.css'
 import React from "react"
-import Editor from "ckeditor5-custom-build/build/ckeditor"
+// import "ckeditor5-custom-build/build/ckeditor"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 
 
 const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
+  const Editor = require("ckeditor5-custom-build/build/ckeditor")
+
   const editorConfiguration = {
   
   }
