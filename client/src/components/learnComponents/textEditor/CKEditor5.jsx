@@ -1,7 +1,8 @@
 import './ckeditor.css'
 import React from "react"
-import Editor from  "ckeditor5-custom-build/build/ckeditor"
+// import Editor from  "ckeditor5-custom-build/build/ckeditor"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
+const Editor = require( '../../../../node_modules/ckeditor5-custom-build/build/ckeditor');
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
