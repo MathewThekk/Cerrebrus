@@ -43,7 +43,7 @@ const ChapterPageContent = ({ pageTypeFromUrl, setContent, setPageType, editable
       case "text":
         return (
           <Flex className="ChapterPageContent">
-            <TipTapEditor editable={true} setContent={setContent} setPageType={setPageType} />
+            <CKEditor5  editable={editable} setContent={setContent} setPageType={setPageType} limit={25000} />
           </Flex>
         )
       case "quiz":

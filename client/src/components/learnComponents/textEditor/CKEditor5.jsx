@@ -8,19 +8,16 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
 
-  const editorConfiguration = {
-  
-  }
+
   return (
     <div className="ck-content">
       <CKEditor
         editor={ClassicEditor}
-        config={ editorConfiguration }
         disabled={!editable}
         data="<p>Hello from CKEditor 5!</p>"
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
-          editor.setData(content)
+          editor.setData(content? content : "Add content")
           console.log("Editor is ready to use!", editor)
         }}
         onChange={(event, editor) => {

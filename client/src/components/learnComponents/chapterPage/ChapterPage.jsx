@@ -54,12 +54,13 @@ const ChapterPage = () => {
   }, [tutorials])
 
   const saveContent = () => {
+   
     tutorialPageData = {
       pageType: pageType === "quiz" ? "quiz" : "text",
       content: content,
       currentPage: currentPage,
       chapterNumber: chapterNumber,
-      chapterName: tutorials.find((t) => t.chapterNumber === chapterNumber).chapterName,
+      chapterName: tutorials.find((t) => t.chapterNumber === chapterNumber)?.chapterName ?? 'Default',
       unit: unit,
       field: field,
       subject: subject,
@@ -180,29 +181,30 @@ const ChapterPage = () => {
   const handleDeletePage = () => {
     console.log("Deleting content...")
     if (!tutorial) {
-      navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber - 1}&page=${1}`)
+      navigate(`/learn/${subject}/${field}/${unit}/?chapter=${Math.max(chapterNumber - 1, 1)}&page=${1}`)
     }
-
+  
     if (tutorial) {
       if (allTutorialsFromAChapter().length === 0) {
-        console.log("not tutorials left in chapter")
-
-        navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber - 1}&page=${1}`)
+        console.log("no tutorials left in chapter")
+  
+        navigate(`/learn/${subject}/${field}/${unit}/?chapter=${Math.max(chapterNumber - 1, 1)}&page=${1}`)
       }
       if (allTutorialsFromAChapter().length !== 0) {
         console.log("tutorials left in chapter")
-
+  
         const remainingPageNumbers = allTutorialsFromAChapter.map((t) => t.page)
-
+  
         let closestPage = remainingPageNumbers.reduce((prev, curr) => {
           return Math.abs(curr - currentPage) < Math.abs(prev - currentPage) ? curr : prev
         })
         navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber}&page=${closestPage}`)
       }
-
+  
       dispatch(deleteTutorialPage(tutorial))
     }
   }
+  
   const handleAddUnit = async (newUnit) => {
     if (newUnit.trim() === "") return
     const UnitWithHyphens = newUnit.replace(/\s+/g, "-")
