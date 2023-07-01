@@ -2,9 +2,7 @@ import admin from "firebase-admin"
 import UserAdmin from "../models/userAdminModel.js"
 import firebaseServiceAccountKey from "../firebaseServiceAccountKey.json" assert { type: "json" }
 import User from "../models/userModel.js"
-// Path to your JSON private key
 
-// let serviceAccount = JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
 
 admin.initializeApp({
   credential: admin.credential.cert(firebaseServiceAccountKey),

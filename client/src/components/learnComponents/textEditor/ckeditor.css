@@ -16,6 +16,13 @@
 
 /* --------- EDITOR STYLES  ---------------------------------------------------------------------------------------- */
 
+.ck .ck-editor__editable {
+	min-width: 77vw !important;
+    min-height: 70vh !important; /* Replace with your desired minimum height */
+    max-height: 70vh !important; /* Replace with your desired maximum height */
+    overflow: hidden !important;
+}
+
 .editor__editable,
 /* Classic build. */
 main .ck-editor[role='application'] .ck.ck-content,
@@ -520,8 +527,4 @@ footer {
 .ck-content h3 {
     font-size: 1.17em;
 }
-.ck .ck-editor__editable {
-    min-height: 70vh !important; /* Replace with your desired minimum height */
-    max-height: 70vh !important; /* Replace with your desired maximum height */
-    overflow: auto;
-}
+

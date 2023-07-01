@@ -52,6 +52,7 @@ export const addUnit = async (req, res) => {
 export const getUnits = async (req, res) => {
   try {
     const { subject: subjectName, field: fieldName } = req.params
+
     const populatetutorial = JSON.parse(req.query.populatetutorial)
 
     // Find the Subject document that matches the subjectName
@@ -77,7 +78,7 @@ export const getUnits = async (req, res) => {
     const units = await Unit.find({ field: fieldId })
 
     if (populatetutorial === true) {
-      const units = await Unit.find({ field: fieldId }).populate('tutorialIds');
+      const units = await Unit.find({ field: fieldId }).populate("tutorialIds")
       return res.status(200).send(units)
     }
 
@@ -167,7 +168,6 @@ export const updateUnitName = async (req, res) => {
       field: field._id,
       name: unitName,
     })
-
 
     if (!unit) {
       return res.status(404).json({ message: "Unit not found" })

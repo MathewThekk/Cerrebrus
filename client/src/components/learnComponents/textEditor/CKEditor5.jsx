@@ -2,8 +2,8 @@ import './ckeditor.css'
 import React from "react"
 // import Editor from  "ckeditor5-custom-build/build/ckeditor"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
-const Editor = require( '../../../../node_modules/ckeditor5-custom-build/build/ckeditor');
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// const Editor = require( '../../../../node_modules/ckeditor5-custom-build/build/ckeditor');
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
@@ -14,7 +14,7 @@ const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
   return (
     <div className="ck-content">
       <CKEditor
-        editor={Editor}
+        editor={ClassicEditor}
         config={ editorConfiguration }
         disabled={!editable}
         data="<p>Hello from CKEditor 5!</p>"
