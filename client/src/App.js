@@ -15,6 +15,7 @@ import { syncAuthState } from "./reducers/userReducers"
 import { useDispatch } from "react-redux"
 import useLogout from "./utils/useLogout"
 import API from "./api/api"
+import ListTutorialsPage from "./components/learnComponents/ListTutorialsPage"
 
 const theme = extendTheme({
   config: {
@@ -42,6 +43,7 @@ const App = () => {
         <Route exact path="/learn/:subject/fieldselect" element={<FieldSelectPage />} />
         <Route path="/learn/:subject/:field/:unit" element={<ChapterPage />} />
         <Route exact path="/learn/:subject/:field/:unit/addtutorial" element={<AddTutorialSelector />} />
+        <Route exact path="/learn/:subject/:field/listtutorials" element={<ListTutorialsPage />} />
         <Route exact path="/test" element={<Test />} />
       </Routes>
     </ChakraProvider>

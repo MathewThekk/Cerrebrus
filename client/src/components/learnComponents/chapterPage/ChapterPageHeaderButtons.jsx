@@ -5,6 +5,7 @@ import CustomModalDialogWithState from "../../modals/CustomModalDialogWithState"
 
 
 
+
 const ChapterPageHeaderButtons = ({ action, tutorial, editable, setEditable, saveContent, navigate, subject, field, unit, chapterNumber,  currentPage, handleAddPage, handleDeletePage, handleAddChapter, handleDeleteUnit, handleAddUnit }) => {
  
   const [isAddChapterModalOpen, setIsAddChapterModalOpen] = useState(false);
@@ -82,6 +83,16 @@ const ChapterPageHeaderButtons = ({ action, tutorial, editable, setEditable, sav
          Exit{" "}
        </Button>
      )}
+     <Button
+         mr="2"
+         width="7rem"
+         onClick={() => {
+           navigate(`/learn/${subject}/${field}/listtutorials`)
+         }}
+       >
+         {" "}
+         List Tutorials{" "}
+       </Button>
    </Flex>
  )
 }

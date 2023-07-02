@@ -1,14 +1,24 @@
 import { Button, Flex } from "@chakra-ui/react"
-import TipTapEditor from "../textEditor/TipTapEditor"
+// import TipTapEditor from "../textEditor/TipTapEditor"
 import QuizCreator from "../quiz/QuizCreator"
 import QuizRender from "../quiz/QuizRender"
 import { useSelector } from "react-redux"
+import { useParams,useLocation, useNavigate } from "react-router-dom"
+
 import CKEditor5 from "../textEditor/CKEditor5"
 
-const ChapterPageContent = ({ pageTypeFromUrl, setContent, setPageType, editable, submitQuizRef, navigate, subject, field, unit, chapterNumber, currentPage }) => {
+const ChapterPageContent = ({  setContent, setPageType, editable, submitQuizRef, chapterNumber, currentPage }) => {
   const tutorial = useSelector((state) => state.tutorialPage)
+  const navigate = useNavigate()
+  const { subject, field, unit } = useParams()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+
+  const pageTypeFromUrl = queryParams.get("pagetype")
+
 
   if (tutorial?.content) {
+
     switch (tutorial?.pageType) {
       case "text":
         return (

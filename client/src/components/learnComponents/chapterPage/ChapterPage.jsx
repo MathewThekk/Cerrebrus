@@ -9,7 +9,7 @@ import ChapterPageContent from "./ChapterPageContent"
 import ChapterPageFooterButtons from "./ChapterPageFooterButtons"
 import CommentsSection from "./CommentsSection"
 
-import { defaultChapterPageContent } from "./ChapterFirstPageDefaultContent"
+// import { defaultChapterPageContent } from "./ChapterFirstPageDefaultContent"
 import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage, updateTutorialChapterName } from "../../../actions/tutorialActions"
 import { deleteUnit, updateUnitName, addUnit } from "../../../actions/unitActions"
 import { SET_TUTORIAL } from "../../../reducers/learnReducers"
@@ -50,17 +50,18 @@ const ChapterPage = () => {
   useEffect(() => {
     if (tutorial) {
       dispatch(SET_TUTORIAL(tutorial))
+    } else {
+      dispatch(SET_TUTORIAL(null))
     }
   }, [tutorials])
 
   const saveContent = () => {
-   
     tutorialPageData = {
       pageType: pageType === "quiz" ? "quiz" : "text",
       content: content,
       currentPage: currentPage,
       chapterNumber: chapterNumber,
-      chapterName: tutorials.find((t) => t.chapterNumber === chapterNumber)?.chapterName ?? 'Default',
+      chapterName: tutorials.find((t) => t.chapterNumber === chapterNumber)?.chapterName ?? "Default",
       unit: unit,
       field: field,
       subject: subject,
@@ -120,9 +121,9 @@ const ChapterPage = () => {
       })
 
       const sortedTutorials = Array.from(tutorialMap.values())
-    
+
       sortedTutorials.sort((a, b) => a.chapterNumber - b.chapterNumber)
-      
+
       return sortedTutorials
     }
   }
@@ -150,7 +151,7 @@ const ChapterPage = () => {
     console.log("Adding New Chapter")
     tutorialPageData = {
       pageType: "text",
-      content: defaultChapterPageContent,
+      content: "Add tutorial content",
       currentPage: 1,
       chapterNumber: newChapterNumber,
       chapterName: newChapterName,
@@ -164,14 +165,6 @@ const ChapterPage = () => {
     navigate(`/learn/${subject}/${field}/${unit}/?chapter=${newChapterNumber}&page=${1}`)
   }
 
-  const isAnyChapterExistForUnit = () => {
-    if (Array.isArray(tutorials)) {
-      return tutorials.some((t) => t.chapterNumber > 0)
-    } else {
-      return false
-    }
-  }
-
   const allTutorialsFromAChapter = () => {
     if (tutorial) {
       return tutorials.filter((t) => t.chapterNumber === chapterNumber && t.page !== currentPage)
@@ -183,28 +176,28 @@ const ChapterPage = () => {
     if (!tutorial) {
       navigate(`/learn/${subject}/${field}/${unit}/?chapter=${Math.max(chapterNumber - 1, 1)}&page=${1}`)
     }
-  
+
     if (tutorial) {
       if (allTutorialsFromAChapter().length === 0) {
         console.log("no tutorials left in chapter")
-  
+
         navigate(`/learn/${subject}/${field}/${unit}/?chapter=${Math.max(chapterNumber - 1, 1)}&page=${1}`)
       }
       if (allTutorialsFromAChapter().length !== 0) {
         console.log("tutorials left in chapter")
-  
+
         const remainingPageNumbers = allTutorialsFromAChapter.map((t) => t.page)
-  
+
         let closestPage = remainingPageNumbers.reduce((prev, curr) => {
           return Math.abs(curr - currentPage) < Math.abs(prev - currentPage) ? curr : prev
         })
         navigate(`/learn/${subject}/${field}/${unit}/?chapter=${chapterNumber}&page=${closestPage}`)
       }
-  
+
       dispatch(deleteTutorialPage(tutorial))
     }
   }
-  
+
   const handleAddUnit = async (newUnit) => {
     if (newUnit.trim() === "") return
     const UnitWithHyphens = newUnit.replace(/\s+/g, "-")
@@ -237,7 +230,7 @@ const ChapterPage = () => {
         )}
         <Flex maxH="100vh" w="100%" minH="75vh" h="75vh" borderTop="6px solid" borderBottom="6px solid" borderColor="black">
           <ChapterSideBar handleUnitNameChange={handleUnitNameChange} handleChapterNameChange={handleChapterNameChange} editable={editable} getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
-          <ChapterPageContent isAnyChapterExistForUnit={isAnyChapterExistForUnit} pageTypeFromUrl={pageTypeFromUrl} setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} submitQuizRef={submitQuizRef} navigate={navigate} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} currentPage={currentPage} />
+          <ChapterPageContent setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber} currentPage={currentPage} />
         </Flex>
         <ChapterPageFooterButtons editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
       </Box>
