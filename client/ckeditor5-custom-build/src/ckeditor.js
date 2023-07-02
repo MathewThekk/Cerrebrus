@@ -40,6 +40,8 @@ import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js';
 import Title from '@ckeditor/ckeditor5-heading/src/title.js';
+import { Style } from '@ckeditor/ckeditor5-style';
+import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
 
 class Editor extends ClassicEditor {}
 
@@ -81,7 +83,9 @@ Editor.builtinPlugins = [
 	TableProperties,
 	TableToolbar,
 	TextTransformation,
-	Title
+	Title, 
+	Style,
+	GeneralHtmlSupport
 ];
 
 // Editor configuration.
@@ -110,7 +114,78 @@ Editor.defaultConfig = {
 			'fontColor',
 			'imageInsert',
 			'removeFormat',
-			'specialCharacters'
+			'specialCharacters',
+			'style'
+		]
+	},
+	style: {
+		definitions: [
+			{
+				name: 'Article category',
+				element: 'h3',
+				classes: [ 'category' ]
+			},
+			{
+				name: 'Title',
+				element: 'h2',
+				classes: [ 'document-title' ]
+			},
+			{
+				name: 'Subtitle',
+				element: 'h3',
+				classes: [ 'document-subtitle' ]
+			},
+			{
+				name: 'Info box',
+				element: 'p',
+				classes: [ 'info-box' ]
+			},
+			{
+				name: 'Side quote',
+				element: 'blockquote',
+				classes: [ 'side-quote' ]
+			},
+			{
+				name: 'Marker',
+				element: 'span',
+				classes: [ 'marker' ]
+			},
+			{
+				name: 'Spoiler',
+				element: 'span',
+				classes: [ 'spoiler' ]
+			},
+			{
+				name: 'Code (dark)',
+				element: 'pre',
+				classes: [ 'fancy-code', 'fancy-code-dark' ]
+			},
+			{
+				name: 'Code (bright)',
+				element: 'pre',
+				classes: [ 'fancy-code', 'fancy-code-bright' ]
+			}
+		]
+	},
+	htmlSupport: {
+		allow: [
+			// Enables all HTML features.
+			{
+				name: /.*/,
+				attributes: true,
+				classes: true,
+				styles: true
+			}
+		],
+		disallow: [
+			{
+				attributes: [
+					{ key: /^on(.*)/i, value: true },
+					{ key: /.*/, value: /(\b)(on\S+)(\s*)=|javascript:|(<\s*)(\/*)script/i },
+					{ key: /.*/, value: /data:(?!image\/(png|jpeg|gif|webp))/i }
+				]
+			},
+			{ name: 'script' }
 		]
 	},
 	language: 'en',

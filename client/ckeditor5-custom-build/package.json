@@ -28,6 +28,7 @@
     "@ckeditor/ckeditor5-paste-from-office": "^38.0.1",
     "@ckeditor/ckeditor5-remove-format": "^38.0.1",
     "@ckeditor/ckeditor5-special-characters": "^38.0.1",
+    "@ckeditor/ckeditor5-style": "^38.1.0",
     "@ckeditor/ckeditor5-table": "^38.0.1",
     "@ckeditor/ckeditor5-theme-lark": "^38.0.1",
     "@ckeditor/ckeditor5-typing": "^38.0.1",
@@ -42,5 +43,8 @@
   },
   "scripts": {
     "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-html-support": "^38.1.0"
   }
 }
