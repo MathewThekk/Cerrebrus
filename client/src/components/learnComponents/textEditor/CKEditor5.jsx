@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./ckeditor.css"
 import React, { useState, useEffect } from "react"
-// import Editor from  "ckeditor5-custom-build/build/ckeditor"
+// import ClassicEditor from './ckeditor.js';
 import { CKEditor } from "@ckeditor/ckeditor5-react"
-// const Editor = require( '../../../../node_modules/ckeditor5-custom-build/build/ckeditor');
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 
 const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
   const [editor, setEditor] = useState(null)
@@ -16,7 +16,7 @@ const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
   return (
     <div className="ck-content">
       <CKEditor
-        editor={ClassicEditor}
+        editor={Editor}
         disabled={!editable}
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
