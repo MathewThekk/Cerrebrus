@@ -158,8 +158,8 @@ Editor.defaultConfig = {
 			'superscript',
 			'imageInsert',
 			'findAndReplace'
-		]
-
+		],
+    shouldNotGroupWhenFull: true
   },
   style: {
     definitions: [
