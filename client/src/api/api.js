@@ -18,11 +18,18 @@ API.setLogoutCallback = (callback) => {
 
 API.interceptors.request.use(async (req) => {
   const token = localStorage.getItem("token")
-  const tokenExpiresAt = localStorage.getItem("tokenExpiresAt")
+  const tokenExpiresAt = parseInt(localStorage.getItem("tokenExpiresAt"))
 
   // Check if token is still valid
   if (token && new Date().getTime() < Number(tokenExpiresAt)) {
     req.headers.Authorization = `Bearer ${token}`
+
+ 
+    const twoHoursFromNow = new Date().getTime() + 2 * 60 * 60 * 1000; // 2 = 2 hours
+    localStorage.setItem("tokenExpiresAt", twoHoursFromNow)
+    console.log(localStorage.getItem("tokenExpiresAt"))
+
+
   } else {
     if (logoutCallback) {
       console.log("logging out")

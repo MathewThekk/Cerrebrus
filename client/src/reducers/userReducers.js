@@ -44,11 +44,10 @@ export const syncAuthState = () => async (dispatch) => {
 
       const isAdmin = idTokenResult.claims.admin || false
 
-      // Save the token in local storage, along with the expiration time
-      const expiresInMilliseconds = Date.parse(idTokenResult.expirationTime) // Convert to milliseconds
+      const expirationTimestamp = Date.parse(idTokenResult.expirationTime) // Convert to milliseconds
 
       localStorage.setItem("token", idTokenResult.token)
-      localStorage.setItem("tokenExpiresAt", expiresInMilliseconds)
+      localStorage.setItem("tokenExpiresAt", expirationTimestamp)
 
       const providerDetails = providerData[0] // If you want data from the first provider only
       dispatch(SET_USER({ uid, displayName, email, photoURL, emailVerified, providerData: providerDetails, isAdmin }))
