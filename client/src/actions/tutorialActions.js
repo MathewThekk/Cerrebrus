@@ -21,6 +21,7 @@ export const addTutorialPage = (tutorialPageData) => async (dispatch) => {
     const { data } = await api.addTutorialPage(tutorialPageData)
 
     dispatch(ADD_TUTORIAL(data))
+    console.log("successfully saved content")
   } catch (error) {
     console.log(error)
   }
@@ -33,6 +34,7 @@ export const updateTutorialPage = (tutorialPageData) => async (dispatch) => {
     const { data } = await api.updateTutorialPage(tutorialPageData)
 
     dispatch(UPDATE_TUTORIAL(data))
+    console.log("successfully saved content")
   } catch (error) {
     console.log(error)
   }
@@ -53,7 +55,6 @@ export const updateTutorialChapterName = (newChapterName, chapterNumber, unitNam
 export const deleteTutorialPage = (tutorial) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
-
 
     const { data } = await api.deleteTutorialPage(tutorial)
 

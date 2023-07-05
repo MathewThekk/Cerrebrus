@@ -44,7 +44,7 @@ const ChapterPage = () => {
     setCurrentPage(parseInt(queryParams.get("page")))
     action === "add" ? setEditable(true) : setEditable(false)
 
-    dispatch(getTutorials(unit, field, subject))
+    if (unit !== 'unitselect' && field && subject) dispatch(getTutorials(unit, field, subject))
   }, [units.length, location])
 
   useEffect(() => {
@@ -56,6 +56,7 @@ const ChapterPage = () => {
   }, [tutorials])
 
   const saveContent = () => {
+    console.log(content)
     tutorialPageData = {
       pageType: pageType === "quiz" ? "quiz" : "text",
       content: content,

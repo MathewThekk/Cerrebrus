@@ -19,7 +19,7 @@ const ListTutorialsPage = ({ handleUnitChange }) => {
   const populateTutorial = true
 
   useEffect(() => {
-    dispatch(getUnits(subject, field, populateTutorial))
+    if (subject && field && populateTutorial === true) dispatch(getUnits(subject, field, populateTutorial))
     if (unitName === "unitselect") {
       if (units.length > 0) {
         navigate(`/learn/${subject}/${field}/${units[0].name.toLowerCase()}?chapter=${1}&page=${1}`)

@@ -235,7 +235,7 @@ export const getTutorials = async (req, res) => {
     res.status(200).send(tutorials)
   } catch (error) {
     console.error(error)
-    res.status(500).json({ message: "Server Error while getting all units" })
+    res.status(500).json({ message: "Server Error while getting all units", error: error.message })
   }
 }
 

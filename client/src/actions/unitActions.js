@@ -4,6 +4,7 @@ import * as api from "../api/api.js"
 
 export const getUnits = (subject, field, populateTutorial) => async (dispatch) => {
   try {
+
     const { data } = await api.getUnits(field, subject, populateTutorial)
 
     dispatch(SET_UNITS(data))

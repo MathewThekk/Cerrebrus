@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import firebase from "firebase/compat/app"
 
 let baseURL
 let logoutCallback
@@ -16,28 +16,68 @@ API.setLogoutCallback = (callback) => {
   logoutCallback = callback
 }
 
+let userLoaded = false
+
+firebase.auth().onAuthStateChanged((user) => {
+  userLoaded = true
+})
+
+const waitForFirebase = () => {
+  let attempts = 0;
+  const maxAttempts = 10;
+
+  return new Promise((resolve, reject) => {
+    const checkFirebase = () => {
+      if (userLoaded) resolve();
+      else if (attempts < maxAttempts) {
+        attempts++;
+        setTimeout(checkFirebase, 100); // check every 100 ms
+      } else {
+        reject(new Error('Firebase initialization failed after 10 attempts'));
+      }
+    };
+    checkFirebase();
+  });
+};
+
 API.interceptors.request.use(async (req) => {
-  const token = localStorage.getItem("token")
+  let token = localStorage.getItem("token")
   const tokenExpiresAt = parseInt(localStorage.getItem("tokenExpiresAt"))
 
   // Check if token is still valid
   if (token && new Date().getTime() < Number(tokenExpiresAt)) {
-    req.headers.Authorization = `Bearer ${token}`
 
- 
-    const twoHoursFromNow = new Date().getTime() + 2 * 60 * 60 * 1000; // 2 = 2 hours
-    localStorage.setItem("tokenExpiresAt", twoHoursFromNow)
-    console.log(localStorage.getItem("tokenExpiresAt"))
+    await waitForFirebase(); // wait for firebase to initialise, else currentUser will be null
 
+    if (firebase.auth().currentUser) {
+      console.log(88, firebase.auth().currentUser)
+      if (new Date().getTime() > Number(tokenExpiresAt) - 10 * 60 * 1000)
+        await firebase
+          .auth()
+          .currentUser.getIdToken(true)
+          .then((idToken) => {
+            token = idToken
+          })
+          .catch((error) => {
+            console.log(error)
+          })
 
+      req.headers.Authorization = `Bearer ${token}` // Use the fresh idToken instead of the old token
+      const twoHoursFromNow = new Date().getTime() + 2 * 60 * 60 * 1000 // 2 = 2 hours
+      localStorage.setItem("tokenExpiresAt", twoHoursFromNow.toString())
+    } else {
+      console.log(88, firebase.auth().currentUser)
+      console.log("firebase token expired, user must sign in again")
+      localStorage.setItem("lastLocation", window.location.pathname)
+      logoutCallback()
+    }
   } else {
     if (logoutCallback) {
-      console.log("logging out")
-      localStorage.setItem('lastLocation', window.location.pathname);
+      console.log("stored token expired, logging out")
+      localStorage.setItem("lastLocation", window.location.pathname)
       logoutCallback()
     }
   }
-
   return req
 })
 
