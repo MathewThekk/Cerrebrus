@@ -1,14 +1,17 @@
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import useLogout from "../utils/useLogout"
 
 import { Link as RouterLink } from "react-router-dom"
 import { Box, Flex, Spacer, Button, useColorMode } from "@chakra-ui/react"
+import { SET_EDIT_MODE } from "../reducers/learnReducers"
 
 function NavBar() {
+  const dispatch = useDispatch()
   const { colorMode, toggleColorMode } = useColorMode()
   const logout = useLogout()
   const user = useSelector((state) => state.user.user)
-
+  const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
+  const editMode = useSelector((state) => state.editMode)
   const navBarBgColor = colorMode === "light" ? "gray.700" : "gray.700"
 
   const handleLogOut = async () => {
@@ -28,6 +31,18 @@ function NavBar() {
       </Box>
       <Spacer />
       <Box display="flex" alignItems="center">
+        {isAdmin && (
+          <Button
+            mr="2"
+            width="7rem"
+            onClick={() => {
+              dispatch(SET_EDIT_MODE())
+            }}
+          >
+            {" "}
+            {editMode ? "Exit Edit" : "Edit"}{" "}
+          </Button>
+        )}
         <Button mr="2" width="6rem" onClick={toggleColorMode}>
           {colorMode === "light" ? "Dark" : "Light"}
         </Button>

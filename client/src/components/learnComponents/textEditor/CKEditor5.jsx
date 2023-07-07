@@ -1,13 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./ckeditor.css"
 import React, { useState, useEffect } from "react"
+import { useSelector } from "react-redux"
+
 // import ClassicEditor from './ckeditor.js';
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 // import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 
-const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
+const CKEditor5 = ({ content, setContent }) => {
   const [editor, setEditor] = useState(null)
+  const editMode = useSelector((state) => state.editMode)
 
   useEffect(() => {
     editor?.setData(content ? content : "Add content")
@@ -17,7 +20,7 @@ const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
     <div className="ck-content">
       <CKEditor
         editor={Editor}
-        disabled={!editable}
+        disabled={!editMode}
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
           setEditor(editor)
@@ -27,8 +30,8 @@ const CKEditor5 = ({ content, editable, setContent, setPageType, limit }) => {
           const data = editor.getData()
           setContent(data)
         }}
-        onBlur={(event, editor) => {}}
-        onFocus={(event, editor) => {}}
+        // onBlur={(event, editor) => {}}
+        // onFocus={(event, editor) => {}}
       />
     </div>
   )

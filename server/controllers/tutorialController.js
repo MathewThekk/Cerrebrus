@@ -204,6 +204,27 @@ export const updateChapterName = async (req, res) => {
     res.status(500).json({ message: "Server Error" })
   }
 }
+export const updateChapterNumber = async (req, res) => {
+  try {
+    const { tutorialid } = req.params
+
+    const newChapterNumber = req.query.newChapterNumber // Access chapterNumber query parameter
+
+    const tutorialPage = await Tutorial.findById(tutorialid)
+
+    if (tutorialPage) {
+      tutorialPage.chapterNumber = parseInt(newChapterNumber)
+      console.log(tutorialPage)
+
+      await tutorialPage.save()
+
+      res.status(200).send(tutorialPage)
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server Error" })
+  }
+}
 
 export const getTutorials = async (req, res) => {
   try {

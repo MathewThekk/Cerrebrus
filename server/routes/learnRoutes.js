@@ -1,5 +1,5 @@
 import express from "express";
-import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, deleteTutorialPage, updateChapterName, addOrUpdateAdditionalInformation, deleteAdditionalInformation } from "../controllers/tutorialController.js";
+import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, deleteTutorialPage, updateChapterName,updateChapterNumber, addOrUpdateAdditionalInformation, deleteAdditionalInformation } from "../controllers/tutorialController.js";
 import { addSubject, getSubjects } from "../controllers/subjectController.js";
 import { addField, getFields } from "../controllers/fieldController.js";
 import { addUnit, getUnits, deleteUnit, updateUnitName } from "../controllers/unitController.js";
@@ -13,6 +13,9 @@ const router = express.Router();
 
 router.get("/subjectselect", authenticationCheck, getSubjects);
 router.post("/subjectselect",authenticationCheck, adminAuthorisationCheck, addSubject);
+
+router.put("/tutorials/:tutorialid/update-chapter-number", authenticationCheck, adminAuthorisationCheck,updateChapterNumber );
+
 
 router.get("/:subject/fieldSelect", authenticationCheck, getFields);
 router.post("/:subject/fieldselect/addfield",authenticationCheck, adminAuthorisationCheck, addField);

@@ -7,8 +7,10 @@ import { useParams,useLocation, useNavigate } from "react-router-dom"
 
 import CKEditor5 from "../textEditor/CKEditor5"
 
-const ChapterPageContent = ({  setContent, setPageType, editable, submitQuizRef, chapterNumber, currentPage }) => {
+const ChapterPageContent = ({  setContent, setPageType,  submitQuizRef, chapterNumber, currentPage }) => {
   const tutorial = useSelector((state) => state.tutorialPage)
+  const editMode = useSelector((state) => state.editMode)
+
   const navigate = useNavigate()
   const { subject, field, unit } = useParams()
   const location = useLocation()
@@ -25,11 +27,11 @@ const ChapterPageContent = ({  setContent, setPageType, editable, submitQuizRef,
           // <Flex className="ChapterPageContent">
           <Flex className="ChapterPageContent">
             {/* <TipTapEditor content={tutorial.content} editable={editable} setContent={setContent} setPageType={setPageType} limit = {25000} /> */}
-            <CKEditor5 content={tutorial.content} editable={editable} setContent={setContent} setPageType={setPageType} limit={25000} />
+            <CKEditor5 content={tutorial.content}  setContent={setContent} setPageType={setPageType} limit={25000} />
           </Flex>
         )
       case "quiz":
-        if (!editable) {
+        if (!editMode) {
           return (
             <Flex className="ChapterPageContent">
               <QuizRender quizData={tutorial.content} />
@@ -53,7 +55,7 @@ const ChapterPageContent = ({  setContent, setPageType, editable, submitQuizRef,
       case "text":
         return (
           <Flex className="ChapterPageContent">
-            <CKEditor5  editable={editable} setContent={setContent} setPageType={setPageType} limit={25000} />
+            <CKEditor5  setContent={setContent} setPageType={setPageType} limit={25000} />
           </Flex>
         )
       case "quiz":

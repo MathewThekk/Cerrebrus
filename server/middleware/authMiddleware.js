@@ -3,17 +3,17 @@ import UserAdmin from "../models/userAdminModel.js"
 import firebaseServiceAccountKey from "../firebaseServiceAccountKey.json" assert { type: "json" }
 import User from "../models/userModel.js"
 
-
 admin.initializeApp({
   credential: admin.credential.cert(firebaseServiceAccountKey),
 })
 
 export const authenticationCheck = async (req, res, next) => {
+
   try {
-    const authHeader = req.headers["authorization"];
+    const authHeader = req.headers["authorization"]
 
     if (!authHeader) {
-      return res.status(401).send("No Authorization header found");
+      return res.status(401).send("No Authorization header found")
     }
 
     const token = authHeader.split(" ")[1] // Bearer <token>

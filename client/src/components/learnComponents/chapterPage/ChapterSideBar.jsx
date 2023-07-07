@@ -5,7 +5,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom"
 import { getUnits } from "../../../actions/unitActions"
 import { VStack, Link, Box, Flex, Checkbox, Editable, EditablePreview, EditableInput } from "@chakra-ui/react"
 
-const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, handleUnitChange, handleUnitNameChange, getUniqueChapterTutorials, editable }) => {
+const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, handleUnitChange, handleUnitNameChange, getUniqueChapterTutorials }) => {
   const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
@@ -15,6 +15,8 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
   const chapter = parseInt(queryParams.get("chapter"))
 
   const units = useSelector((state) => state.units)
+  const editMode = useSelector((state) => state.editMode)
+
 
   const currenTutorials = useSelector((state) => state.tutorials)
   const [newChapterName, setNewChapterName] = useState("")
@@ -41,7 +43,7 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
           return (
             <VStack key={unit._id} spacing="0">
               <Flex  w="100%">
-                {editable ? (
+                {editMode ? (
                   <Editable
                     defaultValue={unit.name}
                     onSubmit={(newUnitName) => {
@@ -67,7 +69,7 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
                   return (
                     <Flex p="2" w="100%" key={_id} display="flex" textAlign="left" bg={isActiveChapter ? "Grey" : null} h="100%">
                       <Checkbox isChecked={isActiveChapter} size="md" colorScheme="green" mr={2} />
-                      {editable ? (
+                      {editMode ? (
                         <Editable
                           defaultValue={chapterName}
                           onSubmit={(newChapterName) => {

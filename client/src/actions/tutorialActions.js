@@ -51,6 +51,17 @@ export const updateTutorialChapterName = (newChapterName, chapterNumber, unitNam
     console.log(error)
   }
 }
+export const updateTutorialChapterNumber = (newChapterNumber, tutorialId) => async (dispatch) => {
+  try {
+    // dispatch({ type: START_LOADING });
+
+    const { data } = await api.updateTutorialChapterNumber(newChapterNumber, tutorialId)
+
+    dispatch(UPDATE_TUTORIAL(data))
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const deleteTutorialPage = (tutorial) => async (dispatch) => {
   try {

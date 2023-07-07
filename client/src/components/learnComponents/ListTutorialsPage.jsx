@@ -1,9 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams, useNavigate } from "react-router-dom"
 import { getUnits } from "../../actions/unitActions"
-import { VStack, Link, Box, Flex } from "@chakra-ui/react"
+import { VStack, Link, Box, Flex, Editable, EditablePreview, EditableInput, HStack } from "@chakra-ui/react"
+import { updateTutorialChapterNumber } from "../../actions/tutorialActions"
+
+// import { updateChapterNumber } from "../../actions/tutorialActions"
 
 const ListTutorialsPage = ({ handleUnitChange }) => {
   const dispatch = useDispatch()
@@ -15,8 +18,18 @@ const ListTutorialsPage = ({ handleUnitChange }) => {
   const units = useSelector((state) => state.units)
 
   const currenTutorials = useSelector((state) => state.tutorials)
+  const editMode = useSelector((state) => state.editMode)
+
 
   const populateTutorial = true
+
+  // Inside your ListTutorialsPage component
+  const [newChapterNumber, setNewChapterNumber] = useState(null)
+
+  // A helper function to handle the change of chapterNumber
+  const handleChapterNumberUpdate = (newChapterNumber, tutorialId) => {
+    dispatch(updateTutorialChapterNumber(newChapterNumber, tutorialId))
+  }
 
   useEffect(() => {
     if (subject && field && populateTutorial === true) dispatch(getUnits(subject, field, populateTutorial))
@@ -69,15 +82,21 @@ const ListTutorialsPage = ({ handleUnitChange }) => {
                   // then map over the pages and render each page
 
                   return (
-                    <div key={chapterNumber}>
+                    <HStack key={chapterNumber}>
+                      {editMode &&
+                      <Editable
+                        defaultValue={chapterNumber}
+                        onSubmit={(newChapterNumber) => {
+                          handleChapterNumberUpdate(newChapterNumber, tutorials[0]._id)
+                        }}
+                      >
+                        <EditablePreview h="100%" fontSize="sm"   _hover={{ backgroundColor: "green.400", textDecoration: "underline" }} />
+                        <EditableInput value={newChapterNumber} onChange={(e) => setNewChapterNumber(e.target.value)} autoFocus />
+                      </Editable>}
                       <h2>
-                        Chapter {chapterNumber}: {tutorials[0].chapterName}
+                        Chapter {tutorials[0].chapterNumber}: {tutorials[0].chapterName}
                       </h2>
-
-                      {tutorials.map((t) => (
-                        <p key={t._id}>Page: {t.page}</p>
-                      ))}
-                    </div>
+                    </HStack>
                   )
                 })}
             </VStack>

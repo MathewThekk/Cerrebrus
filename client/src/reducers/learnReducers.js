@@ -31,6 +31,19 @@ const tutorialPageSlice = createSlice({
   },
 })
 
+const editModeSlice = createSlice({
+  name: "editMode",
+  initialState: false,
+  reducers: {
+    SET_EDIT_MODE: (state, action) => {
+      if (action.payload) {
+        return action.payload
+      }
+      else return !state
+    },
+  },
+})
+
 const commentSlice = createSlice({
   name: "comments",
   initialState,
@@ -109,6 +122,7 @@ const subjectSlice = createSlice({
 
 export const { SET_TUTORIALS, ADD_TUTORIAL, UPDATE_TUTORIAL, DELETE_TUTORIAL } = tutorialSlice.actions
 export const { SET_TUTORIAL } = tutorialPageSlice.actions
+export const { SET_EDIT_MODE } = editModeSlice.actions
 export const { SET_COMMENTS, ADD_COMMENT, UPDATE_COMMENT, DELETE_COMMENT } = commentSlice.actions
 export const { SET_UNITS, ADD_UNIT, UPDATE_UNIT, DELETE_UNIT } = unitSlice.actions
 export const { SET_FIELDS, ADD_FIELD, UPDATE_FIELD, DELETE_FIELD } = fieldSlice.actions
@@ -117,6 +131,7 @@ export const { SET_SUBJECTS, ADD_SUBJECT, UPDATE_SUBJECT, DELETE_SUBJECT } = sub
 export const learnReducers = {
   tutorials: tutorialSlice.reducer,
   tutorialPage: tutorialPageSlice.reducer,
+  editMode: editModeSlice.reducer,
   comments: commentSlice.reducer,
   units: unitSlice.reducer,
   fields: fieldSlice.reducer,

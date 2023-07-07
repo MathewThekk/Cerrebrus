@@ -23,22 +23,22 @@ firebase.auth().onAuthStateChanged((user) => {
 })
 
 const waitForFirebase = () => {
-  let attempts = 0;
-  const maxAttempts = 10;
+  let attempts = 0
+  const maxAttempts = 10
 
   return new Promise((resolve, reject) => {
     const checkFirebase = () => {
-      if (userLoaded) resolve();
+      if (userLoaded) resolve()
       else if (attempts < maxAttempts) {
-        attempts++;
-        setTimeout(checkFirebase, 100); // check every 100 ms
+        attempts++
+        setTimeout(checkFirebase, 100) // check every 100 ms
       } else {
-        reject(new Error('Firebase initialization failed after 10 attempts'));
+        reject(new Error("Firebase initialization failed after 10 attempts"))
       }
-    };
-    checkFirebase();
-  });
-};
+    }
+    checkFirebase()
+  })
+}
 
 API.interceptors.request.use(async (req) => {
   let token = localStorage.getItem("token")
@@ -46,11 +46,9 @@ API.interceptors.request.use(async (req) => {
 
   // Check if token is still valid
   if (token && new Date().getTime() < Number(tokenExpiresAt)) {
-
-    await waitForFirebase(); // wait for firebase to initialise, else currentUser will be null
+    await waitForFirebase() // wait for firebase to initialise, else currentUser will be null
 
     if (firebase.auth().currentUser) {
-      console.log(88, firebase.auth().currentUser)
       if (new Date().getTime() > Number(tokenExpiresAt) - 10 * 60 * 1000)
         await firebase
           .auth()
@@ -66,7 +64,6 @@ API.interceptors.request.use(async (req) => {
       const twoHoursFromNow = new Date().getTime() + 2 * 60 * 60 * 1000 // 2 = 2 hours
       localStorage.setItem("tokenExpiresAt", twoHoursFromNow.toString())
     } else {
-      console.log(88, firebase.auth().currentUser)
       console.log("firebase token expired, user must sign in again")
       localStorage.setItem("lastLocation", window.location.pathname)
       logoutCallback()
@@ -102,6 +99,7 @@ export const getTutorialPage = (page, chapter, unit, field, subject) => API.get(
 export const addTutorialPage = (tutorialPageData) => API.post(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}&page=${tutorialPageData.currentPage}`, tutorialPageData)
 export const updateTutorialPage = (tutorialPageData) => API.put(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}&page=${tutorialPageData.currentPage}`, tutorialPageData)
 export const updateTutorialChapterName = (newChapterName, chapterNumber, unitName, field, subject) => API.put(`/learn/${subject}/${field}/${unitName}/updatechaptername?chapter=${chapterNumber}`, { newChapterName })
+export const updateTutorialChapterNumber = (newChapterNumber, tutorialId) => API.put(`/learn/tutorials/${tutorialId}/update-chapter-number?newChapterNumber=${newChapterNumber}`, {})
 export const deleteTutorialPage = (tutorial) => API.delete(`/learn/${tutorial.subject}/${tutorial.field}/${tutorial.unit}?chapter=${tutorial.chapterNumber}&pageId=${tutorial._id}`)
 
 //comment APIs

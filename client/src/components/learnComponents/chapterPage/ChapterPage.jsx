@@ -6,13 +6,10 @@ import { Flex, Box } from "@chakra-ui/react"
 import ChapterHeaderButtons from "./ChapterPageHeaderButtons"
 import ChapterSideBar from "./ChapterSideBar"
 import ChapterPageContent from "./ChapterPageContent"
-import ChapterPageFooterButtons from "./ChapterPageFooterButtons"
 import CommentsSection from "./CommentsSection"
-
-// import { defaultChapterPageContent } from "./ChapterFirstPageDefaultContent"
 import { getTutorials, addTutorialPage, updateTutorialPage, deleteTutorialPage, updateTutorialChapterName } from "../../../actions/tutorialActions"
 import { deleteUnit, updateUnitName, addUnit } from "../../../actions/unitActions"
-import { SET_TUTORIAL } from "../../../reducers/learnReducers"
+import { SET_EDIT_MODE, SET_TUTORIAL } from "../../../reducers/learnReducers"
 import ChapterAdditionalInformationSection from "./ChapterAdditionalInformationSection"
 
 const ChapterPage = () => {
@@ -29,7 +26,8 @@ const ChapterPage = () => {
   const [pageType, setPageType] = useState(pageTypeFromUrl)
   const [chapterNumber, setChapterNumber] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
-  const [editable, setEditable] = useState(false)
+
+
   const submitQuizRef = useRef(null)
 
   let tutorialPageData = null
@@ -42,9 +40,9 @@ const ChapterPage = () => {
   useEffect(() => {
     setChapterNumber(parseInt(queryParams.get("chapter")))
     setCurrentPage(parseInt(queryParams.get("page")))
-    action === "add" ? setEditable(true) : setEditable(false)
+    action === "add" ? SET_EDIT_MODE(true):SET_EDIT_MODE(false)
 
-    if (unit !== 'unitselect' && field && subject) dispatch(getTutorials(unit, field, subject))
+    if (unit !== "unitselect" && field && subject) dispatch(getTutorials(unit, field, subject))
   }, [units.length, location])
 
   useEffect(() => {
@@ -76,7 +74,7 @@ const ChapterPage = () => {
       if (pageTypeFromUrl === "quiz") {
         submitQuizRef.current((content, pageType) => {
           dispatch(addTutorialPage({ ...tutorialPageData, content: content, pageType: pageType }))
-          setEditable(false)
+          SET_EDIT_MODE(false)
         })
       }
       navigate(`/learn/${subject}/${field}/${unit}?chapter=${chapterNumber}&page=${currentPage}`)
@@ -92,7 +90,7 @@ const ChapterPage = () => {
 
         submitQuizRef.current((content, pageType) => {
           dispatch(updateTutorialPage({ ...tutorialPageData, pageType: "quiz", content: content }))
-          setEditable(false)
+          SET_EDIT_MODE(false)
         })
       }
     }
@@ -213,29 +211,16 @@ const ChapterPage = () => {
     navigate(`/learn/${subject}/${field}/${units[0].name}?chapter=${1}&page=${1}`)
   }
 
-  const handlePrevPage = () => {
-    const newPage = currentPage - 1
-    navigate(`/learn/${subject}/${field}/${unit}?chapter=${chapterNumber}&page=${newPage}`)
-  }
-
-  const handleNextPage = () => {
-    const newPage = currentPage + 1
-    navigate(`/learn/${subject}/${field}/${unit}?chapter=${chapterNumber}&page=${newPage}`)
-  }
-
   return (
     <Box overflowX="hidden">
-      <Box maxW="100vw"  mt="5">
-        {isAdmin && (
-          <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl} editable={editable} setEditable={setEditable} saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleAddUnit={handleAddUnit} handleDeleteUnit={handleDeleteUnit} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />
-        )}
-        <Flex  w="100%" minH="75vh"  borderTop="6px solid" borderBottom="6px solid" borderColor="black">
-          <ChapterSideBar handleUnitNameChange={handleUnitNameChange} handleChapterNameChange={handleChapterNameChange} editable={editable} getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
-          <ChapterPageContent setContent={setContent} setPageType={setPageType} editable={editable} setEditable={setEditable} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber} currentPage={currentPage} />
+      <Box maxW="100vw" mt="5">
+        {isAdmin && <ChapterHeaderButtons action={action} tutorial={tutorial} pageTypeFromUrl={pageTypeFromUrl}  saveContent={saveContent} navigate={navigate} handleAddPage={handleAddPage} handleAddChapter={handleAddChapter} handleAddUnit={handleAddUnit} handleDeleteUnit={handleDeleteUnit} handleDeletePage={handleDeletePage} subject={subject} field={field} unit={unit} chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} currentPage={currentPage} />}
+        <Flex w="100%" minH="75vh" borderTop="6px solid" borderBottom="6px solid" borderColor="black">
+          <ChapterSideBar handleUnitNameChange={handleUnitNameChange} handleChapterNameChange={handleChapterNameChange} getUniqueChapterTutorials={getUniqueChapterTutorials} chapterNumber={chapterNumber} setCurrentPage={setCurrentPage} handleChapterNumberChange={handleChapterNumberChange} handleUnitChange={handleUnitChange} />
+          <ChapterPageContent setContent={setContent} setPageType={setPageType} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber} currentPage={currentPage} />
         </Flex>
-        <ChapterPageFooterButtons editable={editable} currentPage={currentPage} handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} />
       </Box>
-      <ChapterAdditionalInformationSection editable={editable} saveAdditionalInformationContent={saveAdditionalInformationContent} />
+      <ChapterAdditionalInformationSection saveAdditionalInformationContent={saveAdditionalInformationContent} />
       <CommentsSection />
     </Box>
   )

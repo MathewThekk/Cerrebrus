@@ -9,6 +9,8 @@ const ChapterAdditionalInformationSection = ({ editable }) => {
   const dispatch = useDispatch()
 
   const tutorial = useSelector(state => state.tutorialPage)
+  const editMode = useSelector((state) => state.editMode)
+
 
   const [additionalInformation, setAdditionalInformation] = useState("")
 
@@ -31,7 +33,7 @@ const ChapterAdditionalInformationSection = ({ editable }) => {
       <Flex id="additionalInformationEditor">
         <TipTapEditor content={tutorial?.additionalInformationContent} editable={editable} setContent={setAdditionalInformation} />
       </Flex>
-      {editable && (
+      {editMode && (
         <Flex mt={5}>
           <Button width="6rem" mr={5} onClick={handleSave}>
             Save
