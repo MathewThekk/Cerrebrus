@@ -4,8 +4,12 @@ import { useSelector, useDispatch } from "react-redux"
 import { useParams, useLocation, useNavigate } from "react-router-dom"
 import { getUnits } from "../../../actions/unitActions"
 import { VStack, Link, Box, Flex, Checkbox, Editable, EditablePreview, EditableInput } from "@chakra-ui/react"
+import {  updateUnitName } from "../../../actions/unitActions"
+import {  updateTutorialChapterName } from "../../../actions/tutorialActions"
 
-const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, handleUnitChange, handleUnitNameChange, getUniqueChapterTutorials }) => {
+
+
+const ChapterSideBar = () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
@@ -32,6 +36,24 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
       }
     }
   }, [currenTutorials, units.length])
+
+  const handleUnitNameChange = (newUnitName, unit) => {
+    console.log(newUnitName, unit, field, subject)
+
+    dispatch(updateUnitName(newUnitName, unit, field, subject))
+  }
+
+  const handleChapterNameChange = (newChapterName, chapterNumber, unitName) => {
+    dispatch(updateTutorialChapterName(newChapterName, chapterNumber, unitName, field, subject))
+  }
+
+  const handleChapterNumberChange = (chapterNumber, unit) => {
+    navigate(`/learn/${subject}/${field}/${unit.toLowerCase()}?chapter=${chapterNumber}&page=${1}`)
+  }
+
+  const handleUnitChange = (unitName) => {
+    navigate(`/learn/${subject}/${field}/${unitName.toLowerCase()}?chapter=${1}&page=${1}`)
+  }
 
   return (
     <Box minW="19vw" maxW="17vw" minH="100%" maxH="100%" overflow="auto" boxShadow="lg" borderRight="5px solid" borderColor="black">
@@ -61,7 +83,7 @@ const ChapterSideBar = ({ handleChapterNumberChange, handleChapterNameChange, ha
               </Flex>
 
               {unit?.tutorialIds?.length > 0 &&
-                getUniqueChapterTutorials(unit.tutorialIds).map((t) => {
+                unit.tutorialIds.map((t) => {
                   const { _id, chapterNumber: tutorialChapterNumber, chapterName } = t
 
                   const isActiveChapter = chapter === tutorialChapterNumber && unitName.toLowerCase() === unit.name.toLowerCase()

@@ -5,7 +5,7 @@ import { addAdditionalInformation, deleteAdditionalInformation } from "../../../
 import { useDispatch, useSelector} from "react-redux"
 import TipTapEditor from "../textEditor/TipTapEditor"
 
-const ChapterAdditionalInformationSection = ({ editable }) => {
+const ChapterAdditionalInformationSection = () => {
   const dispatch = useDispatch()
 
   const tutorial = useSelector(state => state.tutorialPage)
@@ -31,7 +31,7 @@ const ChapterAdditionalInformationSection = ({ editable }) => {
         Additional Information
       </Heading>
       <Flex id="additionalInformationEditor">
-        <TipTapEditor content={tutorial?.additionalInformationContent} editable={editable} setContent={setAdditionalInformation} />
+        <TipTapEditor content={tutorial?.additionalInformationContent} editMode={editMode} setContent={setAdditionalInformation} />
       </Flex>
       {editMode && (
         <Flex mt={5}>

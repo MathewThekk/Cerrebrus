@@ -1,5 +1,5 @@
 import express from "express";
-import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, deleteTutorialPage, updateChapterName,updateChapterNumber, addOrUpdateAdditionalInformation, deleteAdditionalInformation } from "../controllers/tutorialController.js";
+import { getTutorials, addTutorialPage, getTutorialPage, updateTutorialPage, updateChapterName,updateChapterNumber, addOrUpdateAdditionalInformation, deleteAdditionalInformation, deleteChapter } from "../controllers/tutorialController.js";
 import { addSubject, getSubjects } from "../controllers/subjectController.js";
 import { addField, getFields } from "../controllers/fieldController.js";
 import { addUnit, getUnits, deleteUnit, updateUnitName } from "../controllers/unitController.js";
@@ -15,6 +15,7 @@ router.get("/subjectselect", authenticationCheck, getSubjects);
 router.post("/subjectselect",authenticationCheck, adminAuthorisationCheck, addSubject);
 
 router.put("/tutorials/:tutorialid/update-chapter-number", authenticationCheck, adminAuthorisationCheck,updateChapterNumber );
+router.delete("/tutorials/:tutorialid/delete-chapter", authenticationCheck, adminAuthorisationCheck,deleteChapter );
 
 
 router.get("/:subject/fieldSelect", authenticationCheck, getFields);
@@ -30,7 +31,7 @@ router.get("/:subject/:field/:unit?chapter=", authenticationCheck, getTutorialPa
 router.post("/:subject/:field/:unit/", authenticationCheck, adminAuthorisationCheck, addTutorialPage);
 router.put("/:subject/:field/:unit/", authenticationCheck, adminAuthorisationCheck, updateTutorialPage);
 router.put("/:subject/:field/:unit/updatechaptername", authenticationCheck, adminAuthorisationCheck, updateChapterName);
-router.delete("/:subject/:field/:unit/",authenticationCheck, adminAuthorisationCheck, deleteTutorialPage);
+
 
 router.get("/comments/:tutorialid",authenticationCheck, getComments);
 router.post("/:subject/:field/:unit/comments/:tutorialid", authenticationCheck, addComment);

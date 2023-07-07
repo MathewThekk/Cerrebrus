@@ -63,11 +63,23 @@ export const updateTutorialChapterNumber = (newChapterNumber, tutorialId) => asy
   }
 }
 
-export const deleteTutorialPage = (tutorial) => async (dispatch) => {
+// export const deleteTutorialPage = (tutorial) => async (dispatch) => {
+//   try {
+//     // dispatch({ type: START_LOADING });
+
+//     const { data } = await api.deleteTutorialPage(tutorial)
+
+//     dispatch(DELETE_TUTORIAL(data))
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+export const deleteChapter = (tutorialId) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
 
-    const { data } = await api.deleteTutorialPage(tutorial)
+    const { data } = await api.deleteChapter(tutorialId)
 
     dispatch(DELETE_TUTORIAL(data))
   } catch (error) {

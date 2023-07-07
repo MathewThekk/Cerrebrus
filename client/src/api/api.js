@@ -100,7 +100,7 @@ export const addTutorialPage = (tutorialPageData) => API.post(`/learn/${tutorial
 export const updateTutorialPage = (tutorialPageData) => API.put(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}&page=${tutorialPageData.currentPage}`, tutorialPageData)
 export const updateTutorialChapterName = (newChapterName, chapterNumber, unitName, field, subject) => API.put(`/learn/${subject}/${field}/${unitName}/updatechaptername?chapter=${chapterNumber}`, { newChapterName })
 export const updateTutorialChapterNumber = (newChapterNumber, tutorialId) => API.put(`/learn/tutorials/${tutorialId}/update-chapter-number?newChapterNumber=${newChapterNumber}`, {})
-export const deleteTutorialPage = (tutorial) => API.delete(`/learn/${tutorial.subject}/${tutorial.field}/${tutorial.unit}?chapter=${tutorial.chapterNumber}&pageId=${tutorial._id}`)
+export const deleteChapter = (tutorialId) => API.delete(`/learn/tutorials/${tutorialId}/delete-chapter`)
 
 //comment APIs
 export const getComments = (tutorialId) => API.get(`/learn/comments/${tutorialId}`)

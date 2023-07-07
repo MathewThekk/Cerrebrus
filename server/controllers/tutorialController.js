@@ -69,39 +69,28 @@ export const addTutorialPage = async (req, res) => {
   }
 }
 
-export const deleteTutorialPage = async (req, res) => {
+export const deleteChapter = async (req, res) => {
   try {
-    const id = req.query.pageId
+    const { tutorialid } = req.params
 
-    const tutorialPageToDelete = await Tutorial.findById(id) // Find the tutorial by id
+    const tutorialToDelete = await Tutorial.findById(tutorialid) // Find the tutorial by id
+    const unit = await Unit.findById(tutorialToDelete.unit)
 
-    if (!tutorialPageToDelete) {
-      return res.status(404).json({ message: "Tutorial page not found" })
+    if (!tutorialToDelete) {
+      return res.status(404).json({ message: "Tutorial not found" })
     }
-
-    const unit = await Unit.findById(tutorialPageToDelete.unit)
-
     if (!unit) {
       return res.status(404).json({ message: "Unit not found" })
     }
 
-    // Decrement the page number of the following tutorials
-    await Tutorial.updateMany(
-      {
-        unit: unit._id,
-        chapterNumber: tutorialPageToDelete.chapterNumber,
-        page: { $gt: tutorialPageToDelete.page },
-      },
-      {
-        $inc: { page: -1 },
-      }
-    )
+    // Decrement chapter numbers
+    await Tutorial.updateMany({ unit: unit._id, chapterNumber: { $gt: tutorialToDelete.chapterNumber } }, { $inc: { chapterNumber: -1 } })
 
     // Delete the tutorial
-    await Tutorial.findByIdAndDelete(id)
+    await Tutorial.findByIdAndDelete(tutorialToDelete._id)
 
     // Remove tutorial from unit's tutorials array
-    unit.tutorialIds = unit.tutorialIds.filter((tutorialId) => tutorialId.toString() !== id)
+    unit.tutorialIds = unit.tutorialIds.filter((tid) => tid.toString() !== tutorialid)
     await unit.save()
 
     const tutorials = await Tutorial.find({
