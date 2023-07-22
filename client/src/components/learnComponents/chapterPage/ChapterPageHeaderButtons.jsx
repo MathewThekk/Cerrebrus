@@ -18,7 +18,7 @@ const ChapterPageHeaderButtons = ({ action, saveContent, chapterNumber, handleAd
   const [isDeleteUnitModalOpen, setIsDeleteUnitModalOpen] = useState(false)
 
   const units = useSelector((state) => state.units)
-  const tutorials = useSelector((state) => state.tutorials)
+  // const tutorials = useSelector((state) => state.tutorials)
   const tutorial = useSelector(state => state.tutorialPage)
   const editMode = useSelector((state) => state.editMode)
 
