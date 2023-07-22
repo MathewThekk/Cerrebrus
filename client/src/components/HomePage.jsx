@@ -1,7 +1,13 @@
 import { Box, Heading, Text, Button, Stack } from "@chakra-ui/react"
+import { useEffect } from "react"
 import { Link as RouterLink } from "react-router-dom"
 
 function HomePage() {
+
+
+  useEffect({
+
+  },[])
   return (
     <Box
       display="flex"
