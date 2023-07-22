@@ -13,6 +13,7 @@ function NavBar() {
   const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
   const editMode = useSelector((state) => state.editMode)
   const navBarBgColor = colorMode === "light" ? "gray.700" : "gray.700"
+  const showColorModeButton = true
 
   const handleLogOut = async () => {
     try {
@@ -43,9 +44,9 @@ function NavBar() {
             {editMode ? "Exit Edit" : "Edit"}{" "}
           </Button>
         )}
-        {/* <Button mr="2" width="6rem" onClick={toggleColorMode}>
+       {showColorModeButton && <Button mr="2" width="6rem" onClick={toggleColorMode}>
           {colorMode === "light" ? "Dark" : "Light"}
-        </Button> */}
+        </Button>}
         {user ? (
           <Button variant="ghost" onClick={handleLogOut}>
             Log Out
