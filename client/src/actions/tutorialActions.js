@@ -27,11 +27,11 @@ export const addTutorialPage = (tutorialPageData) => async (dispatch) => {
   }
 }
 
-export const updateTutorialPage = (tutorialPageData) => async (dispatch) => {
+export const updateChapter = (tutorialId, content)  => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
 
-    const { data } = await api.updateTutorialPage(tutorialPageData)
+    const { data } = await api.updateChapter(tutorialId, content)
 
     dispatch(UPDATE_TUTORIAL(data))
     console.log("successfully saved content")

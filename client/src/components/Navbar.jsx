@@ -43,9 +43,9 @@ function NavBar() {
             {editMode ? "Exit Edit" : "Edit"}{" "}
           </Button>
         )}
-        <Button mr="2" width="6rem" onClick={toggleColorMode}>
+        {/* <Button mr="2" width="6rem" onClick={toggleColorMode}>
           {colorMode === "light" ? "Dark" : "Light"}
-        </Button>
+        </Button> */}
         {user ? (
           <Button variant="ghost" onClick={handleLogOut}>
             Log Out

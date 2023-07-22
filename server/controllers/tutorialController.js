@@ -2,27 +2,23 @@ import Tutorial from "../models/tutorialModel.js"
 import Unit from "../models/unitModel.js"
 import Field from "../models/fieldModel.js"
 
-export const addTutorialPage = async (req, res) => {
+export const addChapter = async (req, res) => {
   try {
     const { field: fieldName, unit: unitName, subject: subjectName } = req.params
     const chapterNumber = req.query.chapter // Access chapterNumber query parameter
-    const page = req.query.page // Access page query parameter
     const { pageType, content, chapterName } = req.body
 
     const field = await Field.findOne({
       name: { $regex: new RegExp(fieldName, "i") },
     })
-
-    if (!field) {
-      return res.status(404).json({ message: "Field not found" })
-    }
-
-    // Find the unit that belongs to the field and subject
     const unit = await Unit.findOne({
       name: { $regex: new RegExp(unitName, "i") },
       field: field._id,
     })
 
+    if (!field) {
+      return res.status(404).json({ message: "Field not found" })
+    }
     if (!unit) {
       return res.status(404).json({ message: "Unit not found" })
     }
@@ -30,7 +26,6 @@ export const addTutorialPage = async (req, res) => {
     const tutorialPage = await Tutorial.findOne({
       unit: unit._id,
       chapterNumber: chapterNumber,
-      page: page,
     })
 
     if (tutorialPage) {
@@ -38,18 +33,16 @@ export const addTutorialPage = async (req, res) => {
       await Tutorial.updateMany(
         {
           unit: unit._id,
-          chapterNumber: chapterNumber,
-          page: { $gte: page },
+          chapterNumber: { $gte: chapterNumber },
         },
         {
-          $inc: { page: 1 },
+          $inc: { chapterNumber: 1 },
         }
       )
     }
     const newTutorialPage = new Tutorial({
       pageType: pageType,
       content: content,
-      page: page,
       chapterNumber: chapterNumber,
       chapterName: chapterName,
       unit: unit._id,
@@ -103,36 +96,12 @@ export const deleteChapter = async (req, res) => {
   }
 }
 
-export const updateTutorialPage = async (req, res) => {
+export const updateChapterContent = async (req, res) => {
   try {
-    const { field: fieldName, unit: unitName, subject: subjectName } = req.params
-    const chapterNumber = req.query.chapter // Access chapterNumber query parameter
-    const page = req.query.page // Access page query parameter
-    const { pageType, content, chapterName } = req.body
+    const { content } = req.body
+    const { tutorialid } = req.params
 
-    const field = await Field.findOne({
-      name: { $regex: new RegExp(fieldName, "i") },
-    })
-
-    if (!field) {
-      return res.status(404).json({ message: "Field not found" })
-    }
-
-    // Find the unit that belongs to the field and subject
-    const unit = await Unit.findOne({
-      name: { $regex: new RegExp(unitName, "i") },
-      field: field._id,
-    })
-
-    if (!unit) {
-      return res.status(404).json({ message: "Unit not found" })
-    }
-
-    const tutorialPage = await Tutorial.findOne({
-      unit: unit._id,
-      chapterNumber: chapterNumber,
-      page: page,
-    })
+    const tutorialPage = await Tutorial.findById(tutorialid)
 
     if (tutorialPage) {
       tutorialPage.content = content
@@ -140,7 +109,7 @@ export const updateTutorialPage = async (req, res) => {
       await tutorialPage.save()
 
       const tutorials = await Tutorial.find({
-        unit: unit._id,
+        unit: tutorialPage.unit,
       })
       res.status(200).send(tutorials)
     }

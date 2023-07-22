@@ -62,6 +62,7 @@ const ChapterSideBar = () => {
       </Box>
       {units &&
         Object.values(units).map((unit) => {
+          const sortedTutorialIds = [...unit.tutorialIds].sort((a, b) => a.chapterNumber - b.chapterNumber)
           return (
             <VStack key={unit._id} spacing="0">
               <Flex  w="100%">
@@ -83,7 +84,7 @@ const ChapterSideBar = () => {
               </Flex>
 
               {unit?.tutorialIds?.length > 0 &&
-                unit.tutorialIds.map((t) => {
+               sortedTutorialIds.map((t) => {
                   const { _id, chapterNumber: tutorialChapterNumber, chapterName } = t
 
                   const isActiveChapter = chapter === tutorialChapterNumber && unitName.toLowerCase() === unit.name.toLowerCase()

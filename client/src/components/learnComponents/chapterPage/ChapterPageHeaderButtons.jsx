@@ -45,10 +45,10 @@ const ChapterPageHeaderButtons = ({ action, saveContent, chapterNumber, handleAd
     navigate(`/learn/${subject}/${field}/${units[0].name}?chapter=${1}`)
   }
   const handleAddChapter = (newChapterNumber, newChapterName) => {
-    if (tutorials.filter((t) => t.chapterNumber === newChapterNumber).length > 0) {
-      console.log("chapter number already exist")
-      return null
-    }
+    // if (tutorials.filter((t) => t.chapterNumber === newChapterNumber).length > 0) {
+    //   console.log("chapter number already exist")
+    //   return null
+    // }
     console.log("Adding New Chapter")
    const  tutorialPageData = {
       pageType: "text",

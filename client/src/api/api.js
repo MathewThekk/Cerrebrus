@@ -79,7 +79,6 @@ API.interceptors.request.use(async (req) => {
 })
 
 //learn apis
-export const deleteTutorial = (currentUrl, page) => API.delete(currentUrl, { page })
 
 export const getSubjects = () => API.get("/learn/subjectselect")
 export const addSubject = (subject) => API.post("/learn/subjectselect", { subject })
@@ -95,9 +94,8 @@ export const updateUnitName = (newUnitName, unit, field, subject) => API.put(`/l
 export const deleteUnit = (unitName, field, subject) => API.delete(`/learn/${subject}/${field}/deleteunit?unitname=${unitName}`)
 
 export const getTutorials = (unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}`)
-export const getTutorialPage = (page, chapter, unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}?chapter=${chapter}&page=${page}`)
-export const addTutorialPage = (tutorialPageData) => API.post(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}&page=${tutorialPageData.currentPage}`, tutorialPageData)
-export const updateTutorialPage = (tutorialPageData) => API.put(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}&page=${tutorialPageData.currentPage}`, tutorialPageData)
+export const addTutorialPage = (tutorialPageData) => API.post(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}`, tutorialPageData)
+export const updateChapter = (tutorialId, content) => API.put(`/learn/tutorials/${tutorialId}/update-chapter-content`, {content})
 export const updateTutorialChapterName = (newChapterName, chapterNumber, unitName, field, subject) => API.put(`/learn/${subject}/${field}/${unitName}/updatechaptername?chapter=${chapterNumber}`, { newChapterName })
 export const updateTutorialChapterNumber = (newChapterNumber, tutorialId) => API.put(`/learn/tutorials/${tutorialId}/update-chapter-number?newChapterNumber=${newChapterNumber}`, {})
 export const deleteChapter = (tutorialId) => API.delete(`/learn/tutorials/${tutorialId}/delete-chapter`)

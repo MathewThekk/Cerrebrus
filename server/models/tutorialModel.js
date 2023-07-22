@@ -9,10 +9,6 @@ const tutorialPageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  page: {
-    type: Number,
-    required: true,
-  },
   chapterNumber: {
     type: Number,
     required: true,

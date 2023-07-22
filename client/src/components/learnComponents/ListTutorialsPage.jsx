@@ -20,7 +20,6 @@ const ListTutorialsPage = ({ handleUnitChange }) => {
   const currenTutorials = useSelector((state) => state.tutorials)
   const editMode = useSelector((state) => state.editMode)
 
-
   const populateTutorial = true
 
   // Inside your ListTutorialsPage component
@@ -35,7 +34,7 @@ const ListTutorialsPage = ({ handleUnitChange }) => {
     if (subject && field && populateTutorial === true) dispatch(getUnits(subject, field, populateTutorial))
     if (unitName === "unitselect") {
       if (units.length > 0) {
-        navigate(`/learn/${subject}/${field}/${units[0].name.toLowerCase()}?chapter=${1}&page=${1}`)
+        navigate(`/learn/${subject}/${field}/${units[0].name.toLowerCase()}?chapter=${1}`)
       }
     }
   }, [currenTutorials, units.length])
@@ -49,6 +48,7 @@ const ListTutorialsPage = ({ handleUnitChange }) => {
       </Box>
       {units &&
         Object.values(units).map((unit) => {
+          const sortedTutorialIds = [...unit.tutorialIds].sort((a, b) => a.chapterNumber - b.chapterNumber)
           return (
             <VStack key={unit._id} spacing="0">
               <Flex w="100%" justify="center">
@@ -58,43 +58,25 @@ const ListTutorialsPage = ({ handleUnitChange }) => {
               </Flex>
 
               {unit?.tutorialIds?.length > 0 &&
-                Object.entries(
-                  [...unit.tutorialIds]
-                    .sort((a, b) => {
-                      if (a.chapterNumber === b.chapterNumber) {
-                        // If chapterNumber is equal, sort by page
-                        return a.page - b.page
-                      } else {
-                        // Otherwise, sort by chapterNumber
-                        return a.chapterNumber - b.chapterNumber
-                      }
-                    })
-                    .reduce((acc, cur) => {
-                      // Group pages by chapterNumber
-                      if (!acc[cur.chapterNumber]) {
-                        acc[cur.chapterNumber] = []
-                      }
-                      acc[cur.chapterNumber].push(cur)
-                      return acc
-                    }, {})
-                ).map(([chapterNumber, tutorials]) => {
+                sortedTutorialIds.map((t) => {
                   // For each chapter, render chapter number and title once,
                   // then map over the pages and render each page
 
                   return (
-                    <HStack key={chapterNumber}>
-                      {editMode &&
-                      <Editable
-                        defaultValue={chapterNumber}
-                        onSubmit={(newChapterNumber) => {
-                          handleChapterNumberUpdate(newChapterNumber, tutorials[0]._id)
-                        }}
-                      >
-                        <EditablePreview h="100%" fontSize="sm"   _hover={{ backgroundColor: "green.400", textDecoration: "underline" }} />
-                        <EditableInput value={newChapterNumber} onChange={(e) => setNewChapterNumber(e.target.value)} autoFocus />
-                      </Editable>}
+                    <HStack key={t._id}>
+                      {editMode && (
+                        <Editable
+                          defaultValue={t.chapterNumber}
+                          onSubmit={(newChapterNumber) => {
+                            handleChapterNumberUpdate(newChapterNumber, t._id)
+                          }}
+                        >
+                          <EditablePreview h="100%" fontSize="sm" _hover={{ backgroundColor: "green.400", textDecoration: "underline" }} />
+                          <EditableInput value={newChapterNumber} onChange={(e) => setNewChapterNumber(e.target.value)} autoFocus />
+                        </Editable>
+                      )}
                       <h2>
-                        Chapter {tutorials[0].chapterNumber}: {tutorials[0].chapterName}
+                        Chapter {t.chapterNumber}: {t.chapterName}
                       </h2>
                     </HStack>
                   )

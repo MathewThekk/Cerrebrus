@@ -7,7 +7,7 @@ import ChapterHeaderButtons from "./ChapterPageHeaderButtons"
 import ChapterSideBar from "./ChapterSideBar"
 import ChapterPageContent from "./ChapterPageContent"
 import CommentsSection from "./CommentsSection"
-import { getTutorials, addTutorialPage, updateTutorialPage } from "../../../actions/tutorialActions"
+import { getTutorials, addTutorialPage, updateChapter } from "../../../actions/tutorialActions"
 import { SET_EDIT_MODE, SET_TUTORIAL } from "../../../reducers/learnReducers"
 import ChapterAdditionalInformationSection from "./ChapterAdditionalInformationSection"
 
@@ -25,14 +25,13 @@ const ChapterPage = () => {
   const [pageType, setPageType] = useState(pageTypeFromUrl)
   const [chapterNumber, setChapterNumber] = useState(1)
 
-
   const submitQuizRef = useRef(null)
 
   let tutorialPageData = null
   const units = useSelector((state) => state.units)
   const tutorials = useSelector((state) => state.tutorials)
 
-  const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber )) ?? null
+  const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber)) ?? null
   const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
 
   useEffect(() => {
@@ -79,31 +78,21 @@ const ChapterPage = () => {
     }
     if (tutorial) {
       console.log("Updating content...")
-      if (tutorial.pageType === "text") {
-        dispatch(updateTutorialPage(tutorialPageData))
-      }
 
-      if (tutorial.pageType === "quiz") {
-        console.log("quiz update")
-
-        submitQuizRef.current((content, pageType) => {
-          dispatch(updateTutorialPage({ ...tutorialPageData, pageType: "quiz", content: content }))
-          SET_EDIT_MODE(false)
-        })
-      }
+      dispatch(updateChapter(tutorial._id, content))
     }
   }
 
   return (
     <Box overflowX="hidden">
       <Box maxW="100vw" mt="5">
-        {isAdmin && <ChapterHeaderButtons action={action}  saveContent={saveContent}  chapterNumber={chapterNumber} />}
+        {isAdmin && <ChapterHeaderButtons action={action} saveContent={saveContent} chapterNumber={chapterNumber} />}
         <Flex w="100%" minH="75vh" borderTop="6px solid" borderBottom="6px solid" borderColor="black">
-          <ChapterSideBar chapterNumber={chapterNumber}   />
-          <ChapterPageContent setContent={setContent} setPageType={setPageType} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber}  />
+          <ChapterSideBar chapterNumber={chapterNumber} />
+          <ChapterPageContent setContent={setContent} setPageType={setPageType} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber} />
         </Flex>
       </Box>
-      <ChapterAdditionalInformationSection  />
+      <ChapterAdditionalInformationSection />
       <CommentsSection />
     </Box>
   )
