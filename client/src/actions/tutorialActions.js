@@ -1,14 +1,15 @@
 import { ADD_TUTORIAL, SET_TUTORIALS, UPDATE_TUTORIAL, DELETE_TUTORIAL } from "../reducers/learnReducers"
-
+import { START_LOADING, STOP_LOADING } from "../reducers/loadingReducer"
 import * as api from "../api/api.js"
 
 export const getTutorials = (unit, field, subject) => async (dispatch) => {
   try {
-    // dispatch({ type: START_LOADING });
+    dispatch(START_LOADING())
 
     const { data } = await api.getTutorials(unit, field, subject)
 
     dispatch(SET_TUTORIALS(data))
+    dispatch(STOP_LOADING())
   } catch (error) {
     console.log(error)
   }
@@ -27,7 +28,7 @@ export const addTutorialPage = (tutorialPageData) => async (dispatch) => {
   }
 }
 
-export const updateChapter = (tutorialId, content)  => async (dispatch) => {
+export const updateChapter = (tutorialId, content) => async (dispatch) => {
   try {
     // dispatch({ type: START_LOADING });
 

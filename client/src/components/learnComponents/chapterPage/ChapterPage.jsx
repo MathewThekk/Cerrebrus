@@ -2,19 +2,21 @@
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams, useLocation, useNavigate } from "react-router-dom"
-import { Flex, Box } from "@chakra-ui/react"
+import { Flex, Box, Spinner } from "@chakra-ui/react"
 import ChapterHeaderButtons from "./ChapterPageHeaderButtons"
 import ChapterSideBar from "./ChapterSideBar"
 import ChapterPageContent from "./ChapterPageContent"
 import CommentsSection from "./CommentsSection"
 import { getTutorials, addTutorialPage, updateChapter } from "../../../actions/tutorialActions"
 import { SET_EDIT_MODE, SET_TUTORIAL } from "../../../reducers/learnReducers"
+
 import ChapterAdditionalInformationSection from "./ChapterAdditionalInformationSection"
 
 const ChapterPage = () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
+
 
   const { subject, field, unit } = useParams()
   const queryParams = new URLSearchParams(location.search)
@@ -30,6 +32,7 @@ const ChapterPage = () => {
   let tutorialPageData = null
   const units = useSelector((state) => state.units)
   const tutorials = useSelector((state) => state.tutorials)
+  const loading = useSelector((state) => state.loading)
 
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber)) ?? null
   const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
@@ -89,7 +92,7 @@ const ChapterPage = () => {
         {isAdmin && <ChapterHeaderButtons action={action} saveContent={saveContent} chapterNumber={chapterNumber} />}
         <Flex w="100%" minH="75vh" borderTop="6px solid" borderBottom="6px solid" borderColor="black">
           <ChapterSideBar chapterNumber={chapterNumber} />
-          <ChapterPageContent setContent={setContent} setPageType={setPageType} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber} />
+          {loading ? <Spinner/> : <ChapterPageContent setContent={setContent} setPageType={setPageType} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber} />}
         </Flex>
       </Box>
       <ChapterAdditionalInformationSection />
