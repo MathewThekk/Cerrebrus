@@ -20,6 +20,10 @@ const CKEditor5 = ({ content, setContent }) => {
     <div className="ck-content">
       <CKEditor
         editor={Editor}
+        config={{
+          // This will conditionally hide or show the toolbar based on editMode.
+          toolbar: editMode ? undefined : []
+        }}
         disabled={!editMode}
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
