@@ -12,6 +12,7 @@ import { SET_EDIT_MODE, SET_TUTORIAL } from "../../../reducers/learnReducers"
 
 import ChapterAdditionalInformationSection from "./ChapterAdditionalInformationSection"
 
+
 const ChapterPage = () => {
   const dispatch = useDispatch()
   const location = useLocation()
@@ -30,12 +31,15 @@ const ChapterPage = () => {
   const submitQuizRef = useRef(null)
 
   let tutorialPageData = null
+  const showSpinner = useSelector((state) => state.loading.spinner)
+  console.log(88, showSpinner)
   const units = useSelector((state) => state.units)
   const tutorials = useSelector((state) => state.tutorials)
-  const loading = useSelector((state) => state.loading)
 
   const tutorial = useSelector((state) => Object.values(state.tutorials).find((t) => t.chapterNumber === chapterNumber)) ?? null
   const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
+
+ 
 
   useEffect(() => {
     setChapterNumber(parseInt(queryParams.get("chapter")))
@@ -52,6 +56,8 @@ const ChapterPage = () => {
       dispatch(SET_TUTORIAL(null))
     }
   }, [tutorials])
+
+  
 
   const saveContent = () => {
     console.log(content)
@@ -92,7 +98,7 @@ const ChapterPage = () => {
         {isAdmin && <ChapterHeaderButtons action={action} saveContent={saveContent} chapterNumber={chapterNumber} />}
         <Flex w="100%" minH="75vh" borderTop="6px solid" borderBottom="6px solid" borderColor="black">
           <ChapterSideBar chapterNumber={chapterNumber} />
-          {loading ? <Spinner/> : <ChapterPageContent setContent={setContent} setPageType={setPageType} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber} />}
+          {showSpinner ? <Spinner/> : <ChapterPageContent setContent={setContent} setPageType={setPageType} submitQuizRef={submitQuizRef} chapterNumber={chapterNumber} />}
         </Flex>
       </Box>
       <ChapterAdditionalInformationSection />

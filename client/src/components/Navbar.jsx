@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux"
 import useLogout from "../utils/useLogout"
-
 import { Link as RouterLink } from "react-router-dom"
 import { Box, Flex, Spacer, Button, useColorMode } from "@chakra-ui/react"
 import { SET_EDIT_MODE } from "../reducers/learnReducers"
@@ -15,6 +14,7 @@ function NavBar() {
   const navBarBgColor = colorMode === "light" ? "gray.700" : "gray.700"
   const showColorModeButton = false
 
+
   const handleLogOut = async () => {
     try {
       logout()
@@ -22,6 +22,7 @@ function NavBar() {
       console.error("Error signing out: ", error)
     }
   }
+
 
   return (
     <Flex as="nav" align="center" justify="space-between" wrap="wrap" padding="1rem" bg={colorMode === "dark" ? navBarBgColor : "#2E1A47"} color="white">

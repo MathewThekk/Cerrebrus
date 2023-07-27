@@ -12,10 +12,11 @@ import AddTutorialSelector from "./components/learnComponents/AddTutorialSelecto
 import ChapterPage from "./components/learnComponents/chapterPage/ChapterPage"
 import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 import { syncAuthState } from "./reducers/userReducers"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import useLogout from "./utils/useLogout"
 import API from "./api/api"
 import ListTutorialsPage from "./components/learnComponents/ListTutorialsPage"
+import { SET_SPINNER } from "./reducers/loadingReducer"
 
 const theme = extendTheme({
   config: {
@@ -28,10 +29,30 @@ const App = () => {
   const dispatch = useDispatch()
   const logout = useLogout()
 
+  const loading = useSelector((state) => state.loading.loading)
+
+
   useEffect(() => {
     dispatch(syncAuthState())
     API.setLogoutCallback(logout)
-  },[])
+  }, [])
+
+  useEffect(() => {
+    let timer
+    if (loading) {
+      timer = setTimeout(() => {
+        console.log('setting loading spinner')
+        if (loading) dispatch(SET_SPINNER(true))
+      }, 2000)
+    } else {
+      clearTimeout(timer)
+    }
+
+    // Cleanup on unmount or before running the effect again
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [loading])
 
   return (
     <ChakraProvider theme={theme}>
