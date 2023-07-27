@@ -5,12 +5,14 @@ import { useSelector } from "react-redux"
 
 // import ClassicEditor from './ckeditor.js';
 import { CKEditor } from "@ckeditor/ckeditor5-react"
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import Editor from "ckeditor5-custom-build/build/ckeditor"
 // import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 
 const CKEditor5 = ({ content, setContent }) => {
   const [editor, setEditor] = useState(null)
   const editMode = useSelector((state) => state.editMode)
+  const isAdmin = useSelector((state) => state.user?.user?.isAdmin)
+  const editorConfig = isAdmin? [] : { toolbar: [] }
 
   useEffect(() => {
     editor?.setData(content ? content : "Add content")
@@ -20,10 +22,7 @@ const CKEditor5 = ({ content, setContent }) => {
     <div className="ck-content">
       <CKEditor
         editor={Editor}
-        config={{
-          // This will conditionally hide or show the toolbar based on editMode.
-          toolbar: editMode ? undefined : []
-        }}
+        config={editorConfig}
         disabled={!editMode}
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
