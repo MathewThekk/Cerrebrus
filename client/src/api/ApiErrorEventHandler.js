@@ -9,6 +9,7 @@ const ApiErrorEvenHandler = () => {
   useEffect(() => {
     // Define the event handler
     const showErrorToast = (event) => {
+
       toast({
         title: "Error",
         description: event.detail.message,
@@ -16,7 +17,7 @@ const ApiErrorEvenHandler = () => {
         duration: 3000,
         isClosable: true,
         onCloseComplete: () => {
-          if (isAdmin === false) {
+          if (isAdmin === false) { //only refresh for non admin users to prevent losing in progress tutorial editor content
             console.log(isAdmin)
             const currentRefreshCount = parseInt(localStorage.getItem("errorRefreshCount") || "0", 10)
             if (currentRefreshCount < 5) {

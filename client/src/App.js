@@ -17,7 +17,7 @@ import useLogout from "./utils/useLogout"
 import API from "./api/api"
 import ListTutorialsPage from "./components/learnComponents/ListTutorialsPage"
 import { SET_SPINNER } from "./reducers/loadingReducer"
-import ApiErrorEvenHandler from "./api/apiErrorDisplay"
+import ApiErrorEvenHandler from "./api/ApiErrorEventHandler"
 
 const theme = extendTheme({
   config: {

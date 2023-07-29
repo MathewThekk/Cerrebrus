@@ -82,7 +82,7 @@ API.interceptors.response.use(
     // Emit a custom event when there's an error
     const errorEvent = new CustomEvent("apiError", {
       detail: {
-        message: error.message || "An error occurred!",
+        message: `${error.message} ${error.response.data}` || "An error occurred!",
       },
     })
     window.dispatchEvent(errorEvent)
