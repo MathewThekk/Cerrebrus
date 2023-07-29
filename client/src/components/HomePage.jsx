@@ -12,10 +12,10 @@ function HomePage() {
       width="100vw"
     >
       <Box textAlign="center" maxWidth="50%" mx="auto"> {/* Here we set a maximum width and auto margins */}
-        <Heading color="white" mb={4}>
+        <Heading color="white" mb={8}>
           Welcome to Mind Stair!
         </Heading>
-        <Stack spacing={4} mb="4">
+        <Stack spacing={8} mb="4">
           <Text color="white" fontSize="xl">
             MindStair is on a mission to provide the best interactive education platform for technical topics.
           </Text>
@@ -29,7 +29,7 @@ function HomePage() {
             <Image src="https://cerrebrus.s3.eu-central-1.amazonaws.com/tutorial_assets/Technical+Product+Management/Common/under-construction90s-90s.gif" alt="Under Construction" width="200px" height="auto" />
           </Box>
         </Stack>
-        <Button size="lg" as={RouterLink} to="/learn/product-management/technical-product-management/introduction?chapter=1">
+        <Button mt="6" size="lg" as={RouterLink} to="/learn/product-management/technical-product-management/introduction?chapter=1">
           Get Started
         </Button>
       </Box>
