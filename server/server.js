@@ -38,10 +38,9 @@ var corsOptions = {
 }
 app.use(cors(corsOptions))
 
+// Routes
 app.use("/learn", learnRoutes)
 app.use("/auth", authRoutes)
-
-// Routes
 app.get("/", (req, res) => {
   res.send("Hello World!")
 })

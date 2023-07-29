@@ -45,6 +45,7 @@ const App = () => {
         if (loading) dispatch(SET_SPINNER(true))
       }, 2000)
     } else {
+      dispatch(SET_SPINNER(false))
       clearTimeout(timer)
     }
 

@@ -32,7 +32,7 @@ const ChapterPage = () => {
 
   let tutorialPageData = null
   const showSpinner = useSelector((state) => state.loading.spinner)
-  console.log(88, showSpinner)
+
   const units = useSelector((state) => state.units)
   const tutorials = useSelector((state) => state.tutorials)
 
