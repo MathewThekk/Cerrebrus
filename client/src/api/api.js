@@ -49,7 +49,7 @@ API.interceptors.request.use(async (req) => {
     await waitForFirebase() // wait for firebase to initialise, else currentUser will be null
 
     if (firebase.auth().currentUser) {
-      if (new Date().getTime() > Number(tokenExpiresAt) - 10 * 60 * 1000)
+      if (new Date().getTime() > Number(tokenExpiresAt) - 10 * 60 * 1000) {
         await firebase
           .auth()
           .currentUser.getIdToken(true)
@@ -59,14 +59,10 @@ API.interceptors.request.use(async (req) => {
           .catch((error) => {
             console.log(error)
           })
-
+      }
       req.headers.Authorization = `Bearer ${token}` // Use the fresh idToken instead of the old token
       const twoHoursFromNow = new Date().getTime() + 2 * 60 * 60 * 1000 // 2 = 2 hours
       localStorage.setItem("tokenExpiresAt", twoHoursFromNow.toString())
-    } else {
-      console.log("firebase token expired, user must sign in again")
-      localStorage.setItem("lastLocation", window.location.pathname)
-      logoutCallback()
     }
   } else {
     if (logoutCallback) {
@@ -77,6 +73,23 @@ API.interceptors.request.use(async (req) => {
   }
   return req
 })
+
+API.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  (error) => {
+    // Emit a custom event when there's an error
+    const errorEvent = new CustomEvent("apiError", {
+      detail: {
+        message: error.message || "An error occurred!",
+      },
+    })
+    window.dispatchEvent(errorEvent)
+
+    return Promise.reject(error)
+  }
+)
 
 //learn apis
 
@@ -95,7 +108,7 @@ export const deleteUnit = (unitName, field, subject) => API.delete(`/learn/${sub
 
 export const getTutorials = (unit, field, subject) => API.get(`/learn/${subject}/${field}/${unit}`)
 export const addTutorialPage = (tutorialPageData) => API.post(`/learn/${tutorialPageData.subject}/${tutorialPageData.field}/${tutorialPageData.unit}?chapter=${tutorialPageData.chapterNumber}`, tutorialPageData)
-export const updateChapter = (tutorialId, content) => API.put(`/learn/tutorials/${tutorialId}/update-chapter-content`, {content})
+export const updateChapter = (tutorialId, content) => API.put(`/learn/tutorials/${tutorialId}/update-chapter-content`, { content })
 export const updateTutorialChapterName = (newChapterName, chapterNumber, unitName, field, subject) => API.put(`/learn/${subject}/${field}/${unitName}/updatechaptername?chapter=${chapterNumber}`, { newChapterName })
 export const updateTutorialChapterNumber = (newChapterNumber, tutorialId) => API.put(`/learn/tutorials/${tutorialId}/update-chapter-number?newChapterNumber=${newChapterNumber}`, {})
 export const deleteChapter = (tutorialId) => API.delete(`/learn/tutorials/${tutorialId}/delete-chapter`)

@@ -17,6 +17,7 @@ import useLogout from "./utils/useLogout"
 import API from "./api/api"
 import ListTutorialsPage from "./components/learnComponents/ListTutorialsPage"
 import { SET_SPINNER } from "./reducers/loadingReducer"
+import ApiErrorEvenHandler from "./api/apiErrorDisplay"
 
 const theme = extendTheme({
   config: {
@@ -68,6 +69,7 @@ const App = () => {
         <Route exact path="/learn/:subject/:field/listtutorials" element={<ListTutorialsPage />} />
         <Route exact path="/test" element={<Test />} />
       </Routes>
+      <ApiErrorEvenHandler/>
     </ChakraProvider>
   )
 }
